@@ -47,7 +47,8 @@ class SubmissionCollector:
             "body": comm.body,
             "created_utc": comm.created_utc,
             "edited": comm.edited,
-            "permalink": comm.permalink
+            "permalink": comm.permalink,
+            "ups": comm.ups
         }
 
     def filter_subm(self, subm):
@@ -58,4 +59,5 @@ class SubmissionCollector:
             "permalink": subm.permalink,
             "selftext": subm.selftext,
             "title": subm.title,
+            "ups": subm.ups
         }
