@@ -21,6 +21,10 @@ class SubmissionCollector:
         # TODO
         pass
 
+    def comment_chain_ending_with_comment(self, comment_id):
+        # TODO
+        pass
+
     def submission_details(self, subm):
         return {
             "post": self.filter_subm(subm),
