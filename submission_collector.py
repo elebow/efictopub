@@ -21,6 +21,9 @@ class SubmissionCollector:
         # TODO
         pass
 
+    def all_submissions_following_next_links(self, start_subm):
+        pass
+
     def comment_chain_ending_with_comment(self, comment_id):
         # TODO
         pass
