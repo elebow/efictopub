@@ -5,6 +5,7 @@ name = "pypi"
 
 [dev-packages]
 ipdb = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.5"
