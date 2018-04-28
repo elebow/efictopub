@@ -49,7 +49,7 @@ class SubmissionCollector:
 
     def filter_comm(self, comm):
         return {
-            "author_name": comm.author.name,
+            "author_name": comm.author.name if comm.author else "[n/a]",
             "author_flair_text": comm.author_flair_text,
             "body": comm.body,
             "created_utc": comm.created_utc,
