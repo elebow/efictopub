@@ -24,7 +24,7 @@ class SubmissionCollector:
                           "ups"])
 
     def __init__(self, *, app, secret, user_agent):
-        self.reddit = praw.Reddit(client_id=app, client_secret=secret, user_agent=user_agent)
+        self.setup_reddit(app, secret, user_agent)
 
     def all_submissions_by_author_name(self, author_name):
         author = self.reddit.redditor(author_name)
