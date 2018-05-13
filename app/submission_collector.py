@@ -2,6 +2,8 @@ import praw
 
 from collections import namedtuple
 
+from app.markdown_parser import MarkdownParser
+
 
 class SubmissionCollector:
     Submission = namedtuple("Submission",
@@ -43,7 +45,7 @@ class SubmissionCollector:
         pass
 
     def all_submissions_following_next_links(self, start_subm):
-        pass
+        return [self.extract_subm_attrs(subm) for subm in self.generate_next_submissions(start_subm)]
 
     def comment_chain_ending_with_comment(self, comment_id):
         # TODO
@@ -53,6 +55,20 @@ class SubmissionCollector:
         subm.comments.replace_more(limit=None)
         return [self.extract_comm_attrs(comm) for comm in subm.comments]
 
+    # Generate Submission namedtuples by following "next" links, including the specified starting submission
+    # Raises exception if there's more than one link that contains the word "next"
+    def generate_next_submissions(self, start_subm):
+        subm = start_subm
+        while True:
+            yield subm
+            next_links = MarkdownParser(subm.selftext).links_containing_text("next")
+            if len(next_links) > 1:
+                raise "Ambiguous next submission"  # TODO
+            elif len(next_links) == 0:
+                return
+            subm = praw.models.Submission(self.reddit, url=next_links[0].href)
+
+    # Return array of Comment namedtuples that are replies to the given comment
     def replies_for_comment(self, comm):
         return [self.extract_comm_attrs(c) for c in comm.replies]
 
