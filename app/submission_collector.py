@@ -11,6 +11,7 @@ class SubmissionCollector:
                              "comments",
                              "created_utc",
                              "edited",
+                             "reddit_id",
                              "permalink",
                              "selftext",
                              "title",
@@ -21,6 +22,7 @@ class SubmissionCollector:
                           "body",
                           "created_utc",
                           "edited",
+                          "reddit_id",
                           "permalink",
                           "replies",
                           "ups"])
@@ -78,6 +80,7 @@ class SubmissionCollector:
                             body=comm.body,
                             created_utc=comm.created_utc,
                             edited=comm.edited,
+                            reddit_id=comm.id,
                             replies=self.replies_for_comment(comm),
                             permalink=comm.permalink,
                             ups=comm.ups)
@@ -87,6 +90,7 @@ class SubmissionCollector:
                                comments=self.all_comments_for_submission(subm),
                                created_utc=subm.created_utc,
                                edited=subm.edited,
+                               reddit_id=subm.id,
                                permalink=subm.permalink,
                                selftext=subm.selftext,
                                title=subm.title,
