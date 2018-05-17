@@ -1,5 +1,5 @@
 import praw
-
+import re
 from collections import namedtuple
 
 from app.markdown_parser import MarkdownParser
@@ -37,13 +37,30 @@ class SubmissionCollector:
     def all_submissions_in_list_of_ids(self, id_list):
         return [self.extract_subm_attrs(praw.models.Submission(self.reddit, id=id)) for id in id_list]
 
-    def all_submissions_mentioned_in_reddit_thing(self, thing_id):
-        # TODO
-        pass
+    def all_submissions_mentioned_in_reddit_thing(self, thing_or_id_or_url):
+        # TODO figure out if it's a subm, comment, or wiki page and call the appropriate method
+        subm = True
+        comm = False
+        wiki = False
+        if subm:
+            links = self.all_links_mentioned_in_submission(thing_or_id_or_url)
+        elif comm:
+            links = self.all_links_mentioned_in_comment(thing_or_id_or_url)
+        elif wiki:
+            links = self.all_links_mentioned_in_wiki_page(thing_or_id_or_url)
+        return [self.extract_subm_attrs(praw.models.Submission(self.reddit, url=link.href)) for link in links]
 
-    def all_submissions_mentioned_in_reddit_wiki_page(self, page):
-        # TODO
-        pass
+    def all_links_mentioned_in_submission(self, subm_or_id_or_url):
+        subm = self.subm_from_id_or_url(subm_or_id_or_url)
+        return MarkdownParser(subm.selftext).links
+
+    def all_links_mentioned_in_comment(self, comm_or_id_or_url):
+        comm = self.comm_from_id_or_url(comm_or_id_or_url)
+        return MarkdownParser(comm.body).links
+
+    def all_submissions_mentioned_in_wiki_page(self, url):
+        wiki = self.wiki_from_url
+        return MarkdownParser(wiki.content_md).links
 
     def all_submissions_following_next_links(self, start_subm_id):
         start_subm = praw.models.Submission(self.reddit, id=start_subm_id)
@@ -73,6 +90,38 @@ class SubmissionCollector:
     # Return array of Comment namedtuples that are replies to the given comment
     def replies_for_comment(self, comm):
         return [self.extract_comm_attrs(c) for c in comm.replies]
+
+    def subm_from_id_or_url(self, subm):
+        if isinstance(subm, praw.models.Submission):
+            # already in the form we want
+            return subm
+        elif isinstance(subm, str):
+            if len(subm) == 6:
+                return praw.models.Submission(self.reddit, id=subm)
+            else:
+                # longer than 6 characters, assume it's a URL
+                return praw.models.Submission(self.reddit, url=subm)
+
+    def comm_from_id_or_url(self, comm):
+        if isinstance(comm, praw.models.Comment):
+            # already in the form we want
+            return comm
+        elif isinstance(comm, str):
+            if len(comm) == 6:
+                return praw.models.Comment(self.reddit, id=comm)
+            else:
+                # longer than 6 characters, assume it's a URL
+                return praw.models.Comment(self.reddit, url=comm)
+
+    def wiki_from_url(self, wiki_or_url):
+        if isinstance(wiki_or_url, praw.models.WikiPage):
+            # already in the form we want
+            return wiki_or_url
+        elif isinstance(wiki_or_url, str):
+            matches = re.findall(r'.*reddit.com/r/(.*?)/wiki/(.*)$', wiki_or_url)[0]
+            subreddit = matches[0]
+            name = matches[1]
+            return praw.models.WikiPage(self.reddit, subreddit, name)
 
     def extract_comm_attrs(self, comm):
         return self.Comment(author_name=comm.author.name if comm.author else "[n/a]",

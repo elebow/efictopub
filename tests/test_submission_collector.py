@@ -49,6 +49,14 @@ class TestSubmissionCollector(object):
 
         assert [subm.reddit_id for subm in subms] == ["886al5", "88bcar", "88ejcl"]
 
+    def test_all_links_mentioned_in_submission(self, praw_submissions):
+        links = self.submission_collector.all_links_mentioned_in_submission(praw_submissions[0])
+        assert links[0].text == '[Next Part]'
+
+    def test_all_links_mentioned_in_comment(self, praw_submissions):
+        links = self.submission_collector.all_links_mentioned_in_comment(praw_submissions[0].comments[7])
+        assert links[3].text == '[OC] Human-Standard.'
+
     def test_all_comments_for_submission(self, praw_submissions):
         comments = self.submission_collector.all_comments_for_submission(praw_submissions[0])
         assert len(comments) == 9
