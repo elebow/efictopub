@@ -45,7 +45,8 @@ class SubmissionCollector:
         # TODO
         pass
 
-    def all_submissions_following_next_links(self, start_subm):
+    def all_submissions_following_next_links(self, start_subm_id):
+        start_subm = praw.models.Submission(self.reddit, id=start_subm_id)
         return [self.extract_subm_attrs(subm) for subm in self.generate_next_submissions(start_subm)]
 
     def comment_chain_ending_with_comment(self, comment_id):
@@ -56,7 +57,7 @@ class SubmissionCollector:
         subm.comments.replace_more(limit=None)
         return [self.extract_comm_attrs(comm) for comm in subm.comments]
 
-    # Generate Submission namedtuples by following "next" links, including the specified starting submission
+    # Generate Submission objects by following "next" links, including the specified starting submission
     # Raises exception if there's more than one link that contains the word "next"
     def generate_next_submissions(self, start_subm):
         subm = start_subm
