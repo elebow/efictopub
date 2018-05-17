@@ -35,8 +35,7 @@ class SubmissionCollector:
         return [self.extract_subm_attrs(subm) for subm in author.submissions.new(limit=3)]
 
     def all_submissions_in_list_of_ids(self, id_list):
-        # TODO
-        pass
+        return [self.extract_subm_attrs(praw.models.Submission(self.reddit, id=id)) for id in id_list]
 
     def all_submissions_mentioned_in_reddit_thing(self, thing_id):
         # TODO
