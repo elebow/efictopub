@@ -38,49 +38,49 @@ class TestSubmissionCollector(object):
             return [subm for subm in praw_submissions() if subm.id == id][0]
 
     def setup_method(self):
-        self.submission_collector = SubmissionCollector(app="", secret="", user_agent="")
+        self.subject = SubmissionCollector(app="", secret="", user_agent="")
 
     @patch("praw.models.Submission", mock_reddit_new_submission)
     def test_all_submissions_in_list_of_ids(self, praw_submissions):
         ids = ["886al5", "88bcar", "88ejcl"]
-        subms = self.submission_collector.all_submissions_in_list_of_ids(ids)
+        subms = self.subject.all_submissions_in_list_of_ids(ids)
 
         assert [subm.reddit_id for subm in subms] == ["886al5", "88bcar", "88ejcl"]
 
     @patch("praw.models.Submission", mock_reddit_new_submission)
     def test_all_submissions_following_next_links(self, praw_submissions):
-        subms = self.submission_collector.all_submissions_following_next_links(praw_submissions[0])
+        subms = self.subject.all_submissions_following_next_links(praw_submissions[0])
 
         assert [subm.reddit_id for subm in subms] == ["886al5", "88bcar", "88ejcl"]
 
     def test_parse_thing_or_id_or_url(self, praw_submissions):
 
-        output_praw_subm = self.submission_collector.parse_thing_or_id_or_url(praw_submissions[0])
+        output_praw_subm = self.subject.parse_thing_or_id_or_url(praw_submissions[0])
         assert isinstance(output_praw_subm, Submission)
         assert len(output_praw_subm.comments) == len(praw_submissions[0].comments)
 
-        output_praw_comm = self.submission_collector.parse_thing_or_id_or_url(praw_submissions[0].comments[0])
+        output_praw_comm = self.subject.parse_thing_or_id_or_url(praw_submissions[0].comments[0])
         assert isinstance(output_praw_comm, Comment)
 
-        #output_praw_wiki = self.submission_collector.parse_thing_or_id_or_url(praw_submissions[0].comments[0])
+        #output_praw_wiki = self.subject.parse_thing_or_id_or_url(praw_submissions[0].comments[0])
         #assert isinstance(output_praw_wiki, WikiPage) #TODO
 
         with pytest.raises(exceptions.AmbiguousIdError):
-            self.submission_collector.parse_thing_or_id_or_url('aaaaaa')
+            self.subject.parse_thing_or_id_or_url('aaaaaa')
 
-        self.submission_collector.parse_url = MagicMock()
-        self.submission_collector.parse_thing_or_id_or_url('https://whatever')
-        self.submission_collector.parse_url.assert_called_once_with('https://whatever')
+        self.subject.parse_url = MagicMock()
+        self.subject.parse_thing_or_id_or_url('https://whatever')
+        self.subject.parse_url.assert_called_once_with('https://whatever')
 
     @patch("praw.models.Submission")
     @patch("praw.models.Comment")
-    #@patch("app.submission_collector.WikiPage") #TODO
+    #@patch("app.subject.WikiPage") #TODO
     def test_parse_url(self, comment_class, submission_class):
         submission_url = 'https://reddit.com/r/my_great_subreddit/comments/a123/my_great_title/'
         comment_url = 'https://reddit.com/r/my_great_subreddit/comments/a123/my_great_title/b456/'
 
-        self.submission_collector.parse_url(submission_url)
+        self.subject.parse_url(submission_url)
         submission_class.assert_called_once_with(mock.ANY, url=submission_url)
 
-        self.submission_collector.parse_url(comment_url)
+        self.subject.parse_url(comment_url)
         comment_class.assert_called_once_with(mock.ANY, url=comment_url)
