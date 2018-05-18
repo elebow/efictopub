@@ -1,4 +1,5 @@
 from app.comment import Comment
+from app.markdown_parser import MarkdownParser
 
 
 class Submission:
@@ -16,3 +17,6 @@ class Submission:
     def fetch_all_comments(self, praw_submission):
         praw_submission.comments.replace_more(limit=None)
         return [Comment(comm) for comm in praw_submission.comments]
+
+    def all_links_in_text(self):
+        return MarkdownParser(self.selftext).links

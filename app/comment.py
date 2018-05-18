@@ -1,3 +1,6 @@
+from app.markdown_parser import MarkdownParser
+
+
 class Comment:
     def __init__(self, praw_comment):
         self.author_name = praw_comment.author.name if praw_comment.author else "[n/a]"
@@ -12,3 +15,6 @@ class Comment:
 
     def replies_for_comment(self, praw_comment):
         return [Comment(c) for c in praw_comment.replies]
+
+    def all_links_in_text(self):
+        return MarkdownParser(self.body).links

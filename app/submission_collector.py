@@ -31,20 +31,14 @@ class SubmissionCollector:
         comm = False
         wiki = False
         if subm:
-            links = self.all_links_mentioned_in_submission(thing_or_id_or_url)
+            subm = self.subm_from_id_or_url(thing_or_id_or_url)
+            links = subm.all_links_in_text
         elif comm:
-            links = self.all_links_mentioned_in_comment(thing_or_id_or_url)
+            comm = self.comm_from_id_or_url(thing_or_id_or_url)
+            links = comm.all_links_in_text
         elif wiki:
             links = self.all_links_mentioned_in_wiki_page(thing_or_id_or_url)
         return [Submission(praw.models.Submission(self.reddit, url=link.href)) for link in links]
-
-    def all_links_mentioned_in_submission(self, subm_or_id_or_url):
-        subm = self.subm_from_id_or_url(subm_or_id_or_url)
-        return MarkdownParser(subm.selftext).links
-
-    def all_links_mentioned_in_comment(self, comm_or_id_or_url):
-        comm = self.comm_from_id_or_url(comm_or_id_or_url)
-        return MarkdownParser(comm.body).links
 
     def all_links_mentioned_in_wiki_page(self, url):
         wiki = self.wiki_from_url
