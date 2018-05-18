@@ -37,6 +37,15 @@ class SubmissionCollector:
     def all_submissions_in_list_of_ids(self, id_list):
         return [self.extract_subm_attrs(praw.models.Submission(self.reddit, id=id)) for id in id_list]
 
+    def all_submissions_following_next_links(self, start_subm_id):
+        start_subm = praw.models.Submission(self.reddit, id=start_subm_id)
+        return [self.extract_subm_attrs(subm) for subm in self.generate_next_submissions(start_subm)]
+
+    def comment_chain_ending_with_comment(self, last_comm_id):
+        last_comm = praw.models.Comment(self.reddit, id=last_comm_id)
+        return [self.extract_comm_attrs(comm) for comm in self.generate_parents(last_comm)]
+        # TODO Pretend that each comment is a new submission, and just return an array of subm namedtuples
+
     def all_submissions_mentioned_in_reddit_thing(self, thing_or_id_or_url):
         # TODO figure out if it's a subm, comment, or wiki page and call the appropriate method
         subm = True
@@ -58,17 +67,9 @@ class SubmissionCollector:
         comm = self.comm_from_id_or_url(comm_or_id_or_url)
         return MarkdownParser(comm.body).links
 
-    def all_submissions_mentioned_in_wiki_page(self, url):
+    def all_links_mentioned_in_wiki_page(self, url):
         wiki = self.wiki_from_url
         return MarkdownParser(wiki.content_md).links
-
-    def all_submissions_following_next_links(self, start_subm_id):
-        start_subm = praw.models.Submission(self.reddit, id=start_subm_id)
-        return [self.extract_subm_attrs(subm) for subm in self.generate_next_submissions(start_subm)]
-
-    def comment_chain_ending_with_comment(self, comment_id):
-        # TODO
-        pass
 
     def all_comments_for_submission(self, subm):
         subm.comments.replace_more(limit=None)
@@ -86,6 +87,14 @@ class SubmissionCollector:
             elif len(next_links) == 0:
                 return
             subm = praw.models.Submission(self.reddit, url=next_links[0].href)
+
+    def generate_parents(self, start_comm):
+        thing = start_comm
+        while True:
+            yield thing
+            if isinstance(thing, praw.models.Submission):
+                return
+            thing = thing.parent()
 
     # Return array of Comment namedtuples that are replies to the given comment
     def replies_for_comment(self, comm):
