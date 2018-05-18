@@ -3,6 +3,8 @@ import re
 
 from app.markdown_parser import MarkdownParser
 from app.submission import Submission
+from app.submission import Comment
+from app.exceptions import AmbiguousIdError
 
 
 class SubmissionCollector:
@@ -26,18 +28,8 @@ class SubmissionCollector:
         # TODO Pretend that each comment is a new submission, and just return an array of subm namedtuples
 
     def all_submissions_mentioned_in_reddit_thing(self, thing_or_id_or_url):
-        # TODO figure out if it's a subm, comment, or wiki page and call the appropriate method
-        subm = True
-        comm = False
-        wiki = False
-        if subm:
-            subm = self.subm_from_id_or_url(thing_or_id_or_url)
-            links = subm.all_links_in_text
-        elif comm:
-            comm = self.comm_from_id_or_url(thing_or_id_or_url)
-            links = comm.all_links_in_text
-        elif wiki:
-            links = self.all_links_mentioned_in_wiki_page(thing_or_id_or_url)
+        thing = self.parse_thing_or_id_or_url(thing_or_id_or_url)
+        links = thing.all_links_in_text
         return [Submission(praw.models.Submission(self.reddit, url=link.href)) for link in links]
 
     def all_links_mentioned_in_wiki_page(self, url):
@@ -65,37 +57,33 @@ class SubmissionCollector:
                 return
             thing = thing.parent()
 
-    def subm_from_id_or_url(self, subm):
-        if isinstance(subm, praw.models.Submission):
-            # already in the form we want
-            return subm
-        elif isinstance(subm, str):
-            if len(subm) == 6:
-                return praw.models.Submission(self.reddit, id=subm)
-            else:
-                # longer than 6 characters, assume it's a URL
-                return praw.models.Submission(self.reddit, url=subm)
+    def parse_thing_or_id_or_url(self, thing):
+        if isinstance(thing, praw.models.Submission):
+            return Submission(thing)
+        elif isinstance(thing, praw.models.Comment):
+            return Comment(thing)
+        elif isinstance(thing, praw.models.WikiPage):
+            return None #WikiPage(thing) #TODO
+        elif isinstance(thing, str):
+            if len(thing) == 6:
+                raise AmbiguousIdError
+            # longer than 6 characters, assume it's a URL
+            return self.parse_url(thing)
 
-    def comm_from_id_or_url(self, comm):
-        if isinstance(comm, praw.models.Comment):
-            # already in the form we want
-            return comm
-        elif isinstance(comm, str):
-            if len(comm) == 6:
-                return praw.models.Comment(self.reddit, id=comm)
-            else:
-                # longer than 6 characters, assume it's a URL
-                return praw.models.Comment(self.reddit, url=comm)
+    def parse_url(self, url):
+        if re.match(r'.*reddit.com/r/[^/]*?/comments/[^/]*?/[^/]*/?$', url):
+            return Submission(praw.models.Submission(self.reddit, url=url))
 
-    def wiki_from_url(self, wiki_or_url):
-        if isinstance(wiki_or_url, praw.models.WikiPage):
-            # already in the form we want
-            return wiki_or_url
-        elif isinstance(wiki_or_url, str):
-            matches = re.findall(r'.*reddit.com/r/(.*?)/wiki/(.*)$', wiki_or_url)[0]
+        if re.match(r'.*reddit.com/r/[^/]*?/comments/[^/]*?/[^/]*/[^/]*/?$', url):
+            return Comment(praw.models.Comment(self.reddit, url=url))
+
+        matches = re.findall(r'.*reddit.com/r/(.*?)/wiki/(.*)$', url)[0]
+        if matches:
             subreddit = matches[0]
             name = matches[1]
             return praw.models.WikiPage(self.reddit, subreddit, name)
+
+        return None
 
     def setup_reddit(self, app, secret, user_agent):
         self.reddit = praw.Reddit(client_id=app, client_secret=secret, user_agent=user_agent)
