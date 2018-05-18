@@ -56,16 +56,3 @@ class TestSubmissionCollector(object):
     def test_all_links_mentioned_in_comment(self, praw_submissions):
         links = self.submission_collector.all_links_mentioned_in_comment(praw_submissions[0].comments[7])
         assert links[3].text == '[OC] Human-Standard.'
-
-    def test_all_comments_for_submission(self, praw_submissions):
-        comments = self.submission_collector.all_comments_for_submission(praw_submissions[0])
-        assert len(comments) == 9
-        assert comments[0].replies[0].author_name == "WTMAWLR"
-
-    def test_extract_subm_attrs(self, praw_submissions):
-        submission = self.submission_collector.extract_subm_attrs(praw_submissions[1])
-        assert submission.ups == 49
-        assert len(submission.comments) == 4
-        assert len(submission.comments[1].replies) == 1
-        assert len(submission.comments[1].replies[0].replies) == 1
-        assert len(submission.comments[1].replies[0].replies[0].replies) == 0

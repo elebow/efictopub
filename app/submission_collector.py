@@ -1,49 +1,28 @@
 import praw
 import re
-from collections import namedtuple
 
 from app.markdown_parser import MarkdownParser
+from app.submission import Submission
 
 
 class SubmissionCollector:
-    Submission = namedtuple("Submission",
-                            ["author_name",
-                             "comments",
-                             "created_utc",
-                             "edited",
-                             "reddit_id",
-                             "permalink",
-                             "selftext",
-                             "title",
-                             "ups"])
-    Comment = namedtuple("Comment",
-                         ["author_name",
-                          "author_flair_text",
-                          "body",
-                          "created_utc",
-                          "edited",
-                          "reddit_id",
-                          "permalink",
-                          "replies",
-                          "ups"])
-
     def __init__(self, *, app, secret, user_agent):
         self.setup_reddit(app, secret, user_agent)
 
     def all_submissions_by_author_name(self, author_name):
         author = self.reddit.redditor(author_name)
-        return [self.extract_subm_attrs(subm) for subm in author.submissions.new(limit=3)]
+        return [Submission(subm) for subm in author.submissions.new(limit=3)]
 
     def all_submissions_in_list_of_ids(self, id_list):
-        return [self.extract_subm_attrs(praw.models.Submission(self.reddit, id=id)) for id in id_list]
+        return [Submission(praw.models.Submission(self.reddit, id=id)) for id in id_list]
 
     def all_submissions_following_next_links(self, start_subm_id):
         start_subm = praw.models.Submission(self.reddit, id=start_subm_id)
-        return [self.extract_subm_attrs(subm) for subm in self.generate_next_submissions(start_subm)]
+        return [Submission(subm) for subm in self.generate_next_submissions(start_subm)]
 
     def comment_chain_ending_with_comment(self, last_comm_id):
         last_comm = praw.models.Comment(self.reddit, id=last_comm_id)
-        return [self.extract_comm_attrs(comm) for comm in self.generate_parents(last_comm)]
+        return [Submission(comm) for comm in self.generate_parents(last_comm)]
         # TODO Pretend that each comment is a new submission, and just return an array of subm namedtuples
 
     def all_submissions_mentioned_in_reddit_thing(self, thing_or_id_or_url):
@@ -57,7 +36,7 @@ class SubmissionCollector:
             links = self.all_links_mentioned_in_comment(thing_or_id_or_url)
         elif wiki:
             links = self.all_links_mentioned_in_wiki_page(thing_or_id_or_url)
-        return [self.extract_subm_attrs(praw.models.Submission(self.reddit, url=link.href)) for link in links]
+        return [Submission(praw.models.Submission(self.reddit, url=link.href)) for link in links]
 
     def all_links_mentioned_in_submission(self, subm_or_id_or_url):
         subm = self.subm_from_id_or_url(subm_or_id_or_url)
@@ -70,10 +49,6 @@ class SubmissionCollector:
     def all_links_mentioned_in_wiki_page(self, url):
         wiki = self.wiki_from_url
         return MarkdownParser(wiki.content_md).links
-
-    def all_comments_for_submission(self, subm):
-        subm.comments.replace_more(limit=None)
-        return [self.extract_comm_attrs(comm) for comm in subm.comments]
 
     # Generate Submission objects by following "next" links, including the specified starting submission
     # Raises exception if there's more than one link that contains the word "next"
@@ -95,10 +70,6 @@ class SubmissionCollector:
             if isinstance(thing, praw.models.Submission):
                 return
             thing = thing.parent()
-
-    # Return array of Comment namedtuples that are replies to the given comment
-    def replies_for_comment(self, comm):
-        return [self.extract_comm_attrs(c) for c in comm.replies]
 
     def subm_from_id_or_url(self, subm):
         if isinstance(subm, praw.models.Submission):
@@ -131,28 +102,6 @@ class SubmissionCollector:
             subreddit = matches[0]
             name = matches[1]
             return praw.models.WikiPage(self.reddit, subreddit, name)
-
-    def extract_comm_attrs(self, comm):
-        return self.Comment(author_name=comm.author.name if comm.author else "[n/a]",
-                            author_flair_text=comm.author_flair_text,
-                            body=comm.body,
-                            created_utc=comm.created_utc,
-                            edited=comm.edited,
-                            reddit_id=comm.id,
-                            replies=self.replies_for_comment(comm),
-                            permalink=comm.permalink,
-                            ups=comm.ups)
-
-    def extract_subm_attrs(self, subm):
-        return self.Submission(author_name=subm.author.name,
-                               comments=self.all_comments_for_submission(subm),
-                               created_utc=subm.created_utc,
-                               edited=subm.edited,
-                               reddit_id=subm.id,
-                               permalink=subm.permalink,
-                               selftext=subm.selftext,
-                               title=subm.title,
-                               ups=subm.ups)
 
     def setup_reddit(self, app, secret, user_agent):
         self.reddit = praw.Reddit(client_id=app, client_secret=secret, user_agent=user_agent)
