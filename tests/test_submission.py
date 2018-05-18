@@ -13,28 +13,22 @@ def praw_submissions():
 
 class TestSubmission(object):
 
-    def praw_reddit(self):
-        return MagicMock(redditor='some_redditor')
-
-    def mock_reddit_new_submission(self, url=None, id=None):
-        if url is not None:
-            return [subm for subm in praw_submissions() if subm.url == url][0]
-        elif id is not None:
-            return [subm for subm in praw_submissions() if subm.id == id][0]
-
     def setup_method(self):
         self.submissions = [Submission(s) for s in praw_submissions()]
 
-    @patch("praw.models.Submission", mock_reddit_new_submission)
-    def test_all_comments_for_submission(self, praw_submissions):
+    def test_comments(self, praw_submissions):
         comments = self.submissions[0].comments
         assert len(comments) == 9
         assert comments[0].replies[0].author_name == "WTMAWLR"
 
-    def test_extract_subm_attrs(self, praw_submissions):
+    def test_init(self, praw_submissions):
         submission = self.submissions[1]
         assert submission.ups == 49
         assert len(submission.comments) == 4
         assert len(submission.comments[1].replies) == 1
         assert len(submission.comments[1].replies[0].replies) == 1
         assert len(submission.comments[1].replies[0].replies[0].replies) == 0
+
+    def test_all_links_in_text(self, praw_submissions):
+        links = self.submissions[0].all_links_in_text()
+        assert links[0].text == '[Next Part]'

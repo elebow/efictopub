@@ -29,7 +29,7 @@ class SubmissionCollector:
 
     def all_submissions_mentioned_in_reddit_thing(self, thing_or_id_or_url):
         thing = self.parse_thing_or_id_or_url(thing_or_id_or_url)
-        links = thing.all_links_in_text
+        links = thing.all_links_in_text()
         return [Submission(praw.models.Submission(self.reddit, url=link.href)) for link in links]
 
     def all_links_mentioned_in_wiki_page(self, url):
@@ -77,11 +77,12 @@ class SubmissionCollector:
         if re.match(r'.*reddit.com/r/[^/]*?/comments/[^/]*?/[^/]*/[^/]*/?$', url):
             return Comment(praw.models.Comment(self.reddit, url=url))
 
+        return None #TODO
         matches = re.findall(r'.*reddit.com/r/(.*?)/wiki/(.*)$', url)[0]
         if matches:
             subreddit = matches[0]
             name = matches[1]
-            return praw.models.WikiPage(self.reddit, subreddit, name)
+            return WikiPage(praw.models.WikiPage(self.reddit, subreddit, name))
 
         return None
 
