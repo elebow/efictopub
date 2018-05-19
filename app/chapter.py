@@ -9,23 +9,22 @@ class Chapter:
 
     def __init__(self, submission):
         self.submission = submission
-        self.text = self.extract_text()
+        self.extract_text()
 
     def extract_text(self):
         """Extract the text from the submission body and zero or more comments."""
-        text = self.submission.selftext
+        self.text = self.submission.selftext
 
         if not self.submission.comments:
-            return text
+            return
 
         comment = self.submission.comments[0]
         while True:
             if len(comment.body) > 2000:
                 # Dumb heuristic to differentiate author notes from actual content
-                text += comment.body
+                self.text += comment.body
+                comment.body = "[series-to-epub]: included in chapter text"
 
             if comment.replies == []:
-                break
+                return
             comment = comment.replies[0]
-
-        return text

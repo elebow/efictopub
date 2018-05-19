@@ -35,12 +35,15 @@ class TestChapter(object):
 
     def test_extract_text_submission(self, submission_alone):
         chapter = Chapter(submission_alone)
-        assert chapter.extract_text() == "aaa"
+        assert chapter.text == "aaa"
 
     def test_extract_text_submission_note(self, submission_author_note):
         chapter = Chapter(submission_author_note)
-        assert chapter.extract_text() == "aaa"
+        assert chapter.text == "aaa"
+        assert chapter.submission.comments[0].body == "short author note"
 
     def test_extract_text_submission_continued(self, submission_continued_in_comments):
         chapter = Chapter(submission_continued_in_comments)
-        assert chapter.extract_text() == "aaa" + "long continuation 1" * 200 + "long continuation 2" * 200
+        assert chapter.text == ("aaa" + "long continuation 1" * 200 + "long continuation 2" * 200)
+        assert chapter.submission.comments[0].body == "[series-to-epub]: included in chapter text"
+        assert chapter.submission.comments[0].replies[0].body == "[series-to-epub]: included in chapter text"
