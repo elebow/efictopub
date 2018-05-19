@@ -14,7 +14,7 @@ class Main:
                                             user_agent=self.user_agent)
 
     def author_submissions_to_json(self, author_name):
-        submissions = self.reddit_fetcher.all_submissions_by_author_name(author_name)
+        submissions = self.reddit_fetcher.submissions_by_author_name(author_name)
         print(json.dumps(submissions))
 
     def load_config(self):

@@ -11,15 +11,15 @@ class RedditFetcher:
     def __init__(self, *, app, secret, user_agent):
         self.setup_reddit(app, secret, user_agent)
 
-    def all_submissions_by_author(self, *, author_name, pattern=r""):
+    def submissions_by_author(self, *, author_name, pattern=r""):
         author = self.reddit.redditor(author_name)
         regex = re.compile(pattern)
         return [Submission(subm) for subm in author.submissions.new() if regex.search(subm.title)]
 
-    def all_submissions_in_list_of_ids(self, id_list):
+    def submissions_in_list_of_ids(self, id_list):
         return [Submission(praw.models.Submission(self.reddit, id=id)) for id in id_list]
 
-    def all_submissions_following_next_links(self, start_subm_id):
+    def submissions_following_next_links(self, start_subm_id):
         start_subm = praw.models.Submission(self.reddit, id=start_subm_id)
         return [Submission(subm) for subm in self.generate_next_submissions(start_subm)]
 
@@ -28,12 +28,12 @@ class RedditFetcher:
         return [Submission(comm) for comm in self.generate_parents(last_comm)]
         # TODO Pretend that each comment is a new submission, and just return an array of subm namedtuples
 
-    def all_submissions_mentioned_in_reddit_thing(self, thing_or_id_or_url):
+    def submissions_mentioned_in_reddit_thing(self, thing_or_id_or_url):
         thing = self.parse_thing_or_id_or_url(thing_or_id_or_url)
         links = thing.all_links_in_text()
         return [Submission(praw.models.Submission(self.reddit, url=link.href)) for link in links]
 
-    def all_links_mentioned_in_wiki_page(self, url):
+    def links_mentioned_in_wiki_page(self, url):
         wiki = self.wiki_from_url
         return MarkdownParser(wiki.content_md).links
 

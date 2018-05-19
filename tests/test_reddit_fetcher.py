@@ -38,23 +38,23 @@ class TestRedditFetcher(object):
     def setup_method(self):
         self.subject = RedditFetcher(app="", secret="", user_agent="")
 
-    def test_all_submissions_by_author(self):
-        subms = self.subject.all_submissions_by_author(author_name="WeirdSpecter")
+    def test_submissions_by_author(self):
+        subms = self.subject.submissions_by_author(author_name="WeirdSpecter")
         assert [subm.reddit_id for subm in subms] == ["886al5", "88bcar", "88ejcl"]
 
-        subms = self.subject.all_submissions_by_author(author_name="WeirdSpecter", pattern=r"0\d")
+        subms = self.subject.submissions_by_author(author_name="WeirdSpecter", pattern=r"0\d")
         assert [subm.reddit_id for subm in subms] == ["88bcar", "88ejcl"]
 
     @patch("praw.models.Submission", mock_reddit_new_submission)
-    def test_all_submissions_in_list_of_ids(self, praw_submissions):
+    def test_submissions_in_list_of_ids(self, praw_submissions):
         ids = ["886al5", "88bcar", "88ejcl"]
-        subms = self.subject.all_submissions_in_list_of_ids(ids)
+        subms = self.subject.submissions_in_list_of_ids(ids)
 
         assert [subm.reddit_id for subm in subms] == ["886al5", "88bcar", "88ejcl"]
 
     @patch("praw.models.Submission", mock_reddit_new_submission)
-    def test_all_submissions_following_next_links(self, praw_submissions):
-        subms = self.subject.all_submissions_following_next_links(praw_submissions[0])
+    def test_submissions_following_next_links(self, praw_submissions):
+        subms = self.subject.submissions_following_next_links(praw_submissions[0])
 
         assert [subm.reddit_id for subm in subms] == ["886al5", "88bcar", "88ejcl"]
 
