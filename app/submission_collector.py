@@ -11,9 +11,10 @@ class SubmissionCollector:
     def __init__(self, *, app, secret, user_agent):
         self.setup_reddit(app, secret, user_agent)
 
-    def all_submissions_by_author_name(self, author_name):
+    def all_submissions_by_author(self, *, author_name, pattern=r""):
         author = self.reddit.redditor(author_name)
-        return [Submission(subm) for subm in author.submissions.new(limit=3)]
+        regex = re.compile(pattern)
+        return [Submission(subm) for subm in author.submissions.new() if regex.search(subm.title)]
 
     def all_submissions_in_list_of_ids(self, id_list):
         return [Submission(praw.models.Submission(self.reddit, id=id)) for id in id_list]

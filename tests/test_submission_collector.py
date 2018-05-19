@@ -9,7 +9,7 @@ from app.comment import Comment
 from app import exceptions
 
 
-@pytest.fixture()
+@pytest.fixture
 def praw_submissions():
     import pickle
     with open("tests/fixtures/array_of_3_submissions_with_comments.pickle", "rb") as file:
@@ -17,19 +17,17 @@ def praw_submissions():
 
 
 @pytest.fixture
-def praw_redditor():
-    return MagicMock(name='some_redditor', submissions=praw_submissions)
+def praw_redditor(_name):
+    return MagicMock(name='some_redditor',
+                     submissions=MagicMock(new=praw_submissions))
 
 
 class TestSubmissionCollector(object):
 
-    def praw_reddit(self):
-        return MagicMock(redditor='some_redditor')
-
     def setup_class(self):
         # don't actually hit reddit
         SubmissionCollector.setup_reddit = MagicMock()
-        SubmissionCollector.reddit = MagicMock()
+        SubmissionCollector.reddit = MagicMock(redditor=praw_redditor)
 
     def mock_reddit_new_submission(self, url=None, id=None):
         if url is not None:
@@ -39,6 +37,13 @@ class TestSubmissionCollector(object):
 
     def setup_method(self):
         self.subject = SubmissionCollector(app="", secret="", user_agent="")
+
+    def test_all_submissions_by_author(self):
+        subms = self.subject.all_submissions_by_author(author_name="WeirdSpecter")
+        assert [subm.reddit_id for subm in subms] == ["886al5", "88bcar", "88ejcl"]
+
+        subms = self.subject.all_submissions_by_author(author_name="WeirdSpecter", pattern=r"0\d")
+        assert [subm.reddit_id for subm in subms] == ["88bcar", "88ejcl"]
 
     @patch("praw.models.Submission", mock_reddit_new_submission)
     def test_all_submissions_in_list_of_ids(self, praw_submissions):
