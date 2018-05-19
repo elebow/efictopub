@@ -3,18 +3,18 @@
 import json
 import sys
 
-from submission_collector import SubmissionCollector
+from reddit_fetcher import RedditFetcher
 
 
 class Main:
     def __init__(self):
         self.load_config()
-        self.submission_collector = SubmissionCollector(app=self.app,
-                                                        secret=self.secret,
-                                                        user_agent=self.user_agent)
+        self.reddit_fetcher = RedditFetcher(app=self.app,
+                                            secret=self.secret,
+                                            user_agent=self.user_agent)
 
     def author_submissions_to_json(self, author_name):
-        submissions = self.submission_collector.all_submissions_by_author_name(author_name)
+        submissions = self.reddit_fetcher.all_submissions_by_author_name(author_name)
         print(json.dumps(submissions))
 
     def load_config(self):

@@ -7,7 +7,7 @@ from app.submission import Comment
 from app.exceptions import AmbiguousIdError
 
 
-class SubmissionCollector:
+class RedditFetcher:
     def __init__(self, *, app, secret, user_agent):
         self.setup_reddit(app, secret, user_agent)
 
