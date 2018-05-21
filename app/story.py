@@ -1,7 +1,7 @@
 import urllib.parse
 
 
-class Book:
+class Story:
     def __init__(self, *, title, chapters):
         self.title = title
         self.chapters = chapters

@@ -13,9 +13,9 @@ class Archiver:
         with open(self.path, "r") as infile:
             return yaml.safe_load(infile)
 
-    def store(self, book):
+    def store(self, story):
         with open(self.path, "w") as outfile:
-            return yaml.dump(book, outfile)
+            return yaml.dump(story, outfile)
 
     def calculate_path(self):
         return f"{os.environ.get('HOME')}/.reddit_series/cache/{self.key}.yml"  # TODO make configurable
