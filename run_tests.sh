@@ -1,2 +1,2 @@
 #!/bin/sh
-pipenv run python3 -m pytest -s
+pipenv run python3 -m pytest -s -v
