@@ -1,7 +1,7 @@
 import os
 
 
-from app.archiver import Archiver
+from app.archive import Archive
 
 
 class TestArchiver:
@@ -10,7 +10,7 @@ class TestArchiver:
         self.key = "55555-my-great-story-key"
 
     def setup_method(self):
-        self.subject = Archiver(self.key)
+        self.subject = Archive()
 
-    def test_calculate_path(self):
-        assert self.subject.calculate_path() == f"{os.environ.get('HOME')}/.reddit_series/cache/55555-my-great-story-key.yml"
+    def test_path(self):
+        assert self.subject.path(self.key) == f"{os.environ.get('HOME')}/.reddit_series/cache/55555-my-great-story-key.yml"
