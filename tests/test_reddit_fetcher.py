@@ -36,7 +36,7 @@ class TestRedditFetcher(object):
             return [subm for subm in praw_submissions() if subm.id == id][0]
 
     def setup_method(self):
-        self.subject = RedditFetcher(app="", secret="", user_agent="")
+        self.subject = RedditFetcher()
 
     def test_submissions_by_author(self):
         subms = self.subject.submissions_by_author(author_name="WeirdSpecter")

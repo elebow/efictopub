@@ -1,6 +1,7 @@
 import praw
 import re
 
+from app import config
 from app.markdown_parser import MarkdownParser
 from app.submission import Submission
 from app.submission import Comment
@@ -8,8 +9,10 @@ from app.exceptions import AmbiguousIdError
 
 
 class RedditFetcher:
-    def __init__(self, *, app, secret, user_agent):
-        self.setup_reddit(app, secret, user_agent)
+    def __init__(self):
+        self.setup_reddit(config.reddit.app,
+                          config.reddit.secret,
+                          config.reddit.user_agent)
 
     def submissions_by_author(self, *, author_name, pattern=r""):
         author = self.reddit.redditor(author_name)
