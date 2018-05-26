@@ -27,7 +27,7 @@ class TestConfig(object):
 
     @patch("configparser.ConfigParser", configparser)
     def setup_method(self, configparser):
-        config.load()  # re-load with our stubbed ConfigParser
+        config.load("_whatever.ini")  # re-load with our stubbed ConfigParser
 
     def test_reddit(self):
         assert dict(config.reddit._asdict()) == {"app": "my-great-app",

@@ -8,10 +8,10 @@ Reddit = namedtuple("Reddit", ["app", "secret", "user_agent"])
 Cache = namedtuple("Cache", ["location"])
 
 
-def load():
+def load(filename):
     import configparser
     cfg = configparser.ConfigParser()
-    cfg.read("config.ini")  # TODO dotenv?
+    cfg.read(filename)
 
     global reddit, cache
     reddit = Reddit(app=cfg.get("REDDIT", "app"),
@@ -22,4 +22,4 @@ def load():
                                    fallback="%s/.reddit/series-to-epub/cache/" % os.environ.get("HOME")))
 
 
-load()
+load("config.ini")  # TODO filename from dotenv?
