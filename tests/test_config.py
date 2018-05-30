@@ -29,6 +29,9 @@ class TestConfig(object):
     def setup_method(self, configparser):
         config.load("_whatever.ini")  # re-load with our stubbed ConfigParser
 
+    def teardown(self):
+        config.load("config.ini")  #TODO
+
     def test_reddit(self):
         assert dict(config.reddit._asdict()) == {"app": "my-great-app",
                                                  "secret": "top-secret",
