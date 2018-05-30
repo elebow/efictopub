@@ -1,6 +1,6 @@
 import pytest
 
-from app.models.submission import Submission
+from app.models.reddit.submission import Submission
 
 
 @pytest.fixture()

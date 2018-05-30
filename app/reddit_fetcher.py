@@ -3,8 +3,7 @@ import re
 
 from app import config
 from app.markdown_parser import MarkdownParser
-from app.models.submission import Submission
-from app.models.comment import Comment
+from app.models import reddit
 from app.exceptions import AmbiguousIdError
 
 
@@ -17,24 +16,24 @@ class RedditFetcher:
     def submissions_by_author(self, *, author_name, pattern=r""):
         author = self.reddit.redditor(author_name)
         regex = re.compile(pattern)
-        return [Submission(subm) for subm in author.submissions.new() if regex.search(subm.title)]
+        return [reddit.Submission(subm) for subm in author.submissions.new() if regex.search(subm.title)]
 
     def submissions_in_list_of_ids(self, id_list):
-        return [Submission(praw.models.Submission(self.reddit, id=id)) for id in id_list]
+        return [reddit.Submission(praw.models.Submission(self.reddit, id=id)) for id in id_list]
 
     def submissions_following_next_links(self, start_subm_id):
         start_subm = praw.models.Submission(self.reddit, id=start_subm_id)
-        return [Submission(subm) for subm in self.generate_next_submissions(start_subm)]
+        return [reddit.Submission(subm) for subm in self.generate_next_submissions(start_subm)]
 
     def comment_chain_ending_with_comment(self, last_comm_id):
         last_comm = praw.models.Comment(self.reddit, id=last_comm_id)
-        return [Submission(comm) for comm in self.generate_parents(last_comm)]
+        return [reddit.Submission(comm) for comm in self.generate_parents(last_comm)]
         # TODO Pretend that each comment is a new submission, and just return an array of subm namedtuples
 
     def submissions_mentioned_in_reddit_thing(self, thing_or_id_or_url):
         thing = self.parse_thing_or_id_or_url(thing_or_id_or_url)
         links = thing.all_links_in_text()
-        return [Submission(praw.models.Submission(self.reddit, url=link.href)) for link in links]
+        return [reddit.Submission(praw.models.Submission(self.reddit, url=link.href)) for link in links]
 
     def links_mentioned_in_wiki_page(self, url):
         wiki = self.wiki_from_url
@@ -63,9 +62,9 @@ class RedditFetcher:
 
     def parse_thing_or_id_or_url(self, thing):
         if isinstance(thing, praw.models.Submission):
-            return Submission(thing)
+            return reddit.Submission(thing)
         elif isinstance(thing, praw.models.Comment):
-            return Comment(thing)
+            return reddit.Comment(thing)
         elif isinstance(thing, praw.models.WikiPage):
             return None #WikiPage(thing) #TODO
         elif isinstance(thing, str):
@@ -76,10 +75,10 @@ class RedditFetcher:
 
     def parse_url(self, url):
         if re.match(r'.*reddit.com/r/[^/]*?/comments/[^/]*?/[^/]*/?$', url):
-            return Submission(praw.models.Submission(self.reddit, url=url))
+            return reddit.Submission(praw.models.Submission(self.reddit, url=url))
 
         if re.match(r'.*reddit.com/r/[^/]*?/comments/[^/]*?/[^/]*/[^/]*/?$', url):
-            return Comment(praw.models.Comment(self.reddit, url=url))
+            return reddit.Comment(praw.models.Comment(self.reddit, url=url))
 
         return None #TODO
         matches = re.findall(r'.*reddit.com/r/(.*?)/wiki/(.*)$', url)[0]

@@ -1,6 +1,7 @@
 import pytest
 
-from app.models.comment import Comment
+#from app.models.reddit.comment import Comment
+from app.models import reddit
 
 
 @pytest.fixture()
@@ -13,7 +14,7 @@ def praw_submissions():
 class TestComment(object):
 
     def setup_method(self):
-        self.comments = [Comment(c) for c in praw_submissions()[0].comments]
+        self.comments = [reddit.Comment(c) for c in praw_submissions()[0].comments]
 
     def test_all_links_mentioned_in_comment(self, praw_submissions):
         links = self.comments[7].all_links_in_text()

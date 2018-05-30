@@ -1,4 +1,5 @@
-from app.models.comment import Comment
+from app.models import reddit
+
 from app.markdown_parser import MarkdownParser
 
 
@@ -16,7 +17,7 @@ class Submission:
 
     def fetch_all_comments(self, praw_submission):
         praw_submission.comments.replace_more(limit=None)
-        return [Comment(comm) for comm in praw_submission.comments]
+        return [reddit.Comment(comm) for comm in praw_submission.comments]
 
     def all_links_in_text(self):
         return MarkdownParser(self.selftext).links

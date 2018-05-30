@@ -4,8 +4,7 @@ from unittest.mock import patch
 from unittest import mock
 
 from app.reddit_fetcher import RedditFetcher
-from app.models.submission import Submission
-from app.models.comment import Comment
+from app.models import reddit
 from app import exceptions
 
 
@@ -61,11 +60,11 @@ class TestRedditFetcher(object):
     def test_parse_thing_or_id_or_url(self, praw_submissions):
 
         output_praw_subm = self.subject.parse_thing_or_id_or_url(praw_submissions[0])
-        assert isinstance(output_praw_subm, Submission)
+        assert isinstance(output_praw_subm, reddit.Submission)
         assert len(output_praw_subm.comments) == len(praw_submissions[0].comments)
 
         output_praw_comm = self.subject.parse_thing_or_id_or_url(praw_submissions[0].comments[0])
-        assert isinstance(output_praw_comm, Comment)
+        assert isinstance(output_praw_comm, reddit.Comment)
 
         #output_praw_wiki = self.subject.parse_thing_or_id_or_url(praw_submissions[0].comments[0])
         #assert isinstance(output_praw_wiki, WikiPage) #TODO
