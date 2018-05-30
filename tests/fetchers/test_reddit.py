@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 from unittest import mock
 
-from app.reddit_fetcher import RedditFetcher
+from app import fetchers
 from app.models import reddit
 from app import exceptions
 
@@ -21,12 +21,12 @@ def praw_redditor(_name):
                      submissions=MagicMock(new=praw_submissions))
 
 
-class TestRedditFetcher(object):
+class TestFetchersReddit(object):
 
     def setup_class(self):
         # don't actually hit reddit
-        RedditFetcher.setup_reddit = MagicMock()
-        RedditFetcher.reddit = MagicMock(redditor=praw_redditor)
+        fetchers.Reddit.setup_reddit = MagicMock()
+        fetchers.Reddit.reddit = MagicMock(redditor=praw_redditor)
 
     def mock_reddit_new_submission(self, url=None, id=None):
         if url is not None:
@@ -35,7 +35,7 @@ class TestRedditFetcher(object):
             return [subm for subm in praw_submissions() if subm.id == id][0]
 
     def setup_method(self):
-        self.subject = RedditFetcher()
+        self.subject = fetchers.Reddit()
 
     def test_submissions_by_author(self):
         subms = self.subject.submissions_by_author(author_name="WeirdSpecter")

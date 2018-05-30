@@ -1,6 +1,6 @@
 import os
 
-from app.reddit_fetcher import RedditFetcher
+from app import fetchers
 
 if os.environ.get("LIVE_REDDIT") == "true":
     class TestLiveReddit:
@@ -9,13 +9,7 @@ if os.environ.get("LIVE_REDDIT") == "true":
             cfg = configparser.ConfigParser()
             cfg.read("../creds.ini")
 
-            app = cfg.get("DEFAULT", "app")
-            secret = cfg.get("DEFAULT", "secret")
-            user_agent = cfg.get("DEFAULT", "user_agent")
-
-            self.reddit_fetcher = RedditFetcher(app=app,
-                                                secret=secret,
-                                                user_agent=user_agent)
+            self.reddit_fetcher = fetchers.Reddit()
 
         def test_submissions_in_list_of_ids(self):
             ids = ["886al5", "88bcar", "88ejcl"]

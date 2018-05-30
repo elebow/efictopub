@@ -7,7 +7,7 @@ from app.models import reddit
 from app.exceptions import AmbiguousIdError
 
 
-class RedditFetcher:
+class Reddit:
     def __init__(self):
         self.setup_reddit(config.reddit.app,
                           config.reddit.secret,

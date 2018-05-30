@@ -1,16 +1,18 @@
 from app.archiver import Archive
-from app.chapter import Chapter
-from app.story import Story
+from app.models.chapter import Chapter
+from app.models.story import Story
+from app import fetchers
 
 
 class Controller:
     """Uses RedditFetcher and other classes to build Stories."""
 
-    def fetch_from_reddit_next(self, reddit, url_or_id):
+    def fetch_from_reddit(self, url_or_id):
         """Fetch story from reddit by following 'next' links."""
         reddit_id = url_or_id  # TODO
 
-        submissions = reddit.submissions_following_next_links(reddit_id)
+        reddit_fetcher = fetchers.Reddit()
+        submissions = reddit_fetcher.submissions_following_next_links(reddit_id)
         chapters = [Chapter(submission) for submission in submissions]
 
         title = chapters[0].title  # TODO
@@ -25,5 +27,5 @@ class Controller:
         #       though the filenames would still be longer, for human-readability
         # get from archive
         # return Story
-        pass
+        story = Archive.get(key)
 
