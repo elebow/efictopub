@@ -1,6 +1,6 @@
 import pytest
 
-from app.comment import Comment
+from app.models.comment import Comment
 
 
 @pytest.fixture()

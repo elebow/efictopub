@@ -1,8 +1,7 @@
 import pytest
-from unittest.mock import MagicMock
-from unittest.mock import patch
 
-from app.submission import Submission
+from app.models.submission import Submission
+
 
 @pytest.fixture()
 def praw_submissions():

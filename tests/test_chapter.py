@@ -3,8 +3,8 @@ from unittest.mock import MagicMock
 
 import praw
 
-from app.chapter import Chapter
-from app.submission import Submission
+from app.models.chapter import Chapter
+from app.models.submission import Submission
 
 
 @pytest.fixture

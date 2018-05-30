@@ -4,8 +4,8 @@ from unittest.mock import patch
 from unittest import mock
 
 from app.reddit_fetcher import RedditFetcher
-from app.submission import Submission
-from app.comment import Comment
+from app.models.submission import Submission
+from app.models.comment import Comment
 from app import exceptions
 
 

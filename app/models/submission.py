@@ -1,4 +1,4 @@
-from app.comment import Comment
+from app.models.comment import Comment
 from app.markdown_parser import MarkdownParser
 
 

@@ -3,8 +3,8 @@ import re
 
 from app import config
 from app.markdown_parser import MarkdownParser
-from app.submission import Submission
-from app.submission import Comment
+from app.models.submission import Submission
+from app.models.comment import Comment
 from app.exceptions import AmbiguousIdError
 
 
