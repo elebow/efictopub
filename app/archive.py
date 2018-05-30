@@ -7,12 +7,12 @@ class Archive:
 
     @staticmethod
     def get(key):
-        with open(path(key), "r") as infile:
+        with open(Archive.path(key), "r") as infile:
             return yaml.safe_load(infile)
 
     @staticmethod
     def store(key, story):
-        with open(path(key), "w") as outfile:
+        with open(Archive.path(key), "w") as outfile:
             return yaml.dump(story, outfile)
 
     @staticmethod
