@@ -6,7 +6,7 @@ from unittest.mock import patch
 from app.archive import Archive
 
 
-class TestArchiver:
+class TestArchive:
 
     def setup_class(self):
         self.key = "55555-my-great-story-key"
