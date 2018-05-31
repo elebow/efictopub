@@ -25,11 +25,6 @@ class Reddit:
         start_subm = praw.models.Submission(self.reddit, id=start_subm_id)
         return [reddit.Submission(subm) for subm in self.generate_next_submissions(start_subm)]
 
-    def comment_chain_ending_with_comment(self, last_comm_id):
-        last_comm = praw.models.Comment(self.reddit, id=last_comm_id)
-        return [reddit.Submission(comm) for comm in self.generate_parents(last_comm)]
-        # TODO Pretend that each comment is a new submission, and just return an array of subm namedtuples
-
     def submissions_mentioned_in_reddit_thing(self, thing_or_id_or_url):
         thing = self.parse_thing_or_id_or_url(thing_or_id_or_url)
         links = thing.all_links_in_text()
