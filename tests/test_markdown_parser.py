@@ -1,6 +1,3 @@
-#import pytest
-#from unittest.mock import MagicMock
-
 from app.markdown_parser import MarkdownParser
 
 
