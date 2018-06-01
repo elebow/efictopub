@@ -1,6 +1,5 @@
 import pytest
 
-#from app.models.reddit.comment import Comment
 from app.models import reddit
 
 
