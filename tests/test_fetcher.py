@@ -10,7 +10,7 @@ from app.fetcher import Fetcher
 def reddit_submissions(self, _url_or_id):
     return [
         MagicMock("Chapter", get_text=lambda: "chapter 1", created_utc="start_date", permalink="permalink",
-                  author="great-author"),
+                  author_name="great-author"),
         MagicMock("Chapter", get_text=lambda: "chapter 2"),
         MagicMock("Chapter", get_text=lambda: "chapter 3", created_utc="end_date")
     ]
