@@ -1,31 +1,18 @@
-#!/usr/bin/python3
+#!python3
 
-import json
-import sys
+import yaml
 
-from reddit_fetcher import RedditFetcher
+from app.fetcher import Fetcher
 
 
 class Main:
-    def __init__(self):
-        self.load_config()
-        self.reddit_fetcher = RedditFetcher(app=self.app,
-                                            secret=self.secret,
-                                            user_agent=self.user_agent)
+    def __init__(self, args):
+        self.args = args
+        self.fetcher = Fetcher()
 
-    def author_submissions_to_json(self, author_name):
-        submissions = self.reddit_fetcher.submissions_by_author_name(author_name)
-        print(json.dumps(submissions))
+    def run(self):
+        #TODO use self.args to determine what to do
 
-    def load_config(self):
-        import configparser
-        cfg = configparser.ConfigParser()
-        cfg.read(sys.argv[1])
-
-        self.app = cfg.get('DEFAULT', 'app')
-        self.secret = cfg.get('DEFAULT', 'secret')
-        self.user_agent = cfg.get("DEFAULT", "user_agent")
-
-
-if __name__ == "__main__":
-    Main().author_submissions_to_json(sys.argv[2])
+        r_id = "8kgo40"
+        story = self.fetcher.fetch_from_reddit(r_id)
+        print(yaml.dump(story))
