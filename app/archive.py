@@ -12,8 +12,8 @@ class Archive:
             return yaml.safe_load(infile)
 
     @staticmethod
-    def store(id, story):
-        with open(Archive.path(id), "w") as outfile:
+    def store(story):
+        with open(Archive.path(story.id), "w") as outfile:
             return yaml.dump(story, outfile)
 
     @staticmethod

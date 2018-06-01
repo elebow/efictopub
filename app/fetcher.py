@@ -11,9 +11,7 @@ class Fetcher:
         reddit_id = url_or_id  # TODO
 
         reddit_fetcher = fetchers.Reddit()
-        chapters = [submission.get_text()
-                    for submission
-                    in reddit_fetcher.submissions_following_next_links(reddit_id)]
+        chapters = reddit_fetcher.submissions_following_next_links(reddit_id)
 
         title = chapters[0].title  # TODO
         story = Story(title=title, chapters=chapters)

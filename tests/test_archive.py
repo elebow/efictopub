@@ -1,4 +1,5 @@
 import os
+from unittest.mock import MagicMock
 from unittest.mock import mock_open
 from unittest.mock import patch
 
@@ -27,10 +28,11 @@ class TestArchive:
     @patch("yaml.dump")
     @patch("builtins.open", new_callable=mock_open)
     def test_store(self, file_open, yaml_dump):
-        self.subject.store(self.id, "hhh")
+        story = MagicMock(id="my-great-path", text="hhh")
+        self.subject.store(story)
 
         file_open.assert_called_once_with("my-great-path", "w")
-        yaml_dump.assert_called_once_with("hhh", file_open())
+        yaml_dump.assert_called_once_with(story, file_open())
 
     def test_path(self):
         assert self.subject.path(self.id) == f"{os.environ.get('HOME')}/.reddit_series/cache/55555-my-great-story-id.yml"
