@@ -6,15 +6,16 @@ class Archive:
     """Saves and retrieves copies of stories on disk."""
 
     @staticmethod
-    def get(key):
-        with open(Archive.path(key), "r") as infile:
+    def get(id):
+        # TODO accept partial ids, as long as they map to a unique file
+        with open(Archive.path(id), "r") as infile:
             return yaml.safe_load(infile)
 
     @staticmethod
-    def store(key, story):
-        with open(Archive.path(key), "w") as outfile:
+    def store(id, story):
+        with open(Archive.path(id), "w") as outfile:
             return yaml.dump(story, outfile)
 
     @staticmethod
-    def path(key):
-        return f"{os.environ.get('HOME')}/.reddit_series/cache/{key}.yml"  # TODO make configurable
+    def path(id):
+        return f"{os.environ.get('HOME')}/.reddit_series/cache/{id}.yml"  # TODO make configurable

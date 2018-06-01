@@ -22,9 +22,6 @@ class Fetcher:
 
         return story
 
-    def fetch_from_archive(self, key):
-        #   TODO make the key in the archive just the reddit_id, so we can look them up with just that
-        #       though the filenames would still be longer, for human-readability
-        # get from archive
-        # return Story
-        story = Archive.get(key)
+    def fetch_from_archive(self, id):
+        # Note that ID can be partial, as long as it is unique
+        return Archive.get(id)
