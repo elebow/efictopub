@@ -2,7 +2,7 @@
 
 import yaml
 
-from app.exceptions import UnknownModeError
+from app.exceptions import UnknownFetcherError
 from app.fetcher import Fetcher
 
 
@@ -12,11 +12,11 @@ class Main:
         self.fetcher = Fetcher()
 
     def run(self):
-        if self.args.mode == "reddit_next":
+        if self.args.fetcher == "reddit_next":
             story = self.fetcher.fetch_from_reddit(self.args.target)
-        elif self.args.mode == "archive":
+        elif self.args.fetcher == "archive":
             story = self.fetcher.fetch_from_archive(self.args.target)
         else:
-            raise UnknownModeError(f"Unknown mode `{self.args.mode}`")
+            raise UnknownFetcherError(f"Unknown fetcher `{self.args.fetcher}`")
 
         print(yaml.dump(story))

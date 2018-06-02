@@ -8,6 +8,6 @@ class AmbiguousNextError(Exception):
     pass
 
 
-class UnknownModeError(Exception):
-    """The user specified an unrecognized fetch mode"""
+class UnknownFetcherError(Exception):
+    """The user specified an unrecognized fetcher"""
     pass

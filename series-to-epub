@@ -7,8 +7,8 @@ from app.fetcher import Fetcher
 
 
 parser = argparse.ArgumentParser(description="Process some integers.")
-parser.add_argument("mode", type=str,
-                    help=f"the fetch mode to use ({', '.join(Fetcher._modes())})")
+parser.add_argument("fetcher", type=str,
+                    help=f"the fetcher to use ({', '.join(Fetcher._fetchers())})")
 parser.add_argument("target", type=str,
                     help="the target story or document containing list of stories (URL, reddit ID, etc)")
 
