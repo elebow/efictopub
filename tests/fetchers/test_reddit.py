@@ -21,7 +21,7 @@ def praw_redditor(_name):
                      submissions=MagicMock(new=praw_submissions))
 
 
-class TestFetchersReddit(object):
+class TestFetchersReddit:
 
     def setup_class(self):
         # don't actually hit reddit

@@ -36,7 +36,7 @@ def submission_continued_in_comments():
     return praw_submission
 
 
-class TestSubmission(object):
+class TestSubmission:
 
     def setup_method(self):
         self.submissions = [reddit.Submission(s) for s in praw_submissions()]

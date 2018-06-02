@@ -23,7 +23,7 @@ def configparser():
     return MagicMock(get=configparser_get)
 
 
-class TestConfig(object):
+class TestConfig:
 
     @patch("configparser.ConfigParser", configparser)
     def setup_method(self, configparser):

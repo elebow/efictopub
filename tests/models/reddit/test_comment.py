@@ -10,7 +10,7 @@ def praw_submissions():
         return pickle.load(file)
 
 
-class TestComment(object):
+class TestComment:
 
     def setup_method(self):
         self.comments = [reddit.Comment(c) for c in praw_submissions()[0].comments]
