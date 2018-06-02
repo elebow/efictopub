@@ -21,9 +21,9 @@ class Reddit:
     def submissions_in_list_of_ids(self, id_list):
         return [reddit.Submission(praw.models.Submission(self.reddit, id=id)) for id in id_list]
 
-    def submissions_following_next_links(self, start_subm_id):
-        start_subm = praw.models.Submission(self.reddit, id=start_subm_id)
-        return [reddit.Submission(subm) for subm in self.generate_next_submissions(start_subm)]
+    def submissions_following_next_links(self, start_thing_or_id_or_url):
+        start_subm = self.parse_thing_or_id_or_url(start_thing_or_id_or_url)
+        return [subm for subm in self.generate_next_submissions(start_subm)]
 
     def submissions_mentioned_in_reddit_thing(self, thing_or_id_or_url):
         thing = self.parse_thing_or_id_or_url(thing_or_id_or_url)
@@ -34,8 +34,8 @@ class Reddit:
         wiki = self.wiki_from_url
         return MarkdownParser(wiki.content_md).links
 
-    # Generate Submission objects by following "next" links, including the specified starting submission
-    # Raises exception if there's more than one link that contains the word "next"
+    # Generate reddit.Submission objects by following "next" links, including the specified starting
+    # submission. Raises exception if there's more than one link that contains the word "next"
     def generate_next_submissions(self, start_subm):
         subm = start_subm
         while True:
@@ -45,20 +45,21 @@ class Reddit:
                 raise "Ambiguous next submission"  # TODO
             elif len(next_links) == 0:
                 return
-            subm = praw.models.Submission(self.reddit, url=next_links[0].href)
+            subm = reddit.Submission(praw.models.Submission(self.reddit, url=next_links[0].href))
 
     def generate_parents(self, start_comm):
         thing = start_comm
         while True:
             yield thing
             if isinstance(thing, praw.models.Submission):
+                # praw.models.Submission is the top. Only Comments have parents.
                 return
             thing = thing.parent()
 
     def parse_thing_or_id_or_url(self, thing):
-        if isinstance(thing, praw.models.Submission):
+        if isinstance(thing, praw.models.reddit.submission.Submission):
             return reddit.Submission(thing)
-        elif isinstance(thing, praw.models.Comment):
+        elif isinstance(thing, praw.models.reddit.comment.Comment):
             return reddit.Comment(thing)
         elif isinstance(thing, praw.models.WikiPage):
             return None #WikiPage(thing) #TODO
