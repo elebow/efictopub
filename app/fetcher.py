@@ -16,5 +16,8 @@ class Fetcher:
         return story
 
     def fetch_from_archive(self, id):
-        # Note that ID can be partial, as long as it is unique
+        """
+        Fetch a story from the archive.
+        Note that ID can be partial, as long as it is unique.
+        """
         return Archive.get(id)
