@@ -23,8 +23,8 @@ class TestFetcher:
 
     @patch("app.fetchers.Reddit.submissions_following_next_links", reddit_submissions)
     @patch("app.archive.Archive.store")
-    def test_fetch_from_reddit(self, archive):
-        story = self.subject.fetch_from_reddit("_whatever-url-or-id")
+    def test_fetch_from_reddit_next(self, archive):
+        story = self.subject.fetch_from_reddit_next("_whatever-url-or-id")
 
         assert [chap.get_text() for chap in story.chapters] == ["chapter 1", "chapter 2", "chapter 3"]
         assert story.author == "great-author"
