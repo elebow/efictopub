@@ -3,17 +3,17 @@
 import argparse
 
 from app.main import Main
+from app.fetcher import Fetcher
 
 
-parser = argparse.ArgumentParser(description='Process some integers.')
-# TODO get the modes dynamically
-parser.add_argument('mode', type=str,
-                    help='the fetch mode to use (reddit_next, archive)')
-parser.add_argument('target', type=str,
-                    help='the target story or document containing list of stories (URL, reddit ID, etc)')
+parser = argparse.ArgumentParser(description="Process some integers.")
+parser.add_argument("mode", type=str,
+                    help=f"the fetch mode to use ({', '.join(Fetcher._modes())})")
+parser.add_argument("target", type=str,
+                    help="the target story or document containing list of stories (URL, reddit ID, etc)")
 
-parser.add_argument('--no-archive', dest='archive', action='store_false', default=True,
-                    help='do not write the story to the archive')
+parser.add_argument("--no-archive", dest="archive", action="store_false", default=True,
+                    help="do not write the story to the archive")
 
 args = parser.parse_args()
 

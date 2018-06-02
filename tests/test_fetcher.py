@@ -1,4 +1,5 @@
 import pytest
+from unittest import TestCase
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
@@ -24,9 +25,13 @@ class TestFetcher:
     @patch("app.fetchers.Reddit.submissions_following_next_links", reddit_submissions)
     @patch("app.archive.Archive.store")
     def test_fetch_from_reddit_next(self, archive):
-        story = self.subject.fetch_from_reddit_next("_whatever-url-or-id")
+        story = self.subject.reddit_next("_whatever-url-or-id")
 
         assert [chap.get_text() for chap in story.chapters] == ["chapter 1", "chapter 2", "chapter 3"]
         assert story.author == "great-author"
         assert story.date_start == "start_date"
         assert story.date_end == "end_date"
+
+    def test__modes(self):
+        TestCase().assertCountEqual(Fetcher._modes(),
+                                    ["reddit_next", "reddit_author", "reddit_mentions", "archive"])
