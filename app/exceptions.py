@@ -3,6 +3,11 @@ class AmbiguousIdError(Exception):
     pass
 
 
+class AmbiguousNextError(Exception):
+    """A submission has more than one "next" link, so we don't know which one to follow."""
+    pass
+
+
 class UnknownModeError(Exception):
     """The user specified an unrecognized fetch mode"""
     pass

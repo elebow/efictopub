@@ -16,6 +16,11 @@ def praw_submissions():
 
 
 @pytest.fixture
+def submission_with_ambiguous_next():
+    return MagicMock("praw.models.Submission", selftext="[next](link1) [next](link2)")
+
+
+@pytest.fixture
 def praw_redditor(_name):
     return MagicMock(name='some_redditor',
                      submissions=MagicMock(new=praw_submissions))
@@ -75,6 +80,12 @@ class TestFetchersReddit:
         self.subject.parse_url = MagicMock()
         self.subject.parse_thing_or_id_or_url('https://whatever')
         self.subject.parse_url.assert_called_once_with('https://whatever')
+
+    def test_ambiguous_next(self):
+        with pytest.raises(exceptions.AmbiguousNextError):
+            [subm
+             for subm
+             in self.subject.generate_next_submissions(submission_with_ambiguous_next())]
 
     @patch("praw.models.Submission")
     @patch("praw.models.Comment")

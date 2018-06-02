@@ -4,7 +4,7 @@ import re
 from app import config
 from app.markdown_parser import MarkdownParser
 from app.models import reddit
-from app.exceptions import AmbiguousIdError
+from app.exceptions import AmbiguousIdError, AmbiguousNextError
 
 
 class Reddit:
@@ -42,7 +42,7 @@ class Reddit:
             yield subm
             next_links = MarkdownParser(subm.selftext).links_containing_text("next")
             if len(next_links) > 1:
-                raise "Ambiguous next submission"  # TODO
+                raise AmbiguousNextError
             elif len(next_links) == 0:
                 return
             subm = reddit.Submission(praw.models.Submission(self.reddit, url=next_links[0].href))
