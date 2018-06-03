@@ -1,13 +1,17 @@
 import praw
 
+from app import fetchers
 from app.lib import reddit_util
 from app.markdown_parser import MarkdownParser
 from app.models import reddit
 
 
-class RedditMentions:
+class RedditMentions(fetchers.BaseFetcher):
     def __init__(self):
         self.reddit = reddit_util.setup_reddit()
+
+    def fetch_chapters(self):
+        raise "Not yet implemented"
 
     def submissions_in_list_of_ids(self, id_list):
         return [reddit.Submission(praw.models.Submission(self.reddit, id=id)) for id in id_list]

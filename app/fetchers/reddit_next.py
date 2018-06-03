@@ -1,12 +1,13 @@
 import praw
 
+from app import fetchers
 from app.lib import reddit_util
 from app.markdown_parser import MarkdownParser
 from app.models import reddit
 from app.exceptions import AmbiguousNextError
 
 
-class RedditNext:
+class RedditNext(fetchers.BaseFetcher):
     """Fetch Reddit submissions by following "next" links in the body"""
 
     def __init__(self):

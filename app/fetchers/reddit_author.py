@@ -1,10 +1,11 @@
 import re
 
+from app import fetchers
 from app.lib import reddit_util
 from app.models import reddit
 
 
-class RedditAuthor:
+class RedditAuthor(fetchers.BaseFetcher):
     def __init__(self):
         self.reddit = reddit_util.setup_reddit()
 
