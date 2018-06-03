@@ -10,7 +10,7 @@ class Fetcher:
 
     def reddit_next(self, url_or_id):
         """Fetch story from reddit by following 'next' links."""
-        chapters = fetchers.Reddit().submissions_following_next_links(url_or_id)
+        chapters = fetchers.RedditNext().fetch_chapters(url_or_id)
         story = Story(chapters=chapters)
 
         Archive.store(story)
