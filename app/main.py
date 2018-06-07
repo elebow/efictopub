@@ -16,7 +16,7 @@ class Main:
     def run(self):
         story = self.get_story()
         Archive.store(story)
-        print(yaml.dump(story))
+        self.output(story)
 
     def get_story(self):
         if self.args.fetcher in Main._fetcher_names():
@@ -25,6 +25,10 @@ class Main:
             return fetcher.fetch_story()
         else:
             raise UnknownFetcherError(f"Unknown fetcher `{self.args.fetcher}`")
+
+    def output(self, story):
+        # TODO decide what to do based on self.args.something
+        print(yaml.dump(story))
 
     @staticmethod
     @functools.lru_cache()
