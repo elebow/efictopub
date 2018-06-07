@@ -19,11 +19,15 @@ def praw_redditor(_name):
 
 class TestFetchersRedditAuthor:
     def test_submissions_by_author(self):
-        fetcher = fetchers.RedditAuthor()
+        fetcher = fetchers.RedditAuthor(author_name="WeirdSpecter")
         fetcher.reddit = MagicMock(redditor=praw_redditor)  # TODO use proper @patch decorator
 
-        subms = fetcher.fetch_chapters(author_name="WeirdSpecter")
+        subms = fetcher.fetch_chapters()
         assert [subm.reddit_id for subm in subms] == ["886al5", "88bcar", "88ejcl"]
 
-        subms = fetcher.fetch_chapters(author_name="WeirdSpecter", pattern=r"0\d")
+    def test_submissions_by_author_with_pattern(self):
+        fetcher = fetchers.RedditAuthor(author_name="WeirdSpecter", pattern=r"0\d")
+        fetcher.reddit = MagicMock(redditor=praw_redditor)  # TODO use proper @patch decorator
+
+        subms = fetcher.fetch_chapters()
         assert [subm.reddit_id for subm in subms] == ["88bcar", "88ejcl"]

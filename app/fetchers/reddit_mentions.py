@@ -4,11 +4,15 @@ from app import fetchers
 from app.lib import reddit_util
 from app.markdown_parser import MarkdownParser
 from app.models import reddit
+from app.models.story import Story
 
 
 class RedditMentions(fetchers.BaseFetcher):
     def __init__(self):
         self.reddit = reddit_util.setup_reddit()
+
+    def fetch_story(self):
+        return Story(chapters=self.fetch_chapters())
 
     def fetch_chapters(self):
         raise "Not yet implemented"

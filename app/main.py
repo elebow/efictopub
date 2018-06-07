@@ -20,7 +20,9 @@ class Main:
 
     def get_story(self):
         if self.args.fetcher in Main._fetcher_names():
-            return Main._fetchers()[self.args.fetcher].fetch_story(self.args.target)
+            # TODO also pass optional args
+            fetcher = Main._fetchers()[self.args.fetcher](self.args.target)
+            return fetcher.fetch_story()
         else:
             raise UnknownFetcherError(f"Unknown fetcher `{self.args.fetcher}`")
 

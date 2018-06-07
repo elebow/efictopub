@@ -29,7 +29,7 @@ def mock_reddit_new_submission(self, url=None, id=None):
 class TestFetchersReddit:
     @patch("praw.models.Submission", mock_reddit_new_submission)
     def test_submissions_following_next_links(self, praw_submissions):
-        subms = fetchers.RedditNext().fetch_chapters(praw_submissions[0])
+        subms = fetchers.RedditNext(praw_submissions[0]).fetch_chapters()
 
         assert [subm.reddit_id for subm in subms] == ["886al5", "88bcar", "88ejcl"]
 
@@ -37,4 +37,4 @@ class TestFetchersReddit:
         with pytest.raises(exceptions.AmbiguousNextError):
             [subm
              for subm
-             in fetchers.RedditNext().generate_next_submissions(submission_with_ambiguous_next())]
+             in fetchers.RedditNext("_what").generate_next_submissions(submission_with_ambiguous_next())]
