@@ -3,12 +3,11 @@
 import argparse
 
 from app.main import Main
-from app.fetcher import Fetcher
 
 
 parser = argparse.ArgumentParser(description="Process some integers.")
 parser.add_argument("fetcher", type=str,
-                    help=f"the fetcher to use ({', '.join(Fetcher._fetchers())})")
+                    help=f"the fetcher to use (Archive, {', '.join(Main._fetcher_names())})")
 parser.add_argument("target", type=str,
                     help="the target story or document containing list of stories (URL, reddit ID, etc)")
 
