@@ -33,4 +33,4 @@ class TestMain:
 
     def test__fetcher_names(self):
         TestCase().assertCountEqual(Main._fetcher_names(),
-                                    ["RedditNext", "RedditAuthor", "RedditMentions"])
+                                    ["Archive", "RedditNext", "RedditAuthor", "RedditMentions"])
