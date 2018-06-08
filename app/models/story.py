@@ -5,7 +5,7 @@ class Story:
     def __init__(self, *, title=None, chapters):
         self.manual_title = title
         self.chapters = chapters
-        self.author = chapters[0].author_name  # assume all the chapters have the same author
+        self.author_name = chapters[0].author_name  # assume all the chapters have the same author
         self.date_start = chapters[0].created_utc
         self.date_end = chapters[-1].created_utc
 
