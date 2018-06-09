@@ -19,7 +19,7 @@ class RedditNext(fetchers.BaseFetcher):
         return Story(chapters=self.fetch_chapters())
 
     def fetch_chapters(self):
-        start_subm = reddit_util.parse_thing_or_id_or_url(self.start_thing_or_id_or_url)
+        start_subm = reddit_util.parse_thing_or_id_or_url(self.start_thing_or_id_or_url, self.reddit)
         return [subm for subm in self.generate_next_submissions(start_subm)]
 
     # Generate reddit.Submission objects by following "next" links, including the specified starting
