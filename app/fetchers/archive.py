@@ -8,8 +8,11 @@ class Archive(fetchers.BaseFetcher):
     Note that ID can be partial, as long as it is unique. (TODO)
     """
 
-    def fetch_story(self, id):
-        return app.archive.Archive.get(id)
+    def __init__(self, id):
+        self.id = id
+
+    def fetch_story(self):
+        return app.archive.Archive.get(self.id)
 
     def fetch_chapters(self):
         pass
