@@ -10,3 +10,6 @@ class Archive(fetchers.BaseFetcher):
 
     def fetch_story(self, id):
         return app.archive.Archive.get(id)
+
+    def fetch_chapters(self):
+        pass

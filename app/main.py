@@ -7,6 +7,7 @@ import yaml
 from app.archive import Archive
 from app.exceptions import UnknownFetcherError
 from app import fetchers
+from app.epub_writer import EpubWriter
 
 
 class Main:
@@ -28,6 +29,7 @@ class Main:
 
     def output(self, story):
         # TODO decide what to do based on self.args.something
+        EpubWriter(story, "outfile.epub").write_epub()
         print(yaml.dump(story))
 
     @staticmethod
