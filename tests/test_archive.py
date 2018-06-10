@@ -25,7 +25,7 @@ class TestArchive:
         yaml_safe_load.assert_called_once_with(file_open())
 
     @patch("app.archive.Archive.path", lambda x: "my-great-path")
-    @patch("yaml.dump")
+    @patch("yaml.safe_dump")
     @patch("builtins.open", new_callable=mock_open)
     def test_store(self, file_open, yaml_dump):
         story = MagicMock(id="my-great-path", text="hhh")
