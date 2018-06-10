@@ -11,3 +11,7 @@ class Chapter(abc.ABC):
     @abc.abstractmethod
     def get_text(self):
         pass
+
+    @abc.abstractmethod
+    def as_dict(self):
+        pass

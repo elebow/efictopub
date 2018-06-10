@@ -45,3 +45,11 @@ class Submission(Chapter):
             comment = comment.replies[0]
 
         return text
+
+    @functools.lru_cache()
+    def as_dict(self):
+        attr_names = ["author_name", "created_utc", "edited", "reddit_id", "permalink", "selftext", "title",
+                      "ups"]
+        attrs = {name: getattr(self, name) for name in attr_names}
+        attrs["comments"] = [comment.as_dict() for comment in self.comments]
+        return attrs

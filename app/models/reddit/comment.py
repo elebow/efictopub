@@ -1,3 +1,5 @@
+import functools
+
 from app.markdown_parser import MarkdownParser
 
 
@@ -18,3 +20,11 @@ class Comment:
 
     def all_links_in_text(self):
         return MarkdownParser(self.body).links
+
+    @functools.lru_cache()
+    def as_dict(self):
+        attr_names = ["author_name", "author_flair_text", "body", "created_utc", "edited", "reddit_id",
+                      "permalink", "ups"]
+        attrs = {name: getattr(self, name) for name in attr_names}
+        attrs["replies"] = [reply.as_dict() for reply in self.replies]
+        return attrs
