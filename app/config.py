@@ -5,7 +5,7 @@ import os
 
 
 Reddit = namedtuple("Reddit", ["app", "secret", "user_agent"])
-Cache = namedtuple("Cache", ["location"])
+Archive = namedtuple("Archive", ["location"])
 
 
 def load(filename):
@@ -13,13 +13,13 @@ def load(filename):
     cfg = configparser.ConfigParser()
     cfg.read(filename)
 
-    global reddit, cache
+    global reddit, archive
     reddit = Reddit(app=cfg.get("REDDIT", "app"),
                     secret=cfg.get("REDDIT", "secret"),
                     user_agent=cfg.get("REDDIT", "user_agent"))
-    cache = Cache(location=cfg.get("CACHE",
-                                   "location",
-                                   fallback="%s/.efictopub/cache/" % os.environ.get("HOME")))
+    archive = Archive(location=cfg.get("ARCHIVE",
+                                       "location",
+                                       fallback="%s/.efictopub/archive/" % os.environ.get("HOME")))
 
 
 load("config.ini")  # TODO filename from dotenv?

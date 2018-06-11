@@ -12,7 +12,7 @@ def configparser_get(section, key, fallback=None):
             "secret": "top-secret",
             "user_agent": "my-great-user-agent"
         },
-        "CACHE": {
+        "ARCHIVE": {
             "location": "my-great-location"
         }
     }[section][key]
@@ -37,5 +37,5 @@ class TestConfig:
                                                  "secret": "top-secret",
                                                  "user_agent": "my-great-user-agent"}
 
-    def test_cache(self):
-        assert dict(config.cache._asdict()) == {"location": "my-great-location"}
+    def test_archive(self):
+        assert dict(config.archive._asdict()) == {"location": "my-great-location"}

@@ -35,4 +35,4 @@ class TestArchive:
         yaml_dump.assert_called_once_with(story, file_open())
 
     def test_path(self):
-        assert self.subject.path(self.id) == f"{os.environ.get('HOME')}/.efictopub/cache/55555-my-great-story-id.yml"
+        assert self.subject.path(self.id) == f"{os.environ.get('HOME')}/.efictopub/archive/55555-my-great-story-id.yml"
