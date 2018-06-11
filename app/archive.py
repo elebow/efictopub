@@ -21,7 +21,7 @@ class Archive:
 
     @staticmethod
     def path(id):
-        return f"{os.environ.get('HOME')}/.series-to-epub/cache/{id}.yml"  # TODO make configurable
+        return f"{os.environ.get('HOME')}/.efictopub/cache/{id}.yml"  # TODO make configurable
 
 
 def story_representer(dumper, story):

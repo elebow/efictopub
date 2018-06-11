@@ -19,7 +19,7 @@ def load(filename):
                     user_agent=cfg.get("REDDIT", "user_agent"))
     cache = Cache(location=cfg.get("CACHE",
                                    "location",
-                                   fallback="%s/.reddit/series-to-epub/cache/" % os.environ.get("HOME")))
+                                   fallback="%s/.efictopub/cache/" % os.environ.get("HOME")))
 
 
 load("config.ini")  # TODO filename from dotenv?

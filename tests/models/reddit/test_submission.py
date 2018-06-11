@@ -70,5 +70,5 @@ class TestSubmission:
     def test_extract_text_submission_continued(self, submission_continued_in_comments):
         chapter = reddit.Submission(submission_continued_in_comments)
         assert chapter.get_text() == ("aaa" + "long continuation 1" * 200 + "long continuation 2" * 200)
-        assert chapter.comments[0].body == "[series-to-epub]: included in chapter text"
-        assert chapter.comments[0].replies[0].body == "[series-to-epub]: included in chapter text"
+        assert chapter.comments[0].body == "[efictopub]: included in chapter text"
+        assert chapter.comments[0].replies[0].body == "[efictopub]: included in chapter text"

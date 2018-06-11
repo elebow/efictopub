@@ -38,7 +38,7 @@ class Submission(Chapter):
             if len(comment.body) > 2000:
                 # Dumb heuristic to differentiate author notes from actual content
                 text += comment.body
-                comment.body = "[series-to-epub]: included in chapter text"
+                comment.body = "[efictopub]: included in chapter text"
 
             if comment.replies == []:
                 break
