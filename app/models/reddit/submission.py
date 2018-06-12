@@ -20,7 +20,7 @@ class Submission:
 
     def fetch_all_comments(self, praw_submission):
         praw_submission.comments.replace_more(limit=None)
-        return [reddit.Comment(comm) for comm in praw_submission.comments]
+        return [reddit.Comment(comm).as_comment() for comm in praw_submission.comments]
 
     def all_links_in_text(self):
         return MarkdownParser(self.selftext).links
@@ -47,9 +47,12 @@ class Submission:
         return text
 
     @functools.lru_cache()
-    def as_dict(self):
-        attr_names = ["author_name", "created_utc", "edited", "reddit_id", "permalink", "selftext", "title",
-                      "ups"]
-        attrs = {name: getattr(self, name) for name in attr_names}
-        attrs["comments"] = [comment.as_dict() for comment in self.comments]
-        return attrs
+    def as_chapter(self):
+        return Chapter(author=self.author_name,
+                       comments=self.comments,
+                       date_published=self.created_utc,
+                       date_updated=self.edited,  # TODO is self.edited a date or a bool?
+                       permalink=self.permalink,
+                       score=self.ups,
+                       text=self.selftext,
+                       title=self.title)

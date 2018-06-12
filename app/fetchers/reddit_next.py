@@ -20,7 +20,7 @@ class RedditNext(fetchers.BaseFetcher):
 
     def fetch_chapters(self):
         start_subm = reddit_util.parse_thing_or_id_or_url(self.start_thing_or_id_or_url, self.reddit)
-        return [subm for subm in self.generate_next_submissions(start_subm)]
+        return [subm.as_chapter() for subm in self.generate_next_submissions(start_subm)]
 
     # Generate reddit.Submission objects by following "next" links, including the specified starting
     # submission. Raises exception if there's more than one link that contains the word "next"

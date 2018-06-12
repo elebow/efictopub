@@ -31,7 +31,10 @@ class TestFetchersReddit:
     def test_submissions_following_next_links(self, praw_submissions):
         subms = fetchers.RedditNext(praw_submissions[0]).fetch_chapters()
 
-        assert [subm.reddit_id for subm in subms] == ["886al5", "88bcar", "88ejcl"]
+        assert [subm.permalink for subm in subms] == [
+            "/r/HFY/comments/886al5/oc_falling_sky/",
+            "/r/HFY/comments/88bcar/oc_falling_sky01warm_reception/",
+            "/r/HFY/comments/88ejcl/oc_falling_sky02ships_alight/"]
 
     def test_ambiguous_next(self):
         with pytest.raises(exceptions.AmbiguousNextError):
