@@ -20,3 +20,13 @@ class Story:
             return self.manual_title
 
         return self.chapters[0].title
+
+    def as_dict(self):
+        return {
+            "title": self.title,
+            "chapters": self.chapters
+        }
+
+    @classmethod
+    def from_dict(cls, mapping):
+        return cls(title=mapping["title"], chapters=mapping["chapters"])
