@@ -1,6 +1,7 @@
 import functools
 
 from app.markdown_parser import MarkdownParser
+import app.models
 
 
 class Comment:
@@ -22,9 +23,11 @@ class Comment:
         return MarkdownParser(self.body).links
 
     @functools.lru_cache()
-    def as_dict(self):
-        attr_names = ["author_name", "author_flair_text", "body", "created_utc", "edited", "reddit_id",
-                      "permalink", "ups"]
-        attrs = {name: getattr(self, name) for name in attr_names}
-        attrs["replies"] = [reply.as_dict() for reply in self.replies]
-        return attrs
+    def as_comment(self):
+        return app.models.comment.Comment(author=f"{self.author_name} ({self.author_flair_text})",
+                                          date_published=self.created_utc,
+                                          date_updated=self.edited,
+                                          permalink=self.permalink,
+                                          replies=[reply.as_comment() for reply in self.replies],
+                                          score=self.ups,
+                                          text=self.body)
