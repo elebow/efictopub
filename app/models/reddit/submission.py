@@ -6,7 +6,7 @@ from app.models.chapter import Chapter
 from app.markdown_parser import MarkdownParser
 
 
-class Submission(Chapter):
+class Submission:
     def __init__(self, praw_submission):
         self.author_name = praw_submission.author.name
         self.comments = self.fetch_all_comments(praw_submission)
