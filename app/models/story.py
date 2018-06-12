@@ -5,9 +5,9 @@ class Story:
     def __init__(self, *, title=None, chapters):
         self.manual_title = title
         self.chapters = chapters
-        self.author_name = chapters[0].author_name  # assume all the chapters have the same author
-        self.date_start = chapters[0].created_utc
-        self.date_end = chapters[-1].created_utc
+        self.author_name = chapters[0].author  # assume all the chapters have the same author
+        self.date_start = min([chapter.date_published for chapter in chapters])
+        self.date_end = max([chapter.date_updated for chapter in chapters])  # TODO maybe not edited
 
         self.title = self.calculate_title()
         self.id = self.calculate_id()
