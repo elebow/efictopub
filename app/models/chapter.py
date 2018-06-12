@@ -30,3 +30,20 @@ class Chapter:
         self.score = score
         self.text = text
         self.title = title
+
+    def as_dict(self):
+        attr_names = ["author", "comments", "date_published", "date_updated", "permalink", "score", "text",
+                      "title"]
+        mapping = {name: getattr(self, name) for name in attr_names}
+        return mapping
+
+    @classmethod
+    def from_dict(cls, mapping):
+        return cls(author=mapping["author"],
+                   comments=mapping["comments"],
+                   date_published=mapping["date_published"],
+                   date_updated=mapping["date_updated"],
+                   permalink=mapping["permalink"],
+                   score=mapping["score"],
+                   text=mapping["text"],
+                   title=mapping["title"])
