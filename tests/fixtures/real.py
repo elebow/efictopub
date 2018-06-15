@@ -29,3 +29,9 @@ def comment_real(n):
 
 def comments_real(count):
     return [comment_real(n) for n in range(0, count)]
+
+
+def praw_submissions_real():
+    import pickle
+    with open("tests/fixtures/array_of_3_submissions_with_comments.pickle", "rb") as file:
+        return pickle.load(file)

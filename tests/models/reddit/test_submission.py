@@ -1,52 +1,22 @@
-import praw
-import pytest
-from unittest.mock import MagicMock
-
 from app.models import reddit
 
-
-@pytest.fixture()
-def praw_submissions():
-    import pickle
-    with open("tests/fixtures/array_of_3_submissions_with_comments.pickle", "rb") as file:
-        return pickle.load(file)
-
-
-@pytest.fixture
-def submission_alone():
-    return MagicMock(selftext="aaa")
-
-
-@pytest.fixture
-def submission_author_note():
-    comment = MagicMock(body="short author note")
-    praw_submission = MagicMock(selftext="aaa")
-    comment_forest = praw.models.comment_forest.CommentForest(praw_submission, [comment])
-    praw_submission.comments = comment_forest
-    return praw_submission
-
-
-@pytest.fixture
-def submission_continued_in_comments():
-    comment2 = MagicMock(body="long continuation 2" * 200)
-    comment1 = MagicMock(body="long continuation 1" * 200, replies=[comment2])
-    praw_submission = MagicMock(selftext="aaa")
-    comment_forest = praw.models.comment_forest.CommentForest(praw_submission, [comment1])
-    praw_submission.comments = comment_forest
-    return praw_submission
+from tests.fixtures.real import praw_submissions_real
+from tests.fixtures.doubles import praw_submission_double, \
+    praw_submission_with_author_note_double, \
+    praw_submission_continued_in_comments_double
 
 
 class TestSubmission:
 
     def setup_method(self):
-        self.submissions = [reddit.Submission(s) for s in praw_submissions()]
+        self.submissions = [reddit.Submission(s) for s in praw_submissions_real()]
 
-    def test_comments(self, praw_submissions):
+    def test_comments(self):
         comments = self.submissions[0].comments
         assert len(comments) == 9
-        assert comments[0].replies[0].author_name == "WTMAWLR"
+        assert comments[0].replies[0].author == "WTMAWLR (AI)"
 
-    def test_init(self, praw_submissions):
+    def test_init(self):
         submission = self.submissions[1]
         assert submission.ups == 49
         assert len(submission.comments) == 4
@@ -54,21 +24,21 @@ class TestSubmission:
         assert len(submission.comments[1].replies[0].replies) == 1
         assert len(submission.comments[1].replies[0].replies[0].replies) == 0
 
-    def test_all_links_in_text(self, praw_submissions):
+    def test_all_links_in_text(self):
         links = self.submissions[0].all_links_in_text()
         assert links[0].text == '[Next Part]'
 
-    def test_extract_text_submission(self, submission_alone):
-        chapter = reddit.Submission(submission_alone)
+    def test_extract_text_submission(self):
+        chapter = reddit.Submission(praw_submission_double())
         assert chapter.get_text() == "aaa"
 
-    def test_extract_text_submission_note(self, submission_author_note):
-        chapter = reddit.Submission(submission_author_note)
+    def test_extract_text_submission_note(self):
+        chapter = reddit.Submission(praw_submission_with_author_note_double())
         assert chapter.get_text() == "aaa"
-        assert chapter.comments[0].body == "short author note"
+        assert chapter.comments[0].text == "short author note"
 
-    def test_extract_text_submission_continued(self, submission_continued_in_comments):
-        chapter = reddit.Submission(submission_continued_in_comments)
+    def test_extract_text_submission_continued(self):
+        chapter = reddit.Submission(praw_submission_continued_in_comments_double())
         assert chapter.get_text() == ("aaa" + "long continuation 1" * 200 + "long continuation 2" * 200)
-        assert chapter.comments[0].body == "[efictopub]: included in chapter text"
-        assert chapter.comments[0].replies[0].body == "[efictopub]: included in chapter text"
+        assert chapter.comments[0].text == "[efictopub]: included in chapter text"
+        assert chapter.comments[0].replies[0].text == "[efictopub]: included in chapter text"

@@ -35,10 +35,10 @@ class Submission:
 
         comment = self.comments[0]
         while True:
-            if len(comment.body) > 2000:
+            if len(comment.text) > 2000:
                 # Dumb heuristic to differentiate author notes from actual content
-                text += comment.body
-                comment.body = "[efictopub]: included in chapter text"
+                text += comment.text
+                comment.text = "[efictopub]: included in chapter text"
 
             if comment.replies == []:
                 break
