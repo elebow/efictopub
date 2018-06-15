@@ -10,8 +10,8 @@ def chapter_double(n=0):
                           permalink=f"permalink {n}",
                           author=f"great author {n}",
                           score=5,
-                          text=f"chapter {n}",
-                          title=f"great title {n}")
+                          text=f"chapter content {n}",
+                          title=f"chapter title {n}")
 
 
 def chapters_double(count):
@@ -107,3 +107,12 @@ def praw_submission_continued_in_comments_double(n=0):
                           selftext="aaa",
                           title=f"some title {n}",
                           ups=5)
+
+
+def story_double():
+    return InstanceDouble("app.models.story.Story",
+                          author_name="great author",
+                          chapters=chapters_double(3),
+                          date_start="start date",
+                          date_end="end date",
+                          title="great title")
