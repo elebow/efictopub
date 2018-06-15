@@ -8,6 +8,7 @@ ipdb = "*"
 pytest = "*"
 "flake8" = "*"
 pytest-cov = "*"
+doubles = "*"
 
 [requires]
 python_version = "3.6"
