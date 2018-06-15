@@ -17,7 +17,7 @@ class TestMain:
         subject = Main(args)
         story = subject.get_story()
 
-        assert [chap.get_text() for chap in story.chapters] == ["chapter 0", "chapter 1", "chapter 2"]
+        assert [chap.text for chap in story.chapters] == ["chapter 0", "chapter 1", "chapter 2"]
         assert story.author_name == "great author 0"
         assert story.date_start == "start date 0"
         assert story.date_end == "end date 2"
