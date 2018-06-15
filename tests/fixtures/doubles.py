@@ -5,13 +5,13 @@ import praw
 def chapter_double(n=0):
     return InstanceDouble("app.models.chapter.Chapter",
                           comments=comments_double(3),
-                          date_published=f"start_date {n}",
-                          date_updated=f"end_date {n}",
+                          date_published=f"start date {n}",
+                          date_updated=f"end date {n}",
                           permalink=f"permalink {n}",
-                          author=f"great-author {n}",
+                          author=f"great author {n}",
                           score=5,
                           text=f"chapter {n}",
-                          title=f"great-title {n}")
+                          title=f"great title {n}")
 
 
 def chapters_double(count):
