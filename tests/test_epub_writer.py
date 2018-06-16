@@ -1,3 +1,5 @@
+from ebooklib import epub
+
 from unittest import mock
 from unittest.mock import patch
 
@@ -29,3 +31,12 @@ class TestEpubWriter:
             ["chapter title 0", "chapter title 1", "chapter title 2"]
         assert [chap.content for chap in subject.book.items] == \
             ["chapter content 0", "chapter content 1", "chapter content 2"]
+
+    def test_add_toc(self):
+        subject = EpubWriter(story_double(), "_outfile.epub")
+        subject.add_toc()
+
+        assert isinstance(subject.book.toc, tuple)
+        assert [item.__class__ for item in subject.book.toc] == [epub.EpubHtml] * 3
+        assert [item.file_name for item in subject.book.toc] == \
+            ["chap_000.xhtml", "chap_001.xhtml", "chap_002.xhtml"]

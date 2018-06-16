@@ -18,6 +18,9 @@ class EpubWriter:
 
         self.add_chapters()
 
+        self.add_toc()
+        self.book.add_item(epub.EpubNcx())
+
         self.book.spine = ["nav"] + self.book.items
 
         epub.write_epub(self.outfile_name, self.book)
@@ -25,6 +28,9 @@ class EpubWriter:
     def add_chapters(self):
         for chapter in self.epub_chapters():
             self.book.add_item(chapter)
+
+    def add_toc(self):
+        self.book.toc = tuple(chapter for chapter in self.epub_chapters())
 
     @functools.lru_cache()
     def build_epub_html(self, chapter, num):
