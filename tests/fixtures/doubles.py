@@ -2,6 +2,9 @@ from doubles import InstanceDouble
 import praw
 
 
+from tests.fixtures.real import praw_submissions_real
+
+
 def chapter_double(n=0):
     return InstanceDouble("app.models.chapter.Chapter",
                           comments=comments_double(3),
@@ -36,6 +39,13 @@ def comments_double(count):
 def praw_redditor(n=0):
     return InstanceDouble("praw.models.Redditor",
                           name=f"redditor {n}")
+
+
+def praw_redditor_with_real_submissions_double(name="some redditor"):
+    return InstanceDouble("praw.models.Redditor",
+                          name=name,
+                          submissions=InstanceDouble("praw.models.listing.mixins.redditor.SubListing",
+                                                     new=praw_submissions_real))
 
 
 def praw_comment_double(n=0, author="some author", body="some body text", replies=[]):
