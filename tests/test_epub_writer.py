@@ -24,7 +24,7 @@ class TestEpubWriter:
         subject.add_chapters()
 
         assert [chap.file_name for chap in subject.book.items] == \
-            ["chap_0.xhtml", "chap_1.xhtml", "chap_2.xhtml"]
+            ["chap_000.xhtml", "chap_001.xhtml", "chap_002.xhtml"]
         assert [chap.title for chap in subject.book.items] == \
             ["chapter title 0", "chapter title 1", "chapter title 2"]
         assert [chap.content for chap in subject.book.items] == \

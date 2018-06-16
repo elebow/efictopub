@@ -28,7 +28,7 @@ class EpubWriter:
 
     @functools.lru_cache()
     def build_epub_html(self, chapter, num):
-        file_name = "chap_%d.xhtml" % num  # TODO pad the number
+        file_name = f"chap_{num:03}.xhtml"
         epub_html = epub.EpubHtml(title=chapter.title, file_name=file_name, lang="en")
         epub_html.content = chapter.text
         return epub_html
