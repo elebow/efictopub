@@ -96,6 +96,10 @@ def praw_submission_continued_in_comments_double(n=0):
     return praw_submission_double(author=author, comments=comment_forest)
 
 
+def praw_submission_with_ambiguous_next():
+    return praw_submission_double(selftext="[next](link1) [next](link2)")
+
+
 def story_double():
     return InstanceDouble("app.models.story.Story",
                           author_name="great author",

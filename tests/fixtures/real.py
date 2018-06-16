@@ -35,3 +35,10 @@ def praw_submissions_real():
     import pickle
     with open("tests/fixtures/array_of_3_submissions_with_comments.pickle", "rb") as file:
         return pickle.load(file)
+
+
+def find_praw_submission_real(_self=None, *, url=None, id=None):
+    if url is not None:
+        return [subm for subm in praw_submissions_real() if subm.url == url][0]
+    elif id is not None:
+        return [subm for subm in praw_submissions_real() if subm.id == id][0]
