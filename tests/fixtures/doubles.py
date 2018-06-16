@@ -73,7 +73,7 @@ def praw_submission_double(n=0, author=-1, comments=[], selftext="some selftext"
                           edited=f"edited timestamp {n}",
                           id="reddit id {n}",
                           permalink=f"permalink {n}",
-                          selftext="aaa",
+                          selftext=selftext,
                           title=f"some title {n}",
                           ups=5)
 
@@ -82,20 +82,6 @@ def praw_submission_with_author_note_double(n=0):
     author = praw_redditor()
     comment = praw_comment_double(author=author, body="short author note")
     return praw_submission_double(author=author, comments=[comment])
-    """
-    # CommentForest is bothersome to mock. It needs to be iterable.
-    comment_forest = praw.models.comment_forest.CommentForest(None, [comment])
-    return InstanceDouble("praw.models.Submission",
-                          author=author,
-                          comments=comment_forest,
-                          created_utc=f"created utc {n}",
-                          edited=f"edited timestamp {n}",
-                          id="reddit id {n}",
-                          permalink=f"permalink {n}",
-                          selftext="aaa",
-                          title=f"some title {n}",
-                          ups=5)
-    """
 
 
 def praw_submission_continued_in_comments_double(n=0):
@@ -107,16 +93,7 @@ def praw_submission_continued_in_comments_double(n=0):
                                    body="long continuation 1" * 200,
                                    replies=[comment2])
     comment_forest = praw.models.comment_forest.CommentForest(None, [comment1])
-    return InstanceDouble("praw.models.Submission",
-                          author=author,
-                          comments=comment_forest,
-                          created_utc=f"created utc {n}",
-                          edited=f"edited timestamp {n}",
-                          id="reddit id {n}",
-                          permalink=f"permalink {n}",
-                          selftext="aaa",
-                          title=f"some title {n}",
-                          ups=5)
+    return praw_submission_double(author=author, comments=comment_forest)
 
 
 def story_double():
