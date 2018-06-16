@@ -1,6 +1,7 @@
 import os
 import yaml
 
+from app import config
 from app.models.story import Story
 from app.models.chapter import Chapter
 from app.models.comment import Comment
@@ -24,7 +25,7 @@ class Archive:
 
     @staticmethod
     def path(id):
-        return f"{os.environ.get('HOME')}/.efictopub/archive/{id}.yml"  # TODO make configurable
+        return f"{config.archive.location}/{id}.yml"
 
 
 def story_representer(dumper, story):

@@ -19,7 +19,7 @@ def load(filename):
                     user_agent=cfg.get("REDDIT", "user_agent"))
     archive = Archive(location=cfg.get("ARCHIVE",
                                        "location",
-                                       fallback="%s/.efictopub/archive/" % os.environ.get("HOME")))
+                                       fallback="%s/.efictopub/archive" % os.environ.get("HOME")))
 
 
 load("config.ini")  # TODO filename from dotenv?
