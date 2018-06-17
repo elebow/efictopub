@@ -6,11 +6,17 @@ class Story:
         self.manual_title = title
         self.chapters = chapters
         self.author_name = chapters[0].author  # assume all the chapters have the same author
-        self.date_start = min([chapter.date_published for chapter in chapters])
-        self.date_end = max([chapter.date_updated for chapter in chapters])  # TODO maybe not edited
+        self.date_start = self.calculate_date_start()
+        self.date_end = self.calculate_date_end()
 
         self.title = self.calculate_title()
         self.id = self.calculate_id()
+
+    def calculate_date_start(self):
+        return min([chapter.date_published for chapter in self.chapters])
+
+    def calculate_date_end(self):
+        return max([max(chapter.date_published, chapter.date_updated) for chapter in self.chapters])
 
     def calculate_id(self):
         return urllib.parse.quote_plus(str(self.date_start) + self.chapters[0].permalink)

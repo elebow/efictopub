@@ -20,8 +20,6 @@ class TestMain:
         assert [chap.text for chap in story.chapters] == \
             ["chapter content 0", "chapter content 1", "chapter content 2"]
         assert story.author_name == "great author 0"
-        assert story.date_start == "start date 0"
-        assert story.date_end == "end date 2"
 
     def test__fetcher_names(self):
         TestCase().assertCountEqual(Main._fetcher_names(),

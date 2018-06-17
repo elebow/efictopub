@@ -5,11 +5,11 @@ import praw
 from tests.fixtures.real import praw_submissions_real
 
 
-def chapter_double(n=0):
+def chapter_double(n=0, date_published=f"start date", date_updated=f"end date"):
     return InstanceDouble("app.models.chapter.Chapter",
                           comments=comments_double(3),
-                          date_published=f"start date {n}",
-                          date_updated=f"end date {n}",
+                          date_published=date_published,
+                          date_updated=date_updated,
                           permalink=f"permalink {n}",
                           author=f"great author {n}",
                           score=5,

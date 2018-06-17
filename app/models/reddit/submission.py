@@ -51,7 +51,7 @@ class Submission:
         return Chapter(author=self.author_name,
                        comments=self.comments,
                        date_published=self.created_utc,
-                       date_updated=self.edited,  # TODO is self.edited a date or a bool?
+                       date_updated=self.edited,  # TODO self.edited is a timestamp or False
                        permalink=self.permalink,
                        score=self.ups,
                        text=self.selftext,
