@@ -30,7 +30,7 @@ class TestEpubWriter:
         assert [chap.title for chap in subject.book.items] == \
             ["chapter title 0", "chapter title 1", "chapter title 2"]
         assert [chap.content for chap in subject.book.items] == \
-            ["chapter content 0", "chapter content 1", "chapter content 2"]
+            ["<p>chapter content 0</p>\n", "<p>chapter content 1</p>\n", "<p>chapter content 2</p>\n"]
 
     def test_add_toc(self):
         subject = EpubWriter(story_double(), "_outfile.epub")

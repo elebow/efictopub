@@ -1,6 +1,8 @@
 from ebooklib import epub
 import functools
 
+from app.markdown_parser import MarkdownParser
+
 
 class EpubWriter:
     def __init__(self, story, outfile_name):
@@ -36,7 +38,7 @@ class EpubWriter:
     def build_epub_html(self, chapter, num):
         file_name = f"chap_{num:03}.xhtml"
         epub_html = epub.EpubHtml(title=chapter.title, file_name=file_name, lang="en")
-        epub_html.content = chapter.text
+        epub_html.content = MarkdownParser(chapter.text).as_html()
         return epub_html
 
     @functools.lru_cache()

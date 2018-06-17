@@ -1,6 +1,6 @@
 from collections import namedtuple
 import mistletoe
-from mistletoe import ast_renderer
+from mistletoe import ast_renderer, html_renderer
 import re
 
 
@@ -11,6 +11,10 @@ class MarkdownParser:
         self.mt_document = mistletoe.Document(src + "\n")
         self.tree = ast_renderer.get_ast(self.mt_document)
         self.links = [self.build_link(link) for link in self.generate_nodes(self.tree, node_type="Link")]
+
+    def as_html(self):
+        renderer = html_renderer.HTMLRenderer()
+        return renderer.render(self.mt_document)
 
     # Return all the links contaning a specified string.
     # This is useful for finding prev/next links in a post that is part of a series.

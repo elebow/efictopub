@@ -15,6 +15,16 @@ here is some markdown
 """
         self.parser = MarkdownParser(self.src)
 
+    def test_as_html(self):
+        assert self.parser.as_html() == """<p>here is some markdown
+<a href="example.com/first">Prev</a>
+<a href="example.com/second" title="title goes here">click here for next, with a title</a>
+<a href="example.com/third">link with <em>formatting</em> in it</a>
+(malformed link 1)[example.com]
+[malformed link 2] (example.com)
+<a href="example.com/not_next">snexto</a></p>
+"""
+
     def test_parse_links(self):
         assert(len(self.parser.links) == 4)
 

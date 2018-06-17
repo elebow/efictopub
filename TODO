@@ -11,3 +11,4 @@ guess abandomment by average update interval and time since last update
 readme with instructions for adding new fetchers
 separate field in Chapter for author's notes. Before and after notes.
 	This might need to be manually filled by editing the yml
+future fetchers should return Chapters with the content converted to markdown, if not already
