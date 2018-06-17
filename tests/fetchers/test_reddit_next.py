@@ -8,7 +8,7 @@ from tests.fixtures.doubles import praw_submission_with_ambiguous_next
 from tests.fixtures.real import praw_submissions_real, find_praw_submission_real
 
 
-class TestFetchersReddit:
+class TestFetchersRedditNext:
     @patch("praw.models.Submission", find_praw_submission_real)
     def test_submissions_following_next_links(self):
         subms = fetchers.RedditNext(praw_submissions_real()[0]).fetch_chapters()

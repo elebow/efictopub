@@ -1,19 +1,16 @@
-import re
-
 from collections import namedtuple
+import mistletoe
+from mistletoe import ast_renderer
+import re
 
 
 class MarkdownParser:
-    # This regexp-based parser fails to account for the markdown syntax that allows
-    # links to be defined first and the href supplied later in the document.
-    LINK_REGEXP = re.compile(r'\[(.*?)\]\((.*?)(?: "(.*)")?\)', re.IGNORECASE)
-
     Link = namedtuple("Link", ["href", "text", "title"])
 
     def __init__(self, src):
-        self.src = src
-
-        self.parse_links()
+        self.mt_document = mistletoe.Document(src + "\n")
+        self.tree = ast_renderer.get_ast(self.mt_document)
+        self.links = [self.build_link(link) for link in self.generate_nodes(self.tree, node_type="Link")]
 
     # Return all the links contaning a specified string.
     # This is useful for finding prev/next links in a post that is part of a series.
@@ -22,9 +19,18 @@ class MarkdownParser:
         regexp_to_find = re.compile(r"\b%s\b" % text_to_find, re.IGNORECASE)
         return [link for link in self.links if regexp_to_find.search(link.text)]
 
-    def parse_links(self):
-        self.links = [
-            self.Link(href=link[1], text=link[0], title=link[2])
-            for link
-            in self.LINK_REGEXP.findall(self.src)
-        ]
+    def generate_nodes(self, node, *, node_type):
+        if node["type"] == node_type:
+            yield node
+
+        if "children" in node.keys():
+            for child in node["children"]:
+                for link in self.generate_nodes(child, node_type=node_type):
+                    yield link
+
+    def build_link(self, link_dict):
+        return self.Link(href=link_dict["target"],
+                         text="".join([text["content"]
+                                       for text
+                                       in self.generate_nodes(link_dict, node_type="RawText")]),
+                         title=link_dict["title"])
