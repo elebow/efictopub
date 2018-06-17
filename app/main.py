@@ -32,8 +32,9 @@ class Main:
 
     def output(self, story):
         if self.args.action == "write_epub":
-            EpubWriter(story, "outfile.epub").write_epub()
-            print("wrote epub")
+            outfile = self.args.outfile if self.args.outfile else "book.epub"
+            EpubWriter(story, outfile).write_epub()
+            print(f"wrote {outfile}")
 
     @staticmethod
     @functools.lru_cache()
