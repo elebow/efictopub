@@ -8,12 +8,14 @@ from app.main import Main
 
 parser = argparse.ArgumentParser(description="Process some integers.")
 parser.add_argument("fetcher", type=str,
-                    help=f"the fetcher to use ({', '.join(Main._fetcher_names())})")
+                    help=f"fetcher to use ({', '.join(Main._fetcher_names())})")
 parser.add_argument("target", type=str,
-                    help="the target story or document containing list of stories (URL, reddit ID, etc)")
+                    help="target story or document containing list of stories (URL, reddit ID, etc)")
+parser.add_argument("action", type=str,
+                    help="action to perform after fetching story (default: write_epub")
 
 parser.add_argument("--config", "-c", dest="config_file", action="store", default=config.default_config_file,
-                    help=f"specify config file (default {config.default_config_file})")
+                    help=f"specify config file (default: {config.default_config_file})")
 
 parser.add_argument("--no-archive", dest="archive", action="store_false", default=True,
                     help="do not write the story to the archive")
