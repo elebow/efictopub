@@ -8,6 +8,9 @@ Reddit = namedtuple("Reddit", ["app", "secret", "user_agent"])
 Archive = namedtuple("Archive", ["location"])
 
 
+default_config_file = f"{os.environ.get('HOME')}/.efictopub/config.ini"
+
+
 def load(filename):
     import configparser
     cfg = configparser.ConfigParser()
@@ -22,4 +25,4 @@ def load(filename):
                                        fallback="%s/.efictopub/archive" % os.environ.get("HOME")))
 
 
-load("config.ini")  # TODO filename from dotenv?
+load(default_config_file)   # always attempt to load the default, in case we load this module without Main

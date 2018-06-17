@@ -30,7 +30,7 @@ class TestConfig:
         config.load("_whatever.ini")  # re-load with our stubbed ConfigParser
 
     def teardown(self):
-        config.load("config.ini")  #TODO
+        config.load(config.default_config_file)
 
     def test_reddit(self):
         assert dict(config.reddit._asdict()) == {"app": "my-great-app",

@@ -5,6 +5,7 @@ import inspect
 import yaml
 
 from app import archive
+from app import config
 from app.exceptions import UnknownFetcherError
 from app import fetchers
 from app.epub_writer import EpubWriter
@@ -15,6 +16,8 @@ class Main:
         self.args = args
 
     def run(self):
+        config.load(self.args.config_file)
+
         story = self.get_story()
         archive.store(story)
         self.output(story)
