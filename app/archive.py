@@ -11,17 +11,17 @@ from app.models.comment import Comment
 """Saves and retrieves copies of stories on disk."""
 
 
-def get(id):
-    with open(path(id), "r") as infile:
+def get(id_or_path):
+    with open(id_or_path_to_path(id_or_path), "r") as infile:
         return yaml.safe_load(infile)
 
 
 def store(story):
-    with open(path(story.id), "w") as outfile:
+    path = f"{config.archive.location}/{story.id}.yml"
+    with open(path, "w") as outfile:
         return yaml.safe_dump(story, outfile)
 
-
-def path(id_or_path):
+def id_or_path_to_path(id_or_path):
     if "/" in id_or_path:
         # if it contains a slash, assume it's a path
         # TODO: use a more reliable heuristic. Or just assume it's a path and fall back to id.
