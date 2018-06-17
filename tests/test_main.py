@@ -11,7 +11,7 @@ from tests.fixtures.doubles import chapters_double
 class TestMain:
 
     @patch("app.fetchers.RedditNext.fetch_chapters", lambda _x: chapters_double(3))
-    @patch("app.archive.Archive.store")
+    @patch("app.archive.store")
     def test_fetch_from_reddit_next(self, archive):
         args = MagicMock(fetcher="RedditNext", target="_whatever-url-or-id")
         subject = Main(args)

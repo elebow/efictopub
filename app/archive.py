@@ -1,31 +1,40 @@
-import os
+import glob
 import yaml
 
 from app import config
+from app.exceptions import NoArchivedStoryError, AmbiguousArchiveIdError
 from app.models.story import Story
 from app.models.chapter import Chapter
 from app.models.comment import Comment
 
 
-class Archive:
-    """Saves and retrieves copies of stories on disk."""
+"""Saves and retrieves copies of stories on disk."""
 
-    @staticmethod
-    def get(id):
-        # TODO accept partial ids, as long as they map to a unique file
-        # TODO if id contains a slash, assume it is a path rather than an id.
-        #    No, use a more reliable heuristic than presence of a slash
-        with open(Archive.path(id), "r") as infile:
-            return yaml.safe_load(infile)
 
-    @staticmethod
-    def store(story):
-        with open(Archive.path(story.id), "w") as outfile:
-            return yaml.safe_dump(story, outfile)
+def get(id):
+    with open(path(id), "r") as infile:
+        return yaml.safe_load(infile)
 
-    @staticmethod
-    def path(id):
-        return f"{config.archive.location}/{id}.yml"
+
+def store(story):
+    with open(path(story.id), "w") as outfile:
+        return yaml.safe_dump(story, outfile)
+
+
+def path(id_or_path):
+    if "/" in id_or_path:
+        # if it contains a slash, assume it's a path
+        # TODO: use a more reliable heuristic. Or just assume it's a path and fall back to id.
+        return id_or_path
+    else:
+        candidates = glob.glob(f"{config.archive.location}/{id_or_path}*")
+        num_candidates = len(candidates)
+        if num_candidates == 0:
+            raise NoArchivedStoryError(id_or_path)
+        elif num_candidates == 1:
+            return candidates[0]
+        else:
+            raise AmbiguousArchiveIdError(id_or_path)
 
 
 def story_representer(dumper, story):

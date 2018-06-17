@@ -4,7 +4,7 @@ import functools
 import inspect
 import yaml
 
-from app.archive import Archive
+from app import archive
 from app.exceptions import UnknownFetcherError
 from app import fetchers
 from app.epub_writer import EpubWriter
@@ -16,7 +16,7 @@ class Main:
 
     def run(self):
         story = self.get_story()
-        Archive.store(story)
+        archive.store(story)
         self.output(story)
 
     def get_story(self):
