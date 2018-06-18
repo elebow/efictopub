@@ -44,8 +44,15 @@ class EpubWriter:
     def build_epub_html(self, chapter, num):
         file_name = f"chap_{num:03}.xhtml"
         epub_html = epub.EpubHtml(title=chapter.title, file_name=file_name, lang="en")
-        epub_html.content = MarkdownParser(chapter.text).as_html()
+        epub_html.content = MarkdownParser(self.text_for_chapter(chapter)).as_html()
         return epub_html
+
+    @functools.lru_cache()
+    def text_for_chapter(self, chapter):
+        if len(self.story.chapters) > 1:
+            return f"{chapter.title}\n\n{chapter.text}"
+        else:
+            return chapter.text
 
     @functools.lru_cache()
     def epub_chapters(self):
