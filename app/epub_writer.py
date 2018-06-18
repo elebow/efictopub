@@ -18,6 +18,7 @@ class EpubWriter:
         #self.story.date_start  # TODO decide which should be the publish date
         #self.story.date_end
 
+        self.add_cover()
         self.add_chapters()
 
         self.add_toc()
@@ -30,6 +31,11 @@ class EpubWriter:
     def add_chapters(self):
         for chapter in self.epub_chapters():
             self.book.add_item(chapter)
+
+    def add_cover(self):
+        page = epub.EpubHtml(uid="cover", title="cover", file_name="cover.xhtml")
+        page.content = f"{self.story.title}<br>by {self.story.author_name}"
+        self.book.add_item(page)
 
     def add_toc(self):
         self.book.toc = tuple(chapter for chapter in self.epub_chapters())

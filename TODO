@@ -12,3 +12,5 @@ readme with instructions for adding new fetchers
 separate field in Chapter for author's notes. Before and after notes.
 	This might need to be manually filled by editing the yml
 future fetchers should return Chapters with the content converted to markdown, if not already
+Generate a (text-only) cover image for readers that can display such things
+Add metadata to cover page text, including permalink, whether the story is ongoing (or dead), which site it came from, word count, etc.

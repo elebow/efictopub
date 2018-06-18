@@ -1,5 +1,6 @@
 from ebooklib import epub
 
+from doubles import allow
 from unittest import mock
 from unittest.mock import patch
 
@@ -20,6 +21,14 @@ class TestEpubWriter:
         assert subject.book.language == "en"
         assert subject.book.metadata["http://purl.org/dc/elements/1.1/"]["creator"][0][0] == "great author"
         write_epub_mock.assert_called_once_with("outfile.epub", mock.ANY)
+
+    def test_add_cover(self):
+        allow(epub).write_epub
+
+        subject = EpubWriter(story_double(), "outfile.epub")
+        subject.write_epub()
+
+        assert subject.book.items[0].content == "great title<br>by great author"
 
     def test_add_chapters(self):
         subject = EpubWriter(story_double(), "_outfile.epub")
