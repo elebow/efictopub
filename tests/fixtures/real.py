@@ -31,6 +31,11 @@ def comments_real(count):
     return [comment_real(n) for n in range(0, count)]
 
 
+def ffnet_chapter_real():
+    with open("tests/fixtures/www.fanfiction.net_1.html", "rb") as file:
+        return file.read()
+
+
 def praw_submissions_real():
     import pickle
     with open("tests/fixtures/array_of_3_submissions_with_comments.pickle", "rb") as file:

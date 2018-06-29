@@ -7,7 +7,6 @@ from tests.fixtures.doubles import praw_submission_double, \
 
 
 class TestSubmission:
-
     def setup_method(self):
         self.submissions = [reddit.Submission(s) for s in praw_submissions_real()]
 
