@@ -31,7 +31,7 @@ def comments_real(count):
     return [comment_real(n) for n in range(0, count)]
 
 
-def ffnet_chapter_real():
+def ffnet_chapter_html_real():
     with open("tests/fixtures/www.fanfiction.net_1.html", "rb") as file:
         return file.read()
 

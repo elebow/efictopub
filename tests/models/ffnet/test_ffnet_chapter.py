@@ -1,11 +1,11 @@
 from app.models.ffnet.ffnet_chapter import FFNetChapter
 
-from tests.fixtures.real import ffnet_chapter_real
+from tests.fixtures.real import ffnet_chapter_html_real
 
 
 class TestFFnetChapter:
     def setup_method(self):
-        html = ffnet_chapter_real()
+        html = ffnet_chapter_html_real()
         self.subject = FFNetChapter(html)
 
     def test_set_fields_from_html(self):
