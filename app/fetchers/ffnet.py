@@ -25,7 +25,7 @@ class FFNet(fetchers.BaseFetcher):
         for n in iter(int, 1):
             url = self.story_base_url + str(n)
             response = requests.get(url)
-            if response.status_code == 404:
+            if "FanFiction.Net Message Type 1<hr size=1 noshade>Chapter not found." in str(response.text):
                 return
             yield response.text
 
