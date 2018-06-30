@@ -36,6 +36,11 @@ def ffnet_chapter_html_real():
         return file.read()
 
 
+def ffnet_chapter_2_html_real():
+    with open("tests/fixtures/www.fanfiction.net_2.html", "rb") as file:
+        return file.read()
+
+
 def praw_submissions_real():
     import pickle
     with open("tests/fixtures/array_of_3_submissions_with_comments.pickle", "rb") as file:

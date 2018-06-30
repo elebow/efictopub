@@ -16,7 +16,7 @@ class TestFFnetChapter:
         assert self.subject.date_published == 1279499410
         assert self.subject.ffnet_id == "555"
         assert self.subject.permalink == "https://www.fanfiction.net/s/555/1/My-Great-Story"
-        assert self.subject.text == "Story Text *Goes* **Here**"
+        assert self.subject.text == "Story Text *Goes* **Here**. Chapter 1."
         assert self.subject.reviews == []
 
     def test_as_chapter(self):
@@ -28,5 +28,5 @@ class TestFFnetChapter:
         assert chapter.date_updated == 1290054512
         assert chapter.permalink == "https://www.fanfiction.net/s/555/1/My-Great-Story"
         assert chapter.score == "5,555"
-        assert chapter.text == "Story Text *Goes* **Here**"
+        assert chapter.text == "Story Text *Goes* **Here**. Chapter 1."
         assert chapter.title == "My Great Story"
