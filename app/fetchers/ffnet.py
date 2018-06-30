@@ -1,5 +1,7 @@
+import itertools
 import re
 import requests
+import time
 
 from app import fetchers
 from app.models.ffnet.ffnet_chapter import FFNetChapter
@@ -22,7 +24,7 @@ class FFNet(fetchers.BaseFetcher):
         return (FFNetChapter(html) for html in self.generate_htmls())
 
     def generate_htmls(self):
-        for n in iter(int, 1):
+        for n in itertools.count(1):
             url = self.story_base_url + str(n)
             response = requests.get(url)
             if "FanFiction.Net Message Type 1<hr size=1 noshade>Chapter not found." in str(response.text):
@@ -30,7 +32,7 @@ class FFNet(fetchers.BaseFetcher):
             yield response.text
 
     def calculate_story_base_url(self, id_or_url):
-        if re.match(r'\d+$', id_or_url):
+        if re.match(r"\d+$", id_or_url):
             return f"https://www.fanfiction.net/s/{id_or_url}/"
 
         matches = re.findall(r"(.*//www.fanfiction.net/s/\d+/)\d+/.*", id_or_url)
