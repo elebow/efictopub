@@ -26,9 +26,12 @@ class FFNet(fetchers.BaseFetcher):
     def generate_htmls(self):
         for n in itertools.count(1):
             url = self.story_base_url + str(n)
+            print(f"Fetching {url}")
             response = requests.get(url)
             if "FanFiction.Net Message Type 1<hr size=1 noshade>Chapter not found." in str(response.text):
+                print("Done")
                 return
+            print("OK")
             yield response.text
 
     def calculate_story_base_url(self, id_or_url):

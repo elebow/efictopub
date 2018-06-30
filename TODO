@@ -14,3 +14,4 @@ Generate a (text-only?) cover image for readers that can display such things
 Add metadata to cover page text, including permalink, whether the story is ongoing (or dead), which site it came from, word count, etc.
 FF.net chapter titles
 FF.net story score (just pick any of the chapter scores, because they actually apply to the story as a whole)
+rate limit non-reddit fetchers (PRAW has rate limiting built in)
