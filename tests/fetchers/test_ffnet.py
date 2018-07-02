@@ -16,7 +16,7 @@ class TestFetchersFFNet:
         ]
         fetcher = FFNet("https://www.fanfiction.net/s/555/8/")
         story = fetcher.fetch_story()
-        assert story.title == "My Great Story"
+        assert story.title == "[auto title] My Great Story"
         assert [ch.text for ch in story.chapters] == [
             "Story Text *Goes* **Here**. Chapter 1.",
             "Story Text *Goes* **Here**. Chapter 2."

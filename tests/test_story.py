@@ -26,4 +26,4 @@ class TestStory:
         assert self.subject.id == "start_date+0permalink+0"
 
     def test_calculate_title(self):
-        assert self.subject.title == "great-title 0"
+        assert self.subject.title == "[auto title] great-title 0"
