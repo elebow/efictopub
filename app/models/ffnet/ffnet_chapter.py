@@ -11,13 +11,13 @@ class FFNetChapter:
         self.set_fields_from_html(html)
 
     def set_fields_from_html(self, html):
-        dom = bs4.BeautifulSoup(html, "html.parser")
+        dom = bs4.BeautifulSoup(html, "lxml")
         info_box = dom.select("#profile_top")[0]
         info_fields = info_box.select(".xcontrast_txt")
 
         self.author_name = info_fields[2].text.strip()
-        self.title = info_fields[0].text.strip()
-        # self.summary = info_fields[5]  # TODO unused for now
+        self.title = dom.select("#chap_select")[0].find_all("option", selected=True)[0].text.strip()
+        self.summary = info_fields[5]  # TODO do something with this
 
         matches = re.findall(
             r".*Favs:\s+([\d,]+).*Updated:.*?xutime=\"(\d+)\".*?Published:.*?xutime=\"(\d+)\".*?id:\s+(\d+)",
