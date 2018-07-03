@@ -24,6 +24,9 @@
    </div>
   </div>
   <div id="profile_top" style="min-height:112px;">
+	 <span style='cursor:pointer;' title='Click for Larger Image' onclick="var t = $('#img_large img');t.prop('src',t.attr('data-original'));$('#img_large').modal();">
+    <img class='cimage ' style='clear:left;float:left;margin-right:3px;padding:2px;border:1px solid #ccc;-moz-border-radius:2px;-webkit-border-radius:2px;' src='//whatever.example.com/image/4570036/75/' width=75 height=100>
+   </span>
    <button class="btn pull-right icon-heart" onclick='$("#follow_area").modal();' type="button">
     Follow/Fav
    </button>

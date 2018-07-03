@@ -12,3 +12,4 @@ Add metadata to cover page text, including permalink, whether the story is ongoi
 FF.net story score (just pick any of the chapter scores, because they actually apply to the story as a whole)
 rate limit non-reddit fetchers (PRAW has rate limiting built in)
 html2text preserve <center>. Commonmark allows it.
+cover images, for sources that have them
