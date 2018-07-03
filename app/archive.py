@@ -21,6 +21,7 @@ def store(story):
     with open(path, "w") as outfile:
         return yaml.safe_dump(story, outfile)
 
+
 def id_or_path_to_path(id_or_path):
     if "/" in id_or_path:
         # if it contains a slash, assume it's a path

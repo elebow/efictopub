@@ -1,3 +1,5 @@
+import functools
+
 import app.archive
 from app import fetchers
 
@@ -8,11 +10,13 @@ class Archive(fetchers.BaseFetcher):
     Note that ID can be partial, as long as it is unique.
     """
 
-    def __init__(self, id):
-        self.id = id
+    def __init__(self, id_or_path):
+        self.id_or_path = id_or_path
 
+    @functools.lru_cache()
     def fetch_story(self):
-        return app.archive.get(self.id)
+        return app.archive.get(self.id_or_path)
 
+    @functools.lru_cache()
     def fetch_chapters(self):
-        pass
+        return self.fetch_story().chapters
