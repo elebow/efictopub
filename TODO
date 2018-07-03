@@ -1,18 +1,14 @@
 finish RedditMentions
 --no-clobber to prevent overwriting archived copy if exists
 	--clobber to allow (if disabled in conf file)
-YAML write chapters as array for ease of editing
-YAML somehow put the body before the comments for each chapter
-epub cover, toc, and nav(?)
 alphabetize imports?
 specific things like reddit's upvotes are stored in rendered form as the "extra" attr or something on the generic chapter
-guess abandomment by average update interval and time since last update
+guess abandonment by average update interval and time since last update
 readme with instructions for adding new fetchers
 separate field in Chapter for author's notes. Before and after notes.
 	This might need to be manually filled by editing the yml
 Generate a (text-only?) cover image for readers that can display such things
 Add metadata to cover page text, including permalink, whether the story is ongoing (or dead), which site it came from, word count, etc.
-FF.net chapter titles
 FF.net story score (just pick any of the chapter scores, because they actually apply to the story as a whole)
 rate limit non-reddit fetchers (PRAW has rate limiting built in)
 html2text preserve <center>. Commonmark allows it.
