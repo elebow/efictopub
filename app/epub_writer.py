@@ -23,8 +23,9 @@ class EpubWriter:
 
         self.add_toc()
         self.book.add_item(epub.EpubNcx())
+        self.book.add_item(epub.EpubNav())
 
-        self.book.spine = ["nav"] + self.book.items
+        self.book.spine = self.book.items
 
         epub.write_epub(self.outfile_name, self.book)
 
