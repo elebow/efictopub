@@ -1,9 +1,8 @@
 import itertools
 import re
-import requests
-import time
 
 from app import fetchers
+from app.lib import request_delay
 from app.models.ffnet.ffnet_chapter import FFNetChapter
 from app.models.story import Story
 
@@ -27,7 +26,7 @@ class FFNet(fetchers.BaseFetcher):
         for n in itertools.count(1):
             url = self.story_base_url + str(n)
             print(f"Fetching {url}")
-            response = requests.get(url)
+            response = request_delay.get(url)
             if "FanFiction.Net Message Type 1<hr size=1 noshade>Chapter not found." in str(response.text):
                 print("Done")
                 return
