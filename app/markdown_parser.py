@@ -8,7 +8,7 @@ class MarkdownParser:
     Link = namedtuple("Link", ["href", "text", "title"])
 
     def __init__(self, src):
-        self.mt_document = mistletoe.Document(src + "\n")    # TODO remove newline if mistletoe starts handling source without a terminal newline
+        self.mt_document = mistletoe.Document(src)
         self.tree = ast_renderer.get_ast(self.mt_document)
         self.links = [self.build_link(link) for link in self.generate_nodes(self.tree, node_type="Link")]
 
