@@ -47,7 +47,7 @@ def praw_submissions_real():
         return pickle.load(file)
 
 
-def praw_wikipage_real():
+def praw_wikipage_real(_reddit, _subreddit, _name):
     import pickle
     with open("tests/fixtures/wiki_page_with_links.pickle", "rb") as file:
         return pickle.load(file)

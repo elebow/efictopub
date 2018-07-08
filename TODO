@@ -1,4 +1,3 @@
-finish RedditMentions
 --no-clobber to prevent overwriting archived copy if exists
 	--clobber to allow (if disabled in conf file)
 alphabetize imports?

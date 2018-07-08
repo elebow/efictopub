@@ -31,7 +31,7 @@ class TestRedditUtil:
                                                                  self.praw_reddit)
         assert isinstance(output_praw_comm, reddit.Comment)
 
-        output_praw_wiki = self.subject.parse_thing_or_id_or_url(praw_wikipage_real(), self.praw_reddit)
+        output_praw_wiki = self.subject.parse_thing_or_id_or_url(praw_wikipage_real(0, 0, 0), self.praw_reddit)
         assert isinstance(output_praw_wiki, reddit.WikiPage)
 
         with pytest.raises(exceptions.AmbiguousIdError):

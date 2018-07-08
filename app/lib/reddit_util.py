@@ -11,7 +11,7 @@ def parse_thing_or_id_or_url(thing, praw_reddit):
         return reddit.Submission(thing)
     elif isinstance(thing, praw.models.reddit.comment.Comment):
         return reddit.Comment(thing)
-    elif isinstance(thing, praw.models.WikiPage):
+    elif isinstance(thing, praw.models.reddit.wikipage.WikiPage):
         return reddit.WikiPage(thing)
     elif isinstance(thing, str):
         if len(thing) == 6:
