@@ -37,7 +37,7 @@ class Submission:
         while True:
             if len(comment.text) > 2000:
                 # Dumb heuristic to differentiate author notes from actual content
-                text += comment.text
+                text += "\n\n" + comment.text
                 comment.text = "[efictopub]: included in chapter text"
 
             if comment.replies == []:
