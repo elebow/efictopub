@@ -47,6 +47,12 @@ def praw_submissions_real():
         return pickle.load(file)
 
 
+def praw_wikipage_real():
+    import pickle
+    with open("tests/fixtures/wiki_page_with_links.pickle", "rb") as file:
+        return pickle.load(file)
+
+
 def find_praw_submission_real(_self=None, *, url=None, id=None):
     if url is not None:
         return [subm for subm in praw_submissions_real() if subm.url == url][0]

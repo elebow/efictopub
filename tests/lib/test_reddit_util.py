@@ -8,6 +8,11 @@ from app.models import reddit
 from app import exceptions
 
 from tests.fixtures.real import praw_submissions_real
+from tests.fixtures.real import praw_wikipage_real
+
+
+subreddit_inst = MagicMock()
+subreddit_class = MagicMock(return_value=subreddit_inst)
 
 
 class TestRedditUtil:
@@ -26,8 +31,8 @@ class TestRedditUtil:
                                                                  self.praw_reddit)
         assert isinstance(output_praw_comm, reddit.Comment)
 
-        #output_praw_wiki = self.subject.parse_thing_or_id_or_url(praw_submissions_real()[0].comments[0])
-        #assert isinstance(output_praw_wiki, WikiPage) #TODO
+        output_praw_wiki = self.subject.parse_thing_or_id_or_url(praw_wikipage_real(), self.praw_reddit)
+        assert isinstance(output_praw_wiki, reddit.WikiPage)
 
         with pytest.raises(exceptions.AmbiguousIdError):
             self.subject.parse_thing_or_id_or_url('aaaaaa', self.praw_reddit)
@@ -35,18 +40,24 @@ class TestRedditUtil:
         self.subject.parse_thing_or_id_or_url('https://whatever', self.praw_reddit)
         self.subject.parse_url.assert_called_once_with('https://whatever', self.praw_reddit)
 
-
     @patch("praw.models.Submission")
     @patch("praw.models.Comment")
-    #@patch("app.subject.WikiPage") #TODO
-    def test_parse_url(self, comment_class, submission_class):
+    @patch("praw.models.WikiPage")
+    @patch("praw.models.Subreddit", subreddit_class)
+    def test_parse_url(self, wikipage_class, comment_class, submission_class):
         submission_url = 'https://reddit.com/r/my_great_subreddit/comments/a123/my_great_title/'
         comment_url = 'https://reddit.com/r/my_great_subreddit/comments/a123/my_great_title/b456/'
+        wiki_url = 'https://reddit.com/r/my_great_subreddit/wiki/some/page/name'
 
         result = self.subject.parse_url(submission_url, self.praw_reddit)
         assert isinstance(result, reddit.Submission)
-        submission_class.assert_called_once_with(mock.ANY, url=submission_url)
+        submission_class.assert_called_once_with(self.praw_reddit, url=submission_url)
 
         result = self.subject.parse_url(comment_url, self.praw_reddit)
         assert isinstance(result, reddit.Comment)
-        comment_class.assert_called_once_with(mock.ANY, url=comment_url)
+        comment_class.assert_called_once_with(self.praw_reddit, url=comment_url)
+
+        result = self.subject.parse_url(wiki_url, self.praw_reddit)
+        assert isinstance(result, reddit.WikiPage)
+        subreddit_class.assert_called_once_with(self.praw_reddit, "my_great_subreddit")
+        wikipage_class.assert_called_once_with(self.praw_reddit, subreddit_inst, "some/page/name")

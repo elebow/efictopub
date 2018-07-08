@@ -19,3 +19,10 @@ subms = [subm1, subm2, subm3]
 
 with open("array_of_3_submissions_with_comments.pickle", "wb") as outfile:
     pickle.dump(subms, outfile)
+
+subr = praw.models.Subreddit(reddit, "hfy")
+wp = praw.models.WikiPage(reddit, subr, "series/billybob_space_trucker")
+wp._fetch()
+
+with open("wiki_page_with_links.pickle", "wb") as outfile:
+    pickle.dump(wp, outfile)

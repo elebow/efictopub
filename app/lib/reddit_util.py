@@ -12,7 +12,7 @@ def parse_thing_or_id_or_url(thing, praw_reddit):
     elif isinstance(thing, praw.models.reddit.comment.Comment):
         return reddit.Comment(thing)
     elif isinstance(thing, praw.models.WikiPage):
-        return None #WikiPage(thing) #TODO
+        return reddit.WikiPage(thing)
     elif isinstance(thing, str):
         if len(thing) == 6:
             raise AmbiguousIdError
@@ -27,11 +27,11 @@ def parse_url(url, praw_reddit):
     if re.match(r'.*reddit.com/r/[^/]*?/comments/[^/]*?/[^/]*/[^/]*/?$', url):
         return reddit.Comment(praw.models.Comment(praw_reddit, url=url))
 
-    return None #TODO
     matches = re.findall(r'.*reddit.com/r/(.*?)/wiki/(.*)$', url)[0]
     if matches:
-        subreddit = matches[0]
+        subreddit_name = matches[0]
         name = matches[1]
+        subreddit = praw.models.Subreddit(praw_reddit, subreddit_name)
         return reddit.WikiPage(praw.models.WikiPage(praw_reddit, subreddit, name))
 
     return None
