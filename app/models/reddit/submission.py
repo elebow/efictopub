@@ -26,7 +26,7 @@ class Submission:
         return MarkdownParser(self.selftext).links
 
     @functools.lru_cache()
-    def get_text(self):
+    def get_full_text(self):
         """Extract the text from the submission body and zero or more comments."""
         text = self.selftext
 
@@ -54,5 +54,5 @@ class Submission:
                        date_updated=self.edited,  # TODO self.edited is a timestamp or False
                        permalink=self.permalink,
                        score=self.ups,
-                       text=self.selftext,
+                       text=self.get_full_text(),
                        title=self.title)
