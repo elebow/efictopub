@@ -18,7 +18,10 @@ class FFNetChapter:
         self.author_name = info_fields[2].text.strip()
         self.title = dom.select("#chap_select")[0].find_all("option", selected=True)[0].text.strip()
         self.summary = info_fields[5]  # TODO do something with this
-        self.cover_image_url = info_box.select("img")[0].attrs["src"]  # TODO do something with this
+        try:
+            self.cover_image_url = info_box.select("img")[0].attrs["src"]  # TODO do something with this
+        except IndexError:
+            self.cover_image_url = ""
 
         matches = re.findall(
             r".*Favs:\s+([\d,]+).*Updated:.*?xutime=\"(\d+)\".*?Published:.*?xutime=\"(\d+)\".*?id:\s+(\d+)",
