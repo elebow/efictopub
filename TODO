@@ -12,3 +12,4 @@ FF.net story score (just pick any of the chapter scores, because they actually a
 rate limit non-reddit fetchers (PRAW has rate limiting built in)
 html2text preserve <center>. Commonmark allows it.
 cover images, for sources that have them
+ebooklib MR: stop automatically setting dcterms:modified if it's being set manually
