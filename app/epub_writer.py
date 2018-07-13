@@ -1,3 +1,4 @@
+from datetime import datetime
 from ebooklib import epub
 import functools
 
@@ -15,8 +16,20 @@ class EpubWriter:
         self.book.set_language("en")
 
         self.book.add_author(self.story.author_name)
-        #self.story.date_start  # TODO decide which should be the publish date
-        #self.story.date_end
+
+        # dc:date MUST be the time the EPUB file was generated
+        self.book.add_metadata("DC",
+                               "date",
+                               datetime.utcnow().isoformat())
+
+        # dcterms:modified is the last-modified date of the book content
+        epub_options = {"mtime": datetime.utcfromtimestamp(self.story.date_end)}
+
+        # dcterms:available is defined here to be the date the first chapter was published
+        self.book.add_metadata(None,
+                               "meta",
+                               datetime.utcfromtimestamp(self.story.date_start).isoformat(),
+                               {"property": "dcterms:available"})
 
         self.add_cover()
         self.add_chapters()
@@ -27,7 +40,7 @@ class EpubWriter:
 
         self.book.spine = self.book.items
 
-        epub.write_epub(self.outfile_name, self.book)
+        epub.write_epub(self.outfile_name, self.book, epub_options)
 
     def add_chapters(self):
         for chapter in self.epub_chapters():
