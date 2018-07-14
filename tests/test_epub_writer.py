@@ -1,3 +1,4 @@
+from datetime import datetime
 from ebooklib import epub
 
 from doubles import allow
@@ -20,7 +21,9 @@ class TestEpubWriter:
         assert subject.book.title == "great title"
         assert subject.book.language == "en"
         assert subject.book.metadata["http://purl.org/dc/elements/1.1/"]["creator"][0][0] == "great author"
-        write_epub_mock.assert_called_once_with("outfile.epub", mock.ANY)
+        write_epub_mock.assert_called_once_with("outfile.epub",
+                                                mock.ANY,
+                                                {"mtime": datetime(2015, 7, 27, 12, 26, 40)})
 
     def test_add_cover(self):
         allow(epub).write_epub

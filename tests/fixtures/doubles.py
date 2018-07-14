@@ -104,6 +104,6 @@ def story_double():
     return InstanceDouble("app.models.story.Story",
                           author_name="great author",
                           chapters=chapters_double(3),
-                          date_start="start date",
-                          date_end="end date",
+                          date_start=1435000000.0,
+                          date_end=1438000000,
                           title="great title")
