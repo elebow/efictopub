@@ -6,7 +6,7 @@ from app import config
 from app.main import Main
 
 
-parser = argparse.ArgumentParser(description="Process some integers.")
+parser = argparse.ArgumentParser(description="Fetch stories from various sources and optionally generate an EPUB file.")
 parser.add_argument("fetcher", type=str,
                     help=f"fetcher to use ({', '.join(Main._fetcher_names())})")
 parser.add_argument("target", type=str,
