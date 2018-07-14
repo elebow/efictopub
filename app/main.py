@@ -20,7 +20,9 @@ class Main:
 
         story = self.get_story()
         archive.store(story)
-        self.output(story)
+
+        if self.args.write_epub:
+            self.output(story)
 
     def get_story(self):
         if self.args.fetcher in Main._fetcher_names():
@@ -31,10 +33,9 @@ class Main:
             raise UnknownFetcherError(f"Unknown fetcher `{self.args.fetcher}`")
 
     def output(self, story):
-        if self.args.action == "write_epub":
-            outfile = self.args.outfile if self.args.outfile else "book.epub"
-            EpubWriter(story, outfile).write_epub()
-            print(f"wrote {outfile}")
+        outfile = self.args.outfile if self.args.outfile else "book.epub"
+        EpubWriter(story, outfile).write_epub()
+        print(f"wrote {outfile}")
 
     @staticmethod
     @functools.lru_cache()
