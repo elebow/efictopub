@@ -14,6 +14,7 @@ from app.epub_writer import EpubWriter
 class Main:
     def __init__(self, args={}):
         self.args = args
+        self.store_args_in_config()
 
     def run(self):
         config.load(self.args.config_file)
@@ -26,7 +27,6 @@ class Main:
 
     def get_story(self):
         if self.args.fetcher in Main._fetcher_names():
-            # TODO also pass optional args
             fetcher = Main._fetchers()[self.args.fetcher](self.args.target)
             return fetcher.fetch_story()
         else:
@@ -36,6 +36,9 @@ class Main:
         outfile = self.args.outfile if self.args.outfile else "book.epub"
         EpubWriter(story, outfile).write_epub()
         print(f"wrote {outfile}")
+
+    def store_args_in_config(self):
+        config.store_options(self.args)
 
     @staticmethod
     @functools.lru_cache()

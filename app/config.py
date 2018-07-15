@@ -6,6 +6,7 @@ import os
 
 Reddit = namedtuple("Reddit", ["app", "secret", "user_agent"])
 Archive = namedtuple("Archive", ["location"])
+Options = namedtuple("Options", ["fetch_comments", "write_archive", "write_epub"])
 
 
 default_config_file = f"{os.environ.get('HOME')}/.efictopub/config.ini"
@@ -23,6 +24,12 @@ def load(filename):
     archive = Archive(location=cfg.get("ARCHIVE",
                                        "location",
                                        fallback="%s/.efictopub/archive" % os.environ.get("HOME")))
+
+def store_options(args):
+    global options
+    options = Options(fetch_comments=args.comments,
+                      write_archive=args.archive,
+                      write_epub=args.write_epub)
 
 
 load(default_config_file)   # always attempt to load the default, in case we load this module without Main
