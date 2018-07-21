@@ -1,5 +1,6 @@
 import functools
 
+from app import config
 from app.models import reddit
 from app.models.chapter import Chapter
 
@@ -9,7 +10,10 @@ from app.markdown_parser import MarkdownParser
 class Submission:
     def __init__(self, praw_submission):
         self.author_name = praw_submission.author.name
-        self.comments = self.fetch_all_comments(praw_submission)
+        if config.options.fetch_comments:
+            self.comments = self.fetch_all_comments(praw_submission)
+        else:
+            self.comments = []
         self.created_utc = praw_submission.created_utc
         self.edited = praw_submission.edited
         self.reddit_id = praw_submission.id

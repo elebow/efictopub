@@ -1,6 +1,8 @@
 import pytest
 from unittest.mock import patch
+from unittest.mock import MagicMock
 
+from app import config
 from app import fetchers
 from app import exceptions
 
@@ -24,3 +26,9 @@ class TestFetchersRedditNext:
             [subm
              for subm
              in fetchers.RedditNext("_what").generate_next_submissions(praw_submission_with_ambiguous_next())]
+
+    @patch("praw.models.Submission", find_praw_submission)
+    def test_skip_comments(self):
+        config.store_options(MagicMock(comments=True, archive=True, write_epub=True))
+        chapters = fetchers.RedditNext(praw_submissions[0].permalink).fetch_chapters()
+        assert [len(chapter.comments) for chapter in chapters] == [3, 4, 5]
