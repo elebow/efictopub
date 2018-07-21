@@ -9,6 +9,7 @@ class Chapter:
         date_updated    date the chapter was most recently updated
         permalink       permalink to the chapter
         score           score, if available. Reddit upvotes, ff.net favorites, etc.
+        story_title     title of the story
         text            text content
         title           title
     """
@@ -20,6 +21,7 @@ class Chapter:
                  date_updated,
                  permalink,
                  score,
+                 story_title,
                  text,
                  title):
         self.author = author
@@ -28,12 +30,13 @@ class Chapter:
         self.date_updated = date_updated
         self.permalink = permalink
         self.score = score
+        self.story_title = story_title
         self.text = text
         self.title = title
 
     def as_dict(self):
-        attr_names = ["author", "comments", "date_published", "date_updated", "permalink", "score", "text",
-                      "title"]
+        attr_names = ["author", "comments", "date_published", "date_updated", "permalink", "score",
+                      "story_title", "text", "title"]
         mapping = {name: getattr(self, name) for name in attr_names}
         return mapping
 
@@ -45,5 +48,6 @@ class Chapter:
                    date_updated=mapping["date_updated"],
                    permalink=mapping["permalink"],
                    score=mapping["score"],
+                   story_title=mapping["story_title"],
                    text=mapping["text"],
                    title=mapping["title"])

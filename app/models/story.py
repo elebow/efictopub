@@ -25,7 +25,7 @@ class Story:
         if self.manual_title:
             return self.manual_title
 
-        return "[auto title] " + self.chapters[0].title
+        return self.chapters[0].story_title
 
     def as_dict(self):
         return {

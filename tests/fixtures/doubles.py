@@ -13,6 +13,7 @@ def chapter_double(n=0, date_published=f"start date", date_updated=f"end date"):
                           permalink=f"permalink {n}",
                           author=f"great author {n}",
                           score=5,
+                          story_title="My Great Story",
                           text=f"chapter content {n}",
                           title=f"chapter title {n}")
 

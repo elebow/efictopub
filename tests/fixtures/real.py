@@ -9,6 +9,7 @@ def chapter_real(n=0):
                    permalink=f"permalink {n}",
                    author=f"great-author {n}",
                    score=5,
+                   story_title="My Great Story",
                    text=f"chapter {n}",
                    title=f"great-title {n}")
 

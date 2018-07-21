@@ -54,5 +54,6 @@ class Submission:
                        date_updated=self.edited,  # TODO self.edited is a timestamp or False
                        permalink=self.permalink,
                        score=self.ups,
+                       story_title=f"[auto title] {self.title}",
                        text=self.get_full_text(),
                        title=self.title)

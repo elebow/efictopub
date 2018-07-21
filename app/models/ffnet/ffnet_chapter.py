@@ -17,6 +17,7 @@ class FFNetChapter:
 
         self.author_name = info_fields[2].text.strip()
         self.title = dom.select("#chap_select")[0].find_all("option", selected=True)[0].text.strip()
+        self.story_title = info_fields[0].text.strip()
         self.summary = info_fields[5]  # TODO do something with this
         try:
             self.cover_image_url = info_box.select("img")[0].attrs["src"]  # TODO do something with this
@@ -52,5 +53,6 @@ class FFNetChapter:
                        date_updated=self.date_updated,
                        permalink=self.permalink,
                        score=self.score,
+                       story_title=self.story_title,
                        text=self.text,
                        title=self.title)
