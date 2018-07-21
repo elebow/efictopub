@@ -11,15 +11,15 @@ from app.exceptions import AmbiguousNextError
 class RedditNext(fetchers.BaseFetcher):
     """Fetch Reddit submissions by following "next" links in the body"""
 
-    def __init__(self, start_thing_or_id_or_url):
+    def __init__(self, start_id_or_url):
         self.reddit = reddit_util.setup_reddit()
-        self.start_thing_or_id_or_url = start_thing_or_id_or_url
+        self.start_id_or_url = start_id_or_url
 
     def fetch_story(self):
         return Story(chapters=self.fetch_chapters())
 
     def fetch_chapters(self):
-        start_subm = reddit_util.parse_thing_or_id_or_url(self.start_thing_or_id_or_url, self.reddit)
+        start_subm = reddit_util.parse_id_or_url(self.start_id_or_url, self.reddit)
         return [subm.as_chapter() for subm in self.generate_next_submissions(start_subm)]
 
     # Generate reddit.Submission objects by following "next" links, including the specified starting

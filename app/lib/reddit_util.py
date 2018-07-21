@@ -6,18 +6,14 @@ from app.exceptions import AmbiguousIdError
 from app.models import reddit
 
 
-def parse_thing_or_id_or_url(thing, praw_reddit):
-    if isinstance(thing, praw.models.reddit.submission.Submission):
-        return reddit.Submission(thing)
-    elif isinstance(thing, praw.models.reddit.comment.Comment):
-        return reddit.Comment(thing)
-    elif isinstance(thing, praw.models.reddit.wikipage.WikiPage):
-        return reddit.WikiPage(thing)
-    elif isinstance(thing, str):
+def parse_id_or_url(thing, praw_reddit):
+    if isinstance(thing, str):
         if len(thing) == 6:
             raise AmbiguousIdError
         # longer than 6 characters, assume it's a URL
         return parse_url(thing, praw_reddit)
+    else:
+        return None
 
 
 def parse_url(url, praw_reddit):

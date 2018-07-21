@@ -22,7 +22,7 @@ class RedditWikiPage(fetchers.BaseFetcher):
         return [subm.as_chapter() for subm in subms]
 
     def links_mentioned_in_wiki_page(self):
-        wikipage = reddit_util.parse_thing_or_id_or_url(self.url, self.reddit)
+        wikipage = reddit_util.parse_id_or_url(self.url, self.reddit)
         links = MarkdownParser(wikipage.text).links
         return [link for link in links if "/wiki/" not in link.href]
 
