@@ -1,8 +1,7 @@
-from doubles import InstanceDouble
 import praw
 
-
-from tests.fixtures.real import praw_submissions_real
+from doubles import InstanceDouble
+from unittest.mock import MagicMock
 
 
 def chapter_double(n=0, date_published=f"start date", date_updated=f"end date"):
@@ -42,14 +41,14 @@ def praw_redditor(n=0):
                           name=f"redditor {n}")
 
 
-def praw_redditor_with_real_submissions_double(name="some redditor"):
+def praw_redditor_with_submissions_double(name="some redditor"):
     return InstanceDouble("praw.models.Redditor",
                           name=name,
                           submissions=InstanceDouble("praw.models.listing.mixins.redditor.SubListing",
-                                                     new=praw_submissions_real))
+                                                     new=lambda: praw_submissions))
 
 
-def praw_comment_double(n=0, author="some author", body="some body text", replies=[]):
+def praw_comment_double(n=0, author=praw_redditor(), body="some body text", replies=[]):
     return InstanceDouble("praw.models.reddit.comment.Comment",
                           author=author,
                           author_flair_text="",
@@ -62,6 +61,10 @@ def praw_comment_double(n=0, author="some author", body="some body text", replie
                           ups=5)
 
 
+def praw_comments_double(count):
+    return [praw_comment_double(n) for n in range(0, count)]
+
+
 def praw_submission_double(n=0, author=-1, comments=[], selftext="some selftext",
                            title="some title"):
     author = praw_redditor(n) if author == -1 else author
@@ -72,10 +75,10 @@ def praw_submission_double(n=0, author=-1, comments=[], selftext="some selftext"
                           comments=comment_forest,
                           created_utc=f"created utc {n}",
                           edited=f"edited timestamp {n}",
-                          id="reddit id {n}",
-                          permalink=f"permalink {n}",
+                          id=f"00000{n}",
+                          permalink=f"https://www.reddit.com/r/great_subreddit/comments/00000{n}/great_title",
                           selftext=selftext,
-                          title=f"some title {n}",
+                          title=title,
                           ups=5)
 
 
@@ -101,6 +104,11 @@ def praw_submission_with_ambiguous_next():
     return praw_submission_double(selftext="[next](link1) [next](link2)")
 
 
+def praw_wikipage_double(_reddit, _subreddit, _pagename):
+    return InstanceDouble("praw.models.reddit.wikipage.WikiPage",
+                          content_md="[/r/hfy](http://www.reddit.com/r/HFY/)\n[some other link](http://redd.it/2oflhg)")
+
+
 def story_double():
     return InstanceDouble("app.models.story.Story",
                           author_name="great author",
@@ -108,3 +116,22 @@ def story_double():
                           date_start=1435000000.0,
                           date_end=1438000000,
                           title="great title")
+
+
+praw_submissions = [
+    praw_submission_double(0, title="some story", comments=praw_comments_double(3)),
+    praw_submission_double(1, title="some story 02", comments=praw_comments_double(4)),
+    praw_submission_double(2, title="some story 03", comments=praw_comments_double(5))
+]
+for subm in praw_submissions[0:-1]:
+    # Add "Next" links to all but the last
+    subm.selftext += f"[Next](https://www.reddit.com/r/great_subreddit/comments/00000{int(subm.id[-1:]) + 1}/great_title)"
+praw_submissions[0].comments[2].body += "[some link](example.com)"
+
+
+def find_praw_submission(_self=None, *, url=None, id=None):
+    if url is not None:
+        return [subm for subm in praw_submissions if subm.permalink == url][0]
+    elif id is not None:
+        return [subm for subm in praw_submissions if subm.id == id][0]
+    raise

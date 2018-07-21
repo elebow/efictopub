@@ -5,18 +5,19 @@ from app import fetchers
 from app import exceptions
 
 from tests.fixtures.doubles import praw_submission_with_ambiguous_next
-from tests.fixtures.real import praw_submissions_real, find_praw_submission_real
+from tests.fixtures.doubles import praw_submissions
+from tests.fixtures.doubles import find_praw_submission
 
 
 class TestFetchersRedditNext:
-    @patch("praw.models.Submission", find_praw_submission_real)
+    @patch("praw.models.Submission", find_praw_submission)
     def test_submissions_following_next_links(self):
-        subms = fetchers.RedditNext(praw_submissions_real()[0]).fetch_chapters()
+        subms = fetchers.RedditNext(praw_submissions[0].permalink).fetch_chapters()
 
         assert [subm.permalink for subm in subms] == [
-            "/r/HFY/comments/886al5/oc_falling_sky/",
-            "/r/HFY/comments/88bcar/oc_falling_sky01warm_reception/",
-            "/r/HFY/comments/88ejcl/oc_falling_sky02ships_alight/"]
+            "https://www.reddit.com/r/great_subreddit/comments/000000/great_title",
+            "https://www.reddit.com/r/great_subreddit/comments/000001/great_title",
+            "https://www.reddit.com/r/great_subreddit/comments/000002/great_title"]
 
     def test_ambiguous_next(self):
         with pytest.raises(exceptions.AmbiguousNextError):

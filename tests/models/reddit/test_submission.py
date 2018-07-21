@@ -1,31 +1,29 @@
 from app.models import reddit
 
-from tests.fixtures.real import praw_submissions_real
 from tests.fixtures.doubles import praw_submission_double, \
     praw_submission_with_author_note_double, \
-    praw_submission_continued_in_comments_double
+    praw_submission_continued_in_comments_double, \
+    praw_submissions
 
 
 class TestSubmission:
     def setup_method(self):
-        self.submissions = [reddit.Submission(s) for s in praw_submissions_real()]
+        self.submissions = [reddit.Submission(s) for s in praw_submissions]
 
     def test_comments(self):
         comments = self.submissions[0].comments
-        assert len(comments) == 9
-        assert comments[0].replies[0].author == "WTMAWLR (AI)"
+        assert len(comments) == 3
+        assert comments[0].author == "redditor 0 ()"
 
     def test_init(self):
         submission = self.submissions[1]
-        assert submission.ups == 49
+        assert submission.ups == 5
         assert len(submission.comments) == 4
-        assert len(submission.comments[1].replies) == 1
-        assert len(submission.comments[1].replies[0].replies) == 1
-        assert len(submission.comments[1].replies[0].replies[0].replies) == 0
+        assert len(submission.comments[1].replies) == 0
 
     def test_all_links_in_text(self):
         links = self.submissions[0].all_links_in_text()
-        assert links[0].text == '[Next Part]'
+        assert links[0].text == 'Next'
 
     def test_extract_text_submission(self):
         chapter = reddit.Submission(praw_submission_double())
