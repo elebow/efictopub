@@ -23,7 +23,7 @@ class TestFetchersFFNet:
             "Story Text *Goes* **Here**. Chapter 2."
         ]
 
-    def test_generate_htmls(self):
+    def test_generate_chapter_htmls(self):
         tests.fixtures.stubs.return_values = [
             MagicMock(status_code=200, text="5"),
             MagicMock(status_code=200, text="6"),
@@ -31,5 +31,5 @@ class TestFetchersFFNet:
             MagicMock(status_code=200, text="FanFiction.Net Message Type 1<hr size=1 noshade>Chapter not found.")
         ]
         fetcher = FFNet("https://www.fanfiction.net/s/555/8/")
-        htmls = [x for x in fetcher.generate_htmls()]
+        htmls = [x for x in fetcher.generate_chapter_htmls()]
         assert htmls == ["5", "6", "7"]

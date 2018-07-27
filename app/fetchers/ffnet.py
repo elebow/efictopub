@@ -20,12 +20,12 @@ class FFNet(fetchers.BaseFetcher):
         return [ffnet_chapter.as_chapter() for ffnet_chapter in self.generate_ffnet_chapters()]
 
     def generate_ffnet_chapters(self):
-        return (FFNetChapter(html) for html in self.generate_htmls())
+        return (FFNetChapter(html) for html in self.generate_chapter_htmls())
 
-    def generate_htmls(self):
+    def generate_chapter_htmls(self):
         for n in itertools.count(1):
             url = self.story_base_url + str(n)
-            print(f"Fetching {url}")
+            print(f"Fetching chapter {n} ({url})")
             response = request_delay.get(url)
             if "FanFiction.Net Message Type 1<hr size=1 noshade>Chapter not found." in str(response.text):
                 print("Done")
