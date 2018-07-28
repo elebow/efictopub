@@ -33,3 +33,9 @@ class TestFetchersFFNet:
         fetcher = FFNet("https://www.fanfiction.net/s/555/8/")
         htmls = [x for x in fetcher.generate_chapter_htmls()]
         assert htmls == ["5", "6", "7"]
+
+    def test_calculate_ffnet_id(self):
+        assert FFNet("https://www.fanfiction.net/s/555/8/").ffnet_id == "555"
+        assert FFNet("https://www.fanfiction.net/s/555/2/My-Great-Story").ffnet_id == "555"
+        assert FFNet("111").ffnet_id == "111"
+        assert FFNet("a").ffnet_id == None

@@ -1,4 +1,5 @@
 import itertools
+import functools
 import re
 
 from app import fetchers
@@ -11,7 +12,7 @@ class FFNet(fetchers.BaseFetcher):
     """Fetch story from fanfiction.net"""
 
     def __init__(self, id_or_url):
-        self.story_base_url = self.calculate_story_base_url(id_or_url)
+        self.ffnet_id = self.calculate_ffnet_id(id_or_url)
 
     def fetch_story(self):
         return Story(chapters=self.fetch_chapters())
@@ -24,7 +25,7 @@ class FFNet(fetchers.BaseFetcher):
 
     def generate_chapter_htmls(self):
         for n in itertools.count(1):
-            url = self.story_base_url + str(n)
+            url = self.get_story_base_url() + str(n)
             print(f"Fetching chapter {n} ({url})")
             response = request_delay.get(url)
             if "FanFiction.Net Message Type 1<hr size=1 noshade>Chapter not found." in str(response.text):
@@ -33,12 +34,16 @@ class FFNet(fetchers.BaseFetcher):
             print("OK")
             yield response.text
 
-    def calculate_story_base_url(self, id_or_url):
+    def calculate_ffnet_id(self, id_or_url):
         if re.match(r"\d+$", id_or_url):
-            return f"https://www.fanfiction.net/s/{id_or_url}/"
+            return id_or_url
 
-        matches = re.findall(r"(.*//www.fanfiction.net/s/\d+/)\d+/.*", id_or_url)
+        matches = re.findall(r".*//www.fanfiction.net/s/(\d+)/\d+/.*", id_or_url)
         if matches:
             return matches[0]
 
         return None
+
+    @functools.lru_cache()
+    def get_story_base_url(self):
+        return f"https://www.fanfiction.net/s/{self.ffnet_id}/"
