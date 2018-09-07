@@ -7,11 +7,11 @@ from app.models.chapter import Chapter
 
 
 class FFNetChapter:
-    def __init__(self, html):
-        self.set_fields_from_html(html)
+    def __init__(self, chapter_html, reviews_htmls=[]):
+        self.set_fields_from_html(chapter_html, reviews_htmls)
 
-    def set_fields_from_html(self, html):
-        dom = bs4.BeautifulSoup(html, "lxml")
+    def set_fields_from_html(self, chapter_html, reviews_htmls):
+        dom = bs4.BeautifulSoup(chapter_html, "lxml")
         info_box = dom.select("#profile_top")[0]
         info_fields = info_box.select(".xcontrast_txt")
 
@@ -43,7 +43,7 @@ class FFNetChapter:
         text_maker.emphasis_mark = "*"
         self.text = text_maker.handle(storytext_html).strip()
 
-        self.reviews = []  # TODO
+        self.reviews = reviews_htmls  # TODO
 
     @functools.lru_cache()
     def as_chapter(self):

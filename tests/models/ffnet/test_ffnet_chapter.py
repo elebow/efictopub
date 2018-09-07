@@ -5,8 +5,8 @@ from tests.fixtures.real import ffnet_chapter_html_real
 
 class TestFFnetChapter:
     def setup_method(self):
-        html = ffnet_chapter_html_real()
-        self.subject = FFNetChapter(html)
+        chapter_html = ffnet_chapter_html_real()
+        self.subject = FFNetChapter(chapter_html)
 
     def test_set_fields_from_html(self):
         assert self.subject.author_name == "Great Author"
