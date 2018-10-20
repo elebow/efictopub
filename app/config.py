@@ -25,6 +25,7 @@ def load(filename):
                                        "location",
                                        fallback="%s/.efictopub/archive" % os.environ.get("HOME")))
 
+
 def store_options(args):
     global options
     options = Options(fetch_comments=args.comments,

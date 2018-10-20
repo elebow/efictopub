@@ -7,9 +7,12 @@ from app import fetchers
 from app.main import Main
 
 
-parser = argparse.ArgumentParser(description="Fetch stories from various sources and optionally generate an EPUB file.")
+parser = argparse.ArgumentParser(description="Fetch stories from various sources and optionally generate an "
+                                             "EPUB file.")
+
 parser.add_argument("target", type=str,
-                    help="target story or document containing list of stories (URL, reddit ID, etc)")
+                    help="target story or document containing list of stories (URL, reddit ID, etc). "
+                         "Automatic fetcher selection is supported only for URLs.")
 
 parser.add_argument("--fetcher", "-F", type=str, dest="fetcher", action="store",
                     help=f"fetcher to use ({', '.join(fetchers.fetcher_names())})")

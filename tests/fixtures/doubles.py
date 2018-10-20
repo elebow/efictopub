@@ -1,7 +1,6 @@
 import praw
 
 from doubles import InstanceDouble
-from unittest.mock import MagicMock
 
 
 def chapter_double(n=0, date_published=f"start date", date_updated=f"end date"):

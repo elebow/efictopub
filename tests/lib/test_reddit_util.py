@@ -1,7 +1,6 @@
 import pytest
 from unittest.mock import MagicMock
 from unittest.mock import patch
-from unittest import mock
 
 from app.lib import reddit_util
 from app.models import reddit

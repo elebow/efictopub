@@ -1,9 +1,5 @@
 #!python3
 
-import functools
-import inspect
-import yaml
-
 from app import archive
 from app import config
 from app import fetchers
