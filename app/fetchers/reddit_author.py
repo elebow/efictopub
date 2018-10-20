@@ -7,9 +7,9 @@ from app.models.story import Story
 
 
 class RedditAuthor(fetchers.BaseFetcher):
-    def __init__(self, *, author_name, pattern=r""):
+    def __init__(self, url, *, pattern=r""):
         self.reddit = reddit_util.setup_reddit()
-        self.author_name = author_name
+        self.author_name = reddit_util.redditor_name_from_url(url)
         self.pattern = pattern
 
     def fetch_story(self):

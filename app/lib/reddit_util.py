@@ -6,6 +6,13 @@ from app.exceptions import AmbiguousIdError
 from app.models import reddit
 
 
+def redditor_name_from_url(url):
+    matches = re.findall(r'.*reddit.com/u/([^/?]*)', url)
+    if matches:
+        return matches[0]
+    return None
+
+
 def parse_id_or_url(thing, praw_reddit):
     if isinstance(thing, str):
         if len(thing) == 6:

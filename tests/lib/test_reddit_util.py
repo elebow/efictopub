@@ -20,6 +20,12 @@ class TestRedditUtil:
         self.subject = reddit_util
         self.praw_reddit = MagicMock()
 
+    def test_redditor_name_from_url(self):
+        assert self.subject.redditor_name_from_url("reddit.com/u/redditor1") == "redditor1"
+        assert self.subject.redditor_name_from_url("www.reddit.com/u/redditor1") == "redditor1"
+        assert self.subject.redditor_name_from_url("http://reddit.com/u/redditor1") == "redditor1"
+        assert self.subject.redditor_name_from_url("https://www.reddit.com/u/redditor1") == "redditor1"
+
     @patch("app.lib.reddit_util.parse_url")
     def test_parse_id_or_url_submission(self, parse_url):
         submission_url = praw_submissions[0].permalink
