@@ -8,6 +8,10 @@ from app.models.ffnet.ffnet_chapter import FFNetChapter
 from app.models.story import Story
 
 
+def can_handle_url(url):
+    return re.search(r"(?:\w+:\/\/)?www.fanfiction.net/", url)
+
+
 class FFNet(fetchers.BaseFetcher):
     """Fetch story from fanfiction.net"""
 
@@ -68,3 +72,6 @@ class FFNet(fetchers.BaseFetcher):
     @functools.lru_cache()
     def get_review_base_url(self):
         return f"https://www.fanfiction.net/r/{self.ffnet_id}"
+
+
+FETCHER_CLASS = FFNet

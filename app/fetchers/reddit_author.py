@@ -6,6 +6,10 @@ from app.models import reddit
 from app.models.story import Story
 
 
+def can_handle_url(url):
+    return re.search(r"(?:\w+:\/\/)?(?:\w+)?reddit.com\/u\/\w+.*", url)
+
+
 class RedditAuthor(fetchers.BaseFetcher):
     def __init__(self, url, *, pattern=r""):
         self.reddit = reddit_util.setup_reddit()
@@ -19,3 +23,6 @@ class RedditAuthor(fetchers.BaseFetcher):
         author = self.reddit.redditor(self.author_name)
         regex = re.compile(self.pattern)
         return [reddit.Submission(subm) for subm in author.submissions.new() if regex.search(subm.title)]
+
+
+FETCHER_CLASS = RedditAuthor

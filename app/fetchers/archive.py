@@ -4,6 +4,10 @@ import app.archive
 from app import fetchers
 
 
+def can_handle_url(url):
+    return False
+
+
 class Archive(fetchers.BaseFetcher):
     """
     Fetch a story from the archive.
@@ -20,3 +24,6 @@ class Archive(fetchers.BaseFetcher):
     @functools.lru_cache()
     def fetch_chapters(self):
         return self.fetch_story().chapters
+
+
+FETCHER_CLASS = Archive

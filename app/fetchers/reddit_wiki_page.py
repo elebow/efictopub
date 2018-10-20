@@ -1,10 +1,15 @@
 import praw
+import re
 
 from app import fetchers
 from app.lib import reddit_util
 from app.markdown_parser import MarkdownParser
 from app.models import reddit
 from app.models.story import Story
+
+
+def can_handle_url(url):
+    return re.search(r"(?:\w+:\/\/)?(?:\w+)?reddit.com\/r\/\w+\/wiki\/\w+.*", url)
 
 
 class RedditWikiPage(fetchers.BaseFetcher):
@@ -34,3 +39,6 @@ class RedditWikiPage(fetchers.BaseFetcher):
                 # praw.models.Submission is the top. Only Comments have parents.
                 return
             thing = thing.parent()
+
+
+FETCHER_CLASS = RedditWikiPage

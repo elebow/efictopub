@@ -1,4 +1,5 @@
 import praw
+import re
 
 from app import fetchers
 from app.lib import reddit_util
@@ -6,6 +7,10 @@ from app.markdown_parser import MarkdownParser
 from app.models import reddit
 from app.models.story import Story
 from app.exceptions import AmbiguousNextError
+
+
+def can_handle_url(url):
+    return re.search(r"(?:\w+:\/\/)?(?:\w+)?reddit.com\/r\/\w+\/comments\/\w+.*", url)
 
 
 class RedditNext(fetchers.BaseFetcher):
@@ -34,3 +39,6 @@ class RedditNext(fetchers.BaseFetcher):
             elif len(next_links) == 0:
                 return
             subm = reddit.Submission(praw.models.Submission(self.reddit, url=next_links[0].href))
+
+
+FETCHER_CLASS = RedditNext

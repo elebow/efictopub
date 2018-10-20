@@ -14,11 +14,17 @@ class AmbiguousNextError(Exception):
     """A submission has more than one "next" link, so we don't know which one to follow."""
     pass
 
+
 class NoArchivedStoryError(Exception):
     """The specified id or file does not match any archived story"""
 
     def __init__(self, bad_id_or_file):
         self.bad_id_or_file = bad_id_or_file
+
+
+class NoFetcherForUrlError(Exception):
+    """No fetcher can handle the given URL"""
+    pass
 
 
 class UnknownFetcherError(Exception):
