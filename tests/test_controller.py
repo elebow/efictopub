@@ -2,18 +2,18 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 
 
-from app.main import Main
+from app.controller import Controller
 
 from tests.fixtures.doubles import chapters_double
 
 
-class TestMain:
+class TestController:
 
     @patch("app.fetchers.RedditNext.fetch_chapters", lambda _x: chapters_double(3))
     @patch("app.archive.store")
     def test_fetch_from_reddit_next(self, archive):
         args = MagicMock(fetcher="reddit_next", target="_whatever-url-or-id")
-        subject = Main(args)
+        subject = Controller(args)
         story = subject.get_story()
 
         assert [chap.text for chap in story.chapters] == \
@@ -24,7 +24,7 @@ class TestMain:
     @patch("app.archive.store")
     def test_fetch_from_reddit_author_by_url(self, archive):
         args = MagicMock(fetcher=None, target="reddit.com/u/some_redditor")
-        subject = Main(args)
+        subject = Controller(args)
         story = subject.get_story()
 
         assert [chap.text for chap in story.chapters] == \

@@ -1,12 +1,10 @@
-#!python3
-
 from app import archive
 from app import config
 from app import fetchers
 from app.epub_writer import EpubWriter
 
 
-class Main:
+class Controller:
     def __init__(self, args={}):
         self.args = args
         self.store_args_in_config()

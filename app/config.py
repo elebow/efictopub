@@ -33,4 +33,4 @@ def store_options(args):
                       write_epub=args.write_epub)
 
 
-load(default_config_file)   # always attempt to load the default, in case we load this module without Main
+load(default_config_file)   # always attempt to load the default, in case we load this module by itself
