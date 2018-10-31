@@ -31,7 +31,8 @@ class FFNet(fetchers.BaseFetcher):
 
     def generate_chapter_htmls(self):
         for n in itertools.count(1):
-            url = f"{self.get_story_base_url()}/{n}"
+            url = self.get_chapter_url(n)
+
             print(f"Fetching chapter {n} ({url})")
             response = request_delay.get(url)
             if "FanFiction.Net Message Type 1<hr size=1 noshade>Chapter not found." in str(response.text):
@@ -42,9 +43,7 @@ class FFNet(fetchers.BaseFetcher):
 
     def generate_review_htmls(self):
         for n in itertools.count(1):
-            # Reviews are not paginated, it seems. The pattern is always
-            # https://www.fanfiction.net/r/{story_id}/{chap_num}/1/
-            url = f"{self.get_story_base_url()}/{n}/1/"
+            url = self.get_chapter_reviews_url(n)
 
             print(f"Fetching chapter {n} reviews ({url})")
             response = request_delay.get(url)
@@ -72,6 +71,16 @@ class FFNet(fetchers.BaseFetcher):
     @functools.lru_cache()
     def get_review_base_url(self):
         return f"https://www.fanfiction.net/r/{self.ffnet_id}"
+
+    @functools.lru_cache()
+    def get_chapter_url(self, n):
+        return f"{self.get_story_base_url()}/{n}"
+
+    @functools.lru_cache()
+    def get_chapter_reviews_url(self, n):
+        # Reviews are not paginated, it seems. The pattern is always
+        # https://www.fanfiction.net/r/{story_id}/{chap_num}/1/
+        return f"{self.get_story_base_url()}/{n}/1/"
 
 
 FETCHER_CLASS = FFNet
