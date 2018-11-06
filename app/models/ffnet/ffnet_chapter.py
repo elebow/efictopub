@@ -24,15 +24,7 @@ class FFNetChapter:
         except IndexError:
             self.cover_image_url = ""
 
-        matches = re.findall(
-            r".*Favs:\s+([\d,]+).*Updated:.*?xutime=\"(\d+)\".*?Published:.*?xutime=\"(\d+)\".*?id:\s+(\d+)",
-            str(info_fields[6]),
-            re.DOTALL
-        )[0]
-        self.score = matches[0]
-        self.date_updated = int(matches[1])
-        self.date_published = int(matches[2])
-        self.ffnet_id = matches[3]
+        self.score_dates_id = str(info_fields[6])
 
         self.permalink = "https:" + dom.head.select("link[rel=canonical]")[0].attrs["href"]
 
@@ -43,16 +35,26 @@ class FFNetChapter:
         text_maker.emphasis_mark = "*"
         self.text = text_maker.handle(storytext_html).strip()
 
-        self.reviews = reviews_htmls  # TODO
+        self.reviews = reviews_htmls  # TODO convert to text
+
+    def get_date_published(self):
+        return int(re.search(r"Published:.*?xutime=\"(\d+)\"", self.score_dates_id, re.DOTALL).group(1))
+
+    def get_date_updated(self):
+        # TODO doesn't always exist
+        return int(re.search(r"Updated:.*?xutime=\"(\d+)\"", self.score_dates_id, re.DOTALL).group(1))
+
+    def get_score(self):
+        return re.search(r"Favs:\s+([\d,]+)", self.score_dates_id, re.DOTALL).group(1)
 
     @functools.lru_cache()
     def as_chapter(self):
         return Chapter(author=self.author_name,
                        comments=self.reviews,
-                       date_published=self.date_published,
-                       date_updated=self.date_updated,
+                       date_published=self.get_date_published(),
+                       date_updated=self.get_date_updated(),
                        permalink=self.permalink,
-                       score=self.score,
+                       score=self.get_score(),
                        story_title=self.story_title,
                        text=self.text,
                        title=self.title)
