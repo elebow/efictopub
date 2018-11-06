@@ -26,8 +26,6 @@ class FFNetChapter:
 
         self.score_dates_id = str(info_fields[6])
 
-        self.permalink = "https:" + dom.head.select("link[rel=canonical]")[0].attrs["href"]
-
         storytext_with_container = str(dom.select("#storytext")[0])
         # Yes, use regex to work with HTML. It's a very constrained input.
         storytext_html = re.sub(r"^<.*?>", "", storytext_with_container).replace("<\div>", "")
@@ -44,6 +42,13 @@ class FFNetChapter:
         # TODO doesn't always exist
         return int(re.search(r"Updated:.*?xutime=\"(\d+)\"", self.score_dates_id, re.DOTALL).group(1))
 
+    def get_permalink(self):
+        canonical_links = self.dom.head.select("link[rel=canonical]")
+        if canonical_links:
+            return "https:" + canonical_links[0].attrs["href"]
+        else:
+            return None
+
     def get_score(self):
         return re.search(r"Favs:\s+([\d,]+)", self.score_dates_id, re.DOTALL).group(1)
 
@@ -53,7 +58,7 @@ class FFNetChapter:
                        comments=self.reviews,
                        date_published=self.get_date_published(),
                        date_updated=self.get_date_updated(),
-                       permalink=self.permalink,
+                       permalink=self.get_permalink(),
                        score=self.get_score(),
                        story_title=self.story_title,
                        text=self.text,

@@ -14,7 +14,7 @@ class TestFFnetChapter:
         assert self.subject.get_score() == "5,555"
         assert self.subject.get_date_updated() == 1290054512
         assert self.subject.get_date_published() == 1279499410
-        assert self.subject.permalink == "https://www.fanfiction.net/s/555/1/My-Great-Story"
+        assert self.subject.get_permalink() == "https://www.fanfiction.net/s/555/1/My-Great-Story"
         assert self.subject.text == "Story Text *Goes* **Here**. Chapter 1."
         assert self.subject.reviews == []
 
