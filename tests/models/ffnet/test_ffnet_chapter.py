@@ -10,7 +10,7 @@ class TestFFnetChapter:
 
     def test_set_fields_from_html(self):
         assert self.subject.author_name == "Great Author"
-        assert self.subject.title == "1. Yes, these option tags are"
+        assert self.subject.get_chapter_title() == "1. Yes, these option tags are"
         assert self.subject.get_score() == "5,555"
         assert self.subject.get_date_updated() == 1290054512
         assert self.subject.get_date_published() == 1279499410

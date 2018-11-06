@@ -11,12 +11,11 @@ class FFNetChapter:
         self.set_fields_from_html(chapter_html, reviews_htmls)
 
     def set_fields_from_html(self, chapter_html, reviews_htmls):
-        dom = bs4.BeautifulSoup(chapter_html, "lxml")
-        info_box = dom.select("#profile_top")[0]
+        self.dom = bs4.BeautifulSoup(chapter_html, "lxml")
+        info_box = self.dom.select("#profile_top")[0]
         info_fields = info_box.select(".xcontrast_txt")
 
         self.author_name = info_fields[2].text.strip()
-        self.title = dom.select("#chap_select")[0].find_all("option", selected=True)[0].text.strip()
         self.story_title = info_fields[0].text.strip()
         self.summary = info_fields[5]  # TODO do something with this
         try:
@@ -26,7 +25,7 @@ class FFNetChapter:
 
         self.score_dates_id = str(info_fields[6])
 
-        storytext_with_container = str(dom.select("#storytext")[0])
+        storytext_with_container = str(self.dom.select("#storytext")[0])
         # Yes, use regex to work with HTML. It's a very constrained input.
         storytext_html = re.sub(r"^<.*?>", "", storytext_with_container).replace("<\div>", "")
         text_maker = html2text.HTML2Text()
@@ -34,6 +33,12 @@ class FFNetChapter:
         self.text = text_maker.handle(storytext_html).strip()
 
         self.reviews = reviews_htmls  # TODO convert to text
+
+    def get_chapter_title(self):
+        select = self.dom.select("#chap_select")
+        if select == []:
+            return None
+        return select[0].find_all("option", selected=True)[0].text.strip()
 
     def get_date_published(self):
         return int(re.search(r"Published:.*?xutime=\"(\d+)\"", self.score_dates_id, re.DOTALL).group(1))
@@ -62,4 +67,4 @@ class FFNetChapter:
                        score=self.get_score(),
                        story_title=self.story_title,
                        text=self.text,
-                       title=self.title)
+                       title=self.get_chapter_title())
