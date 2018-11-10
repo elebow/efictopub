@@ -25,34 +25,21 @@ class FFNet(fetchers.BaseFetcher):
         return [ffnet_chapter.as_chapter() for ffnet_chapter in self.generate_ffnet_chapters()]
 
     def generate_ffnet_chapters(self):
-        return (FFNetChapter(chapter_html, reviews_html)
-                for chapter_html, reviews_html
-                in zip(self.generate_chapter_htmls(), self.generate_review_htmls()))
-
-    def generate_chapter_htmls(self):
         for n in itertools.count(1):
-            url = self.get_chapter_url(n)
+            chapter_url = self.get_chapter_url(n)
+            reviews_url = self.get_chapter_reviews_url(n)
+            print(f"Fetching chapter {n} ({chapter_url}, {reviews_url})")
 
-            print(f"Fetching chapter {n} ({url})")
-            response = request_delay.get(url)
-            if "FanFiction.Net Message Type 1<hr size=1 noshade>Chapter not found." in str(response.text):
+            chapter_response = request_delay.get(chapter_url)
+            reviews_response = request_delay.get(reviews_url)
+            ffnet_chapter = FFNetChapter(str(chapter_response.text), str(reviews_response.text))
+
+            print("OK")
+            yield ffnet_chapter
+
+            if ffnet_chapter.is_last_chapter() or ffnet_chapter.is_single_chapter_story():
                 print("Done")
                 return
-            print("OK")
-            yield response.text
-
-    def generate_review_htmls(self):
-        for n in itertools.count(1):
-            url = self.get_chapter_reviews_url(n)
-
-            print(f"Fetching chapter {n} reviews ({url})")
-            response = request_delay.get(url)
-            if "<td  style='padding-top:10px;padding-bottom:10px'>No Reviews found.</td>" \
-                    in str(response.text):
-                print("Done")
-                return
-            print("OK")
-            yield response.text
 
     def calculate_ffnet_id(self, id_or_url):
         if re.match(r"\d+$", id_or_url):
