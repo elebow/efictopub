@@ -14,3 +14,4 @@ cover images, for sources that have them
 ebooklib MR: stop automatically setting dcterms:modified if it's being set manually
 ffnet category and property. Append in brackets to title?
 eliminate FETCHER_CLASS and just have a Fetcher class in each module
+automatic git commit after writing archive

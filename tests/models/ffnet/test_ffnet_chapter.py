@@ -9,7 +9,7 @@ class TestFFnetChapter:
         self.subject = FFNetChapter(chapter_html)
 
     def test_set_fields_from_html(self):
-        assert self.subject.author_name == "Great Author"
+        assert self.subject.get_author_name() == "Great Author"
         assert self.subject.get_chapter_title() == "1. Yes, these option tags are"
         assert self.subject.get_score() == "5,555"
         assert self.subject.get_date_updated() == 1290054512
@@ -29,3 +29,12 @@ class TestFFnetChapter:
         assert chapter.score == "5,555"
         assert chapter.text == "Story Text *Goes* **Here**. Chapter 1."
         assert chapter.title == "1. Yes, these option tags are"
+
+    def test_is_last_chapter(self):
+        assert \
+            FFNetChapter("<select id='chap_select'><option selected>1</option><option>2</option></select><div id='storytext'></div>") \
+            .is_last_chapter() is False
+
+        assert \
+            FFNetChapter("<select id='chap_select'><option>1</option><option selected>2</option></select><div id='storytext'></div>") \
+            .is_last_chapter() is True

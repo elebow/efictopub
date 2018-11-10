@@ -48,7 +48,7 @@ class FFNetChapter:
         return int(re.search(r"Updated:.*?xutime=\"(\d+)\"", self.score_dates_id, re.DOTALL).group(1))
 
     def get_permalink(self):
-        canonical_links = self.dom.head.select("link[rel=canonical]")
+        canonical_links = self.dom.select("link[rel=canonical]")
         if canonical_links:
             return "https:" + canonical_links[0].attrs["href"]
         else:

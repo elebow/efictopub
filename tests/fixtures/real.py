@@ -33,10 +33,25 @@ def comments_real(count):
 
 
 def ffnet_chapter_html_real():
-    with open("tests/fixtures/www.fanfiction.net_1.html", "rb") as file:
+    with open("tests/fixtures/www.fanfiction.net_1.html", "r") as file:
         return file.read()
 
 
 def ffnet_chapter_2_html_real():
-    with open("tests/fixtures/www.fanfiction.net_2.html", "rb") as file:
+    with open("tests/fixtures/www.fanfiction.net_2.html", "r") as file:
+        return file.read()
+
+
+def ffnet_chapter_3_html_real():
+    with open("tests/fixtures/www.fanfiction.net_3.html", "r") as file:
+        return file.read()
+
+
+def ffnet_single_chapter_story_html_real():
+    with open("tests/fixtures/www.fanfiction.net_single.html", "r") as file:
+        return file.read()
+
+
+def ffnet_single_chapter_story_reviews_html_real():
+    with open("tests/fixtures/www.fanfiction.net_single_reviews.html", "r") as file:
         return file.read()
