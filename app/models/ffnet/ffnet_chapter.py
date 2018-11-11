@@ -44,8 +44,11 @@ class FFNetChapter:
         return int(re.search(r"Published:.*?xutime=\"(\d+)\"", self.score_dates_id, re.DOTALL).group(1))
 
     def get_date_updated(self):
-        # TODO doesn't always exist
-        return int(re.search(r"Updated:.*?xutime=\"(\d+)\"", self.score_dates_id, re.DOTALL).group(1))
+        groups = re.search(r"Updated:.*?xutime=\"(\d+)\"", self.score_dates_id, re.DOTALL)
+        if groups:
+            return int(groups.group(1))
+        else:
+            return 0
 
     def get_permalink(self):
         canonical_links = self.dom.select("link[rel=canonical]")
