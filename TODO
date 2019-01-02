@@ -15,3 +15,6 @@ ebooklib MR: stop automatically setting dcterms:modified if it's being set manua
 ffnet category and property. Append in brackets to title?
 eliminate FETCHER_CLASS and just have a Fetcher class in each module
 automatic git commit after writing archive
+general --options arg that gets passed to the fetcher class?
+	minimum length of forum post to consider a chapter, reddit author pattern, etc
+Remove the pre-fetch git commit and just abort if that file is dirty. Require a --clobber-local-changes to overwrite.

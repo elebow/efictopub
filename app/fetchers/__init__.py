@@ -14,6 +14,7 @@ for module_info in pkgutil.iter_modules(__path__):
 
         # Add it to locals() so we can reference it from elsewhere.
         # This is equivalent to doing a bunch of `from .archive import Archive`
+        # TODO is this even necessary
         locals()[fetcher_class.__name__] = fetcher_class
 
         fetchers.append(Fetcher(module, fetcher_class, module.can_handle_url))
