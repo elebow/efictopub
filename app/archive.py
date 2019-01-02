@@ -18,9 +18,13 @@ def get(id_or_path):
 
 
 def store(story):
-    path = f"{config.archive.location}/{story.id}.yml"
+    path = path_for_story(story)
     with open(path, "w") as outfile:
         return yaml.safe_dump(story, outfile)
+
+
+def path_for_story(story):
+    return f"{config.archive.location}/{story.id}.yml"
 
 
 def id_or_path_to_path(id_or_path):
