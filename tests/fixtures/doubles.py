@@ -103,6 +103,13 @@ def praw_submission_with_ambiguous_next():
     return praw_submission_double(selftext="[next](link1) [next](link2)")
 
 
+def praw_submission_with_duplicate_next():
+    return praw_submission_double(selftext="""
+        [next](https://www.reddit.com/r/great_subreddit/comments/000000/great_title)
+        [next](https://www.reddit.com/r/great_subreddit/comments/000000/great_title)
+    """)
+
+
 def praw_wikipage_double(_reddit, _subreddit, _pagename):
     return InstanceDouble("praw.models.reddit.wikipage.WikiPage",
                           content_md="[/r/hfy](http://www.reddit.com/r/HFY/)\n[some other link](http://redd.it/2oflhg)")

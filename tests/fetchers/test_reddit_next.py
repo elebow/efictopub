@@ -7,6 +7,7 @@ from app import fetchers
 from app import exceptions
 
 from tests.fixtures.doubles import praw_submission_with_ambiguous_next
+from tests.fixtures.doubles import praw_submission_with_duplicate_next
 from tests.fixtures.doubles import praw_submissions
 from tests.fixtures.doubles import find_praw_submission
 
@@ -26,6 +27,12 @@ class TestFetchersRedditNext:
             [subm
              for subm
              in fetchers.RedditNext("_what").generate_next_submissions(praw_submission_with_ambiguous_next())]
+
+    @patch("praw.models.reddit.submission.Submission", find_praw_submission)
+    def test_duplicate_next(self):
+        [subm
+         for subm
+         in fetchers.RedditNext("_what").generate_next_submissions(praw_submission_with_duplicate_next())]
 
     @patch("praw.models.Submission", find_praw_submission)
     def test_skip_comments(self):

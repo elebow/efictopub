@@ -34,11 +34,12 @@ class RedditNext(fetchers.BaseFetcher):
         while True:
             yield subm
             next_links = MarkdownParser(subm.selftext).links_containing_text("next")
-            if len(next_links) > 1:
+            next_urls = list(set([link.href for link in next_links]))
+            if len(next_urls) > 1:
                 raise AmbiguousNextError
-            elif len(next_links) == 0:
+            elif len(next_urls) == 0:
                 return
-            subm = reddit.Submission(praw.models.Submission(self.reddit, url=next_links[0].href))
+            subm = reddit.Submission(praw.models.Submission(self.reddit, url=next_urls[0]))
 
 
 FETCHER_CLASS = RedditNext
