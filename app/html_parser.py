@@ -20,9 +20,9 @@ class HTMLParser:
     def as_html(self):
         self.dom.encode()
 
-    # Return all the links contaning a specified string.
-    # This is useful for finding prev/next links in a post that is part of a series.
-    # Note that link text is already downcased in parse_links().
     def links_containing_text(self, text_to_find):
+        """Return all the links contaning a specified string.
+        This is useful for finding prev/next links in a post that is part of a series.
+        """
         regexp_to_find = re.compile(r"\b%s\b" % text_to_find, re.IGNORECASE)
         return [link for link in self.links if regexp_to_find.search(link.text)]

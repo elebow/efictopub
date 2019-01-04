@@ -47,11 +47,11 @@ def praw_redditor_with_submissions_double(name="some redditor"):
                                                      new=lambda: praw_submissions))
 
 
-def praw_comment_double(n=0, author=praw_redditor(), body="some body text", replies=[]):
+def praw_comment_double(n=0, author=praw_redditor(), body_html="some body text", replies=[]):
     return InstanceDouble("praw.models.reddit.comment.Comment",
                           author=author,
                           author_flair_text="",
-                          body=body,
+                          body_html=body_html,
                           created_utc=f"created utc {n}",
                           edited=f"edited timestamp {n}",
                           id="reddit id {n}",
@@ -83,17 +83,17 @@ def praw_submission_double(n=0, author=-1, comments=[], selftext="some selftext"
 
 def praw_submission_with_author_note_double(n=0):
     author = praw_redditor()
-    comment = praw_comment_double(author=author, body="short author note")
+    comment = praw_comment_double(author=author, body_html="short author note")
     return praw_submission_double(author=author, comments=[comment])
 
 
 def praw_submission_continued_in_comments_double(n=0):
     author = praw_redditor()
     comment2 = praw_comment_double(author=author,
-                                   body="long continuation 2" * 200,
+                                   body_html="long continuation 2" * 200,
                                    replies=[])
     comment1 = praw_comment_double(author=author,
-                                   body="long continuation 1" * 200,
+                                   body_html="long continuation 1" * 200,
                                    replies=[comment2])
     comment_forest = praw.models.comment_forest.CommentForest(None, [comment1])
     return praw_submission_double(author=author, comments=comment_forest)
@@ -133,7 +133,7 @@ praw_submissions = [
 for subm in praw_submissions[0:-1]:
     # Add "Next" links to all but the last
     subm.selftext += f"[Next](https://www.reddit.com/r/great_subreddit/comments/00000{int(subm.id[-1:]) + 1}/great_title)"
-praw_submissions[0].comments[2].body += "[some link](example.com)"
+praw_submissions[0].comments[2].body_html += "<a href='example.com'>some link</a>"
 
 
 def find_praw_submission(_self=None, *, url=None, id=None):

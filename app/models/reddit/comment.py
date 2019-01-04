@@ -1,26 +1,42 @@
+import bs4
 import functools
 
-from app.markdown_parser import MarkdownParser
+from app.html_parser import HTMLParser
 import app.models
 
 
 class Comment:
     def __init__(self, praw_comment):
+        self.praw_comment = praw_comment
+
         self.author_name = praw_comment.author.name if praw_comment.author else "[n/a]"
         self.author_flair_text = praw_comment.author_flair_text
-        self.body = praw_comment.body
         self.created_utc = praw_comment.created_utc
         self.edited = praw_comment.edited
         self.reddit_id = praw_comment.id
-        self.replies = self.replies_for_comment(praw_comment)
         self.permalink = praw_comment.permalink
         self.ups = praw_comment.ups
 
-    def replies_for_comment(self, praw_comment):
-        return [Comment(c) for c in praw_comment.replies]
+    @property
+    @functools.lru_cache()
+    def body_html(self):
+        dom = bs4.BeautifulSoup(self.praw_comment.body_html, "lxml").body
 
+        # Strip the containing <div> from the reddit comment.
+        containing_div = dom.find('div.md')
+        if containing_div:
+            containing_div.unwrap()
+
+        return dom.encode_contents().decode()
+
+    @property
+    @functools.lru_cache()
+    def replies(self):
+        return [Comment(c) for c in self.praw_comment.replies]
+
+    @functools.lru_cache()
     def all_links_in_text(self):
-        return MarkdownParser(self.body).links
+        return HTMLParser(self.body_html).links
 
     @functools.lru_cache()
     def as_comment(self):
@@ -30,4 +46,4 @@ class Comment:
                                           permalink=self.permalink,
                                           replies=[reply.as_comment() for reply in self.replies],
                                           score=self.ups,
-                                          text=self.body)
+                                          text=self.body_html)
