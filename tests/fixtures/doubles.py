@@ -112,7 +112,7 @@ def praw_submission_with_duplicate_next():
 
 def praw_wikipage_double(_reddit, _subreddit, _pagename):
     return InstanceDouble("praw.models.reddit.wikipage.WikiPage",
-                          content_md="[/r/hfy](http://www.reddit.com/r/HFY/)\n[some other link](http://redd.it/2oflhg)")
+                          content_html="<a href='http://www.reddit.com/r/HFY/'>/r/hfy</a>)\n<a href='http://redd.it/2oflhg'>some other link</a>")
 
 
 def story_double():

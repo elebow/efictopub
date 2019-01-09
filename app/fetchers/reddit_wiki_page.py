@@ -3,7 +3,7 @@ import re
 
 from app import fetchers
 from app.lib import reddit_util
-from app.markdown_parser import MarkdownParser
+from app.html_parser import HTMLParser
 from app.models import reddit
 from app.models.story import Story
 
@@ -28,7 +28,7 @@ class RedditWikiPage(fetchers.BaseFetcher):
 
     def links_mentioned_in_wiki_page(self):
         wikipage = reddit_util.parse_id_or_url(self.url, self.reddit)
-        links = MarkdownParser(wikipage.text).links
+        links = HTMLParser(wikipage.html).links
         return [link for link in links if "/wiki/" not in link.href]
 
     def generate_parents(self, start_comm):
