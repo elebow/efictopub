@@ -1,3 +1,5 @@
+import functools
+
 from app import archive
 from app import config
 from app import fetchers
@@ -16,29 +18,28 @@ class Controller:
         self.archive_story()
 
         if self.args.write_epub:
-            self.output(self.story)
+            self.output_story()
 
-    def get_story(self):
+    @property
+    @functools.lru_cache()
+    def story(self):
         if self.args.fetcher:
             fetcher = fetchers.fetcher_by_name(self.args.fetcher, self.args.target)
         else:
             fetcher = fetchers.fetcher_for_url(self.args.target)
         return fetcher.fetch_story()
 
-    def output(self, story):
+    def output_story(self):
         outfile = self.args.outfile if self.args.outfile else "book.epub"
-        EpubWriter(story, outfile).write_epub()
+        EpubWriter(self.story, outfile).write_epub()
         print(f"wrote {outfile}")
 
     def archive_story(self):
+        #TODO we can't commit just the story before fetching, because we don't know the name/id/path/anything
+        #       so just commit everything? or stash and notify the user? or commit to a [new?] branch?
         git.commit_story(self.story, f"Local changes before fetching {self.story.title}")
         archive.store(self.story)
         git.commit_story(self.story, f"Fetch {self.story.title}")
 
     def store_args_in_config(self):
         config.store_options(self.args)
-
-    @property
-    def story(self):
-        #TODO just put the contents of get_story() here
-        return self.get_story()
