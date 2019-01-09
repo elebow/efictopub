@@ -9,7 +9,6 @@ separate field in Chapter for author's notes. Before and after notes.
 Generate a (text-only?) cover image for readers that can display such things
 Add metadata to cover page text, including permalink, whether the story is ongoing (or dead), which site it came from, word count, etc.
 FF.net story score (just pick any of the chapter scores, because they actually apply to the story as a whole)
-html2text preserve <center>. Commonmark allows it.
 cover images, for sources that have them
 ebooklib MR: stop automatically setting dcterms:modified if it's being set manually
 ffnet category and property. Append in brackets to title?
