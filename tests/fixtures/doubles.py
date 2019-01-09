@@ -12,7 +12,7 @@ def chapter_double(n=0, date_published=f"start date", date_updated=f"end date"):
                           author=f"great author {n}",
                           score=5,
                           story_title="My Great Story",
-                          text=f"chapter content {n}",
+                          text=f"<p>chapter content {n}</p>",
                           title=f"chapter title {n}")
 
 

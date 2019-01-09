@@ -19,7 +19,7 @@ class TestController:
         story = subject.get_story()
 
         assert [chap.text for chap in story.chapters] == \
-            ["chapter content 0", "chapter content 1", "chapter content 2"]
+            ["<p>chapter content 0</p>", "<p>chapter content 1</p>", "<p>chapter content 2</p>"]
         assert story.author_name == "great author 0"
 
     @patch("app.fetchers.RedditAuthor.fetch_chapters", lambda _x: chapters_double(3))
@@ -30,7 +30,7 @@ class TestController:
         story = subject.get_story()
 
         assert [chap.text for chap in story.chapters] == \
-            ["chapter content 0", "chapter content 1", "chapter content 2"]
+            ["<p>chapter content 0</p>", "<p>chapter content 1</p>", "<p>chapter content 2</p>"]
         assert story.author_name == "great author 0"
 
     @patch("app.config.archive", MagicMock(location="/path/to/archive"))
