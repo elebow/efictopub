@@ -16,7 +16,7 @@ class FFNetChapter:
 
         self.text = self.dom.select("#storytext")[0].encode_contents().decode().strip()
 
-        self.reviews = reviews_htmls  # TODO convert to text
+        self.reviews = reviews_htmls
 
     @functools.lru_cache()
     def get_info_fields(self):
