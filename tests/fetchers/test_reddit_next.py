@@ -28,7 +28,7 @@ class TestFetchersRedditNext:
              for subm
              in fetchers.RedditNext("_what").generate_next_submissions(praw_submission_with_ambiguous_next())]
 
-    @patch("praw.models.reddit.submission.Submission", find_praw_submission)
+    @patch("praw.models.Submission", find_praw_submission)
     def test_duplicate_next(self):
         [subm
          for subm

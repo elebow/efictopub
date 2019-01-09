@@ -4,8 +4,6 @@ from app import config
 from app.models import reddit
 from app.models.chapter import Chapter
 
-from app.markdown_parser import MarkdownParser
-
 
 class Submission:
     def __init__(self, praw_submission):
@@ -18,7 +16,7 @@ class Submission:
         self.edited = praw_submission.edited
         self.reddit_id = praw_submission.id
         self.permalink = praw_submission.permalink
-        self.selftext = praw_submission.selftext
+        self.selftext_html = praw_submission.selftext_html
         self.title = praw_submission.title
         self.ups = praw_submission.ups
 
@@ -26,13 +24,11 @@ class Submission:
         praw_submission.comments.replace_more(limit=None)
         return [reddit.Comment(comm).as_comment() for comm in praw_submission.comments]
 
-    def all_links_in_text(self):
-        return MarkdownParser(self.selftext).links
-
+    @property
     @functools.lru_cache()
-    def get_full_text(self):
+    def text(self):
         """Extract the text from the submission body and zero or more comments."""
-        text = self.selftext
+        text = self.selftext_html
 
         if not self.comments:
             return text
@@ -59,5 +55,5 @@ class Submission:
                        permalink=self.permalink,
                        score=self.ups,
                        story_title=f"[auto title] {self.title}",
-                       text=self.get_full_text(),
+                       text=self.text,
                        title=self.title)

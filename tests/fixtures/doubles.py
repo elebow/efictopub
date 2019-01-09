@@ -64,19 +64,19 @@ def praw_comments_double(count):
     return [praw_comment_double(n) for n in range(0, count)]
 
 
-def praw_submission_double(n=0, author=-1, comments=[], selftext="some selftext",
+def praw_submission_double(n=0, author=-1, comments=[], selftext_html="<p>some selftext_html</p>",
                            title="some title"):
     author = praw_redditor(n) if author == -1 else author
     # CommentForest is bothersome to mock. It needs to be iterable.
     comment_forest = praw.models.comment_forest.CommentForest(None, comments)
-    return InstanceDouble("praw.models.Submission",
+    return InstanceDouble("praw.models.reddit.submission.Submission",
                           author=author,
                           comments=comment_forest,
                           created_utc=f"created utc {n}",
                           edited=f"edited timestamp {n}",
                           id=f"00000{n}",
                           permalink=f"https://www.reddit.com/r/great_subreddit/comments/00000{n}/great_title",
-                          selftext=selftext,
+                          selftext_html=selftext_html,
                           title=title,
                           ups=5)
 
@@ -100,13 +100,13 @@ def praw_submission_continued_in_comments_double(n=0):
 
 
 def praw_submission_with_ambiguous_next():
-    return praw_submission_double(selftext="[next](link1) [next](link2)")
+    return praw_submission_double(selftext_html="<a href='link1'>next</a> <a href='link2'>next</a>")
 
 
 def praw_submission_with_duplicate_next():
-    return praw_submission_double(selftext="""
-        [next](https://www.reddit.com/r/great_subreddit/comments/000000/great_title)
-        [next](https://www.reddit.com/r/great_subreddit/comments/000000/great_title)
+    return praw_submission_double(selftext_html="""
+        <a href='https://www.reddit.com/r/great_subreddit/comments/000000/great_title'>next</a>
+        <a href='https://www.reddit.com/r/great_subreddit/comments/000000/great_title'>next</a>
     """)
 
 
@@ -132,7 +132,7 @@ praw_submissions = [
 ]
 for subm in praw_submissions[0:-1]:
     # Add "Next" links to all but the last
-    subm.selftext += f"[Next](https://www.reddit.com/r/great_subreddit/comments/00000{int(subm.id[-1:]) + 1}/great_title)"
+    subm.selftext_html += f"<a href='https://www.reddit.com/r/great_subreddit/comments/00000{int(subm.id[-1:]) + 1}/great_title'>Next</a>"
 praw_submissions[0].comments[2].body_html += "<a href='example.com'>some link</a>"
 
 

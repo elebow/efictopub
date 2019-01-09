@@ -3,7 +3,7 @@ import re
 
 from app import fetchers
 from app.lib import reddit_util
-from app.markdown_parser import MarkdownParser
+from app.html_parser import HTMLParser
 from app.models import reddit
 from app.models.story import Story
 from app.exceptions import AmbiguousNextError
@@ -33,7 +33,7 @@ class RedditNext(fetchers.BaseFetcher):
         subm = start_subm
         while True:
             yield subm
-            next_links = MarkdownParser(subm.selftext).links_containing_text("next")
+            next_links = HTMLParser(subm.selftext_html).links_containing_text("next")
             next_urls = list(set([link.href for link in next_links]))
             if len(next_urls) > 1:
                 raise AmbiguousNextError
