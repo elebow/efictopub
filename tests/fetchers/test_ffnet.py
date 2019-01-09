@@ -27,9 +27,9 @@ class TestFetchersFFNet:
         assert story.title == "My Great Story"
         assert story.chapters[0].title == "1. Yes, these option tags are"
         assert [ch.text for ch in story.chapters] == [
-            "Story Text *Goes* **Here**. Chapter 1.",
-            "Story Text *Goes* **Here**. Chapter 2.",
-            "Story Text *Goes* **Here**. Chapter 3."
+            "<p>\n    Story Text <em>Goes</em> <strong>Here</strong>. Chapter 1.\n    </p>",
+            "<p>\n    Story Text <em>Goes</em> <strong>Here</strong>. Chapter 2.\n    </p>",
+            "<p>\n    Story Text <em>Goes</em> <strong>Here</strong>. Chapter 3.\n    </p>",
         ]
         assert [ch.comments for ch in story.chapters] == [
             "reviews for chapter 1",
@@ -58,7 +58,7 @@ class TestFetchersFFNet:
         fetcher = FFNet("https://www.fanfiction.net/s/555/8/")
         htmls = [x for x in fetcher.generate_ffnet_chapters()]
         assert len(htmls) == 1
-        assert htmls[0].text == "Story Text *Goes* **Here**."
+        assert htmls[0].text == "<p>\n       Story Text <em>Goes</em> <strong>Here</strong>.\n       </p>"
 
     def test_calculate_ffnet_id(self):
         assert FFNet("https://www.fanfiction.net/s/555/8/").ffnet_id == "555"

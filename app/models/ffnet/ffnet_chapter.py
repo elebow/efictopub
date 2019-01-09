@@ -1,6 +1,5 @@
 import bs4
 import functools
-import html2text
 import re
 
 from app.models.chapter import Chapter
@@ -15,12 +14,7 @@ class FFNetChapter:
 
         self.score_dates_id = str(self.get_info_fields()[6])
 
-        storytext_with_container = str(self.dom.select("#storytext")[0])
-        # Yes, use regex to work with HTML. It's a very constrained input.
-        storytext_html = re.sub(r"^<.*?>", "", storytext_with_container).replace("<\div>", "")
-        text_maker = html2text.HTML2Text()
-        text_maker.emphasis_mark = "*"
-        self.text = text_maker.handle(storytext_html).strip()
+        self.text = self.dom.select("#storytext")[0].encode_contents().decode().strip()
 
         self.reviews = reviews_htmls  # TODO convert to text
 
