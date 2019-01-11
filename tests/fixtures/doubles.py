@@ -47,7 +47,8 @@ def praw_redditor_with_submissions_double(name="some redditor"):
                                                      new=lambda: praw_submissions))
 
 
-def praw_comment_double(n=0, author=praw_redditor(), body_html="some body text", replies=[]):
+def praw_comment_double(n=0, author=praw_redditor(),
+                        body_html="<div class=\"md\"><p>some body text</p>\n</div>", replies=[]):
     return InstanceDouble("praw.models.reddit.comment.Comment",
                           author=author,
                           author_flair_text="",

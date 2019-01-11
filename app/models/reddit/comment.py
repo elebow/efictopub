@@ -23,7 +23,7 @@ class Comment:
         dom = bs4.BeautifulSoup(self.praw_comment.body_html, "lxml").body
 
         # Strip the containing <div> from the reddit comment.
-        containing_div = dom.find('div.md')
+        containing_div = dom.find("div", {"class": "md"})
         if containing_div:
             containing_div.unwrap()
 
