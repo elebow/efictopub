@@ -1,3 +1,4 @@
+import bs4
 import functools
 
 from app import config
@@ -28,7 +29,7 @@ class Submission:
     @functools.lru_cache()
     def text(self):
         """Extract the text from the submission body and zero or more comments."""
-        text = self.selftext_html
+        text = self.trim_html(self.selftext_html)
 
         if not self.comments:
             return text
@@ -45,6 +46,20 @@ class Submission:
             comment = comment.replies[0]
 
         return text
+
+    def trim_html(self, html):
+        dom = bs4.BeautifulSoup(html, "lxml").body
+
+        # strip comments
+        for comment in dom.findAll(text=lambda text: isinstance(text, bs4.Comment)):
+            comment.extract()
+
+        # Strip the containing <div>
+        containing_div = dom.find("div", {"class": "md"})
+        if containing_div:
+            containing_div.unwrap()
+
+        return dom.encode_contents().decode()
 
     @functools.lru_cache()
     def as_chapter(self):

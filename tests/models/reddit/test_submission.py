@@ -23,16 +23,16 @@ class TestSubmission:
 
     def test_extract_text_submission(self):
         chapter = reddit.Submission(praw_submission_double())
-        assert chapter.text == "<p>some selftext_html</p>"
+        assert chapter.text == "<p>some selftext_html</p>\n<p>second line</p>\n"
 
     def test_extract_text_submission_note(self):
         chapter = reddit.Submission(praw_submission_with_author_note_double())
-        assert chapter.text == "<p>some selftext_html</p>"
+        assert chapter.text == "<p>some selftext_html</p>\n<p>second line</p>\n"
         assert chapter.comments[0].text == "<p>short author note</p>"
 
     def test_extract_text_submission_continued(self):
         chapter = reddit.Submission(praw_submission_continued_in_comments_double())
-        assert chapter.text == ("<p>some selftext_html</p>" + "\n\n" +
+        assert chapter.text == ("<p>some selftext_html</p>\n<p>second line</p>\n" + "\n\n" +
                                 "<p>" + "long continuation 1" * 200 + "</p>\n\n" +
                                 "<p>" + "long continuation 2" * 200 + "</p>")
         assert chapter.comments[0].text == "[efictopub]: included in chapter text"

@@ -65,7 +65,8 @@ def praw_comments_double(count):
     return [praw_comment_double(n) for n in range(0, count)]
 
 
-def praw_submission_double(n=0, author=-1, comments=[], selftext_html="<p>some selftext_html</p>",
+def praw_submission_double(n=0, author=-1, comments=[],
+                           selftext_html="<!-- SC_OFF --><div class=\"md\"><p>some selftext_html</p>\n\n<p>second line</p>\n</div><!-- SC_ON -->",
                            title="some title"):
     author = praw_redditor(n) if author == -1 else author
     # CommentForest is bothersome to mock. It needs to be iterable.
