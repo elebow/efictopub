@@ -28,10 +28,11 @@ def repo_is_dirty():
         len(status.untracked) > 0
 
 
-def previous_commit_is_not_efic(file):
+def previous_commit_is_not_efic(story):
+    filename = archive.path_for_story(story)
     authors = [entry.commit.author
                for entry
-               in dulwich.repo.Repo(".").get_walker(paths=[file], max_entries=2)]
+               in dulwich.repo.Repo(".").get_walker(paths=[filename], max_entries=2)]
 
     return any([author != efic_author for author in authors])
 
