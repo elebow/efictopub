@@ -1,4 +1,15 @@
 #!/bin/sh
-pipenv run python3 -m pytest -s --cov=app "$@"
+
+case "$@" in
+	*-k*) partial_test=1 ;;
+esac
+
+if [ "$partial_test" = 1 ]; then
+	coverage_arg=''
+else
+	#show code coverage for the dir `app`
+  coverage_arg='--cov=app'
+fi
+
+pipenv run python3 -m pytest -s $coverage_arg "$@"
 # -s         do not capture output. This is needed for ipdb.set_trace()
-# --cov=app  show code coverage for the dir `app`

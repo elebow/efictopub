@@ -16,5 +16,4 @@ Edit story script. Reads yaml, opens vim with each chapter in its own buffer, wr
 readme: Many written works are protected by copyright law. It is your responsibility when using this tool to ensure your usage is permissible in all applicable jurisdictions.
 "update" operation. Fetch new chapters.
 default output dir for epubs
-run_tests skip coverage if -k
 store stories as directories of files (one per chapter?), instead of YAML
