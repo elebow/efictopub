@@ -11,7 +11,7 @@ from tests.fixtures.doubles import chapters_double, story_double
 
 class TestController:
 
-    @patch("app.fetchers.RedditNext.fetch_chapters", lambda _x: chapters_double(3))
+    @patch("reddit_next.Fetcher.fetch_chapters", lambda _x: chapters_double(3))
     @patch("app.archive.store")
     def test_fetch_from_reddit_next(self, archive):
         args = MagicMock(fetcher="reddit_next", target="_whatever-url-or-id")
@@ -21,7 +21,7 @@ class TestController:
             ["<p>chapter content 0</p>", "<p>chapter content 1</p>", "<p>chapter content 2</p>"]
         assert subject.story.author_name == "great author 0"
 
-    @patch("app.fetchers.RedditAuthor.fetch_chapters", lambda _x: chapters_double(3))
+    @patch("reddit_author.Fetcher.fetch_chapters", lambda _x: chapters_double(3))
     @patch("app.archive.store")
     def test_fetch_from_reddit_author_by_url(self, archive):
         args = MagicMock(fetcher=None, target="reddit.com/u/some_redditor")

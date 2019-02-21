@@ -10,7 +10,7 @@ def can_handle_url(url):
     return re.search(r"(?:\w+:\/\/)?(?:\w+)?reddit.com\/u\/\w+.*", url)
 
 
-class RedditAuthor(fetchers.BaseFetcher):
+class Fetcher(fetchers.BaseFetcher):
     def __init__(self, url, *, pattern=r""):
         self.reddit = reddit_util.setup_reddit()
         self.author_name = reddit_util.redditor_name_from_url(url)
@@ -23,6 +23,3 @@ class RedditAuthor(fetchers.BaseFetcher):
         author = self.reddit.redditor(self.author_name)
         regex = re.compile(self.pattern)
         return [reddit.Submission(subm) for subm in author.submissions.new() if regex.search(subm.title)]
-
-
-FETCHER_CLASS = RedditAuthor

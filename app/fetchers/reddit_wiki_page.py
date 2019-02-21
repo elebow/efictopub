@@ -12,7 +12,7 @@ def can_handle_url(url):
     return re.search(r"(?:\w+:\/\/)?(?:\w+)?reddit.com\/r\/\w+\/wiki\/\w+.*", url)
 
 
-class RedditWikiPage(fetchers.BaseFetcher):
+class Fetcher(fetchers.BaseFetcher):
     def __init__(self, url):
         self.url = url
         self.reddit = reddit_util.setup_reddit()
@@ -39,6 +39,3 @@ class RedditWikiPage(fetchers.BaseFetcher):
                 # praw.models.Submission is the top. Only Comments have parents.
                 return
             thing = thing.parent()
-
-
-FETCHER_CLASS = RedditWikiPage

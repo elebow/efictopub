@@ -13,7 +13,7 @@ def can_handle_url(url):
     return re.search(r"(?:\w+:\/\/)?(?:\w+)?reddit.com\/r\/\w+\/comments\/\w+.*", url)
 
 
-class RedditNext(fetchers.BaseFetcher):
+class Fetcher(fetchers.BaseFetcher):
     """Fetch Reddit submissions by following "next" links in the body"""
 
     def __init__(self, start_id_or_url):
@@ -40,6 +40,3 @@ class RedditNext(fetchers.BaseFetcher):
             elif len(next_urls) == 0:
                 return
             subm = reddit.Submission(praw.models.Submission(self.reddit, url=next_urls[0]))
-
-
-FETCHER_CLASS = RedditNext

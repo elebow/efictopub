@@ -12,7 +12,7 @@ def can_handle_url(url):
     return re.search(r"(?:\w+:\/\/)?www.fanfiction.net/", url)
 
 
-class FFNet(fetchers.BaseFetcher):
+class Fetcher(fetchers.BaseFetcher):
     """Fetch story from fanfiction.net"""
 
     def __init__(self, id_or_url):
@@ -68,6 +68,3 @@ class FFNet(fetchers.BaseFetcher):
         # Reviews are not paginated, it seems. The pattern is always
         # https://www.fanfiction.net/r/{story_id}/{chap_num}/1/
         return f"{self.get_story_base_url()}/{n}/1/"
-
-
-FETCHER_CLASS = FFNet

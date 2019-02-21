@@ -8,7 +8,7 @@ def can_handle_url(url):
     return False
 
 
-class Archive(fetchers.BaseFetcher):
+class Fetcher(fetchers.BaseFetcher):
     """
     Fetch a story from the archive.
     Note that ID can be partial, as long as it is unique.
@@ -24,6 +24,3 @@ class Archive(fetchers.BaseFetcher):
     @functools.lru_cache()
     def fetch_chapters(self):
         return self.fetch_story().chapters
-
-
-FETCHER_CLASS = Archive
