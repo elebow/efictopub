@@ -20,6 +20,9 @@ class Fetcher(fetchers.BaseFetcher):
         return Story(chapters=self.fetch_chapters())
 
     def fetch_chapters(self):
+        return [subm.as_chapter() for subm in self.fetch_submissions()]
+
+    def fetch_submissions(self):
         author = self.reddit.redditor(self.author_name)
         regex = re.compile(self.pattern)
         return [reddit.Submission(subm) for subm in author.submissions.new() if regex.search(subm.title)]
