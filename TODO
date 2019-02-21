@@ -1,6 +1,3 @@
---no-clobber to prevent overwriting archived copy if exists
-	--clobber to allow (if disabled in conf file)
-alphabetize imports?
 specific things like reddit's upvotes are stored in rendered form as the "extra" attr or something on the generic chapter
 guess abandonment by average update interval and time since last update
 readme with instructions for adding new fetchers
@@ -13,7 +10,11 @@ cover images, for sources that have them
 ebooklib MR: stop automatically setting dcterms:modified if it's being set manually
 ffnet category and property. Append in brackets to title?
 eliminate FETCHER_CLASS and just have a Fetcher class in each module
-automatic git commit after writing archive
 general --options arg that gets passed to the fetcher class?
 	minimum length of forum post to consider a chapter, reddit author pattern, etc
-Remove the pre-fetch git commit and just abort if that file is dirty. Require a --clobber-local-changes to overwrite.
+Edit story script. Reads yaml, opens vim with each chapter in its own buffer, writes back to yaml. No comments.
+readme: Many written works are protected by copyright law. It is your responsibility when using this tool to ensure your usage is permissible in all applicable jurisdictions.
+"update" operation. Fetch new chapters.
+default output dir for epubs
+run_tests skip coverage if -k
+store stories as directories of files (one per chapter?), instead of YAML
