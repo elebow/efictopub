@@ -26,6 +26,8 @@ parser.add_argument("--outfile", "-o", dest="outfile", action="store",
 
 parser.add_argument("--no-archive", dest="archive", action="store_false", default=True,
                     help="do not write the story to the archive")
+parser.add_argument("--clobber", dest="clobber", action="store_true", default=False,
+                    help="clobber uncommitted changes in the archive")
 parser.add_argument("--no-comments", dest="comments", action="store_false", default=True,
                     help="do not store or write comments, for fetchers that support comments")
 parser.add_argument("--no-write-epub", dest="write_epub", action="store_false", default=True,

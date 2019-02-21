@@ -15,6 +15,12 @@ class Controller:
     def run(self):
         config.load(self.args.config_file)
 
+        if git.repo_is_dirty() and self.args.archive and not self.args.clobber:
+            print("Git repo has uncommitted changes! Refusing to continue. Do one or more of the following:"
+                  f"1. Commit, reset, or otherwise settle the git repo at #{config.archive.location}"
+                  "2. Add the --no-archive option to omit writing to the archive."
+                  "3. Add the --clobber option to clobber uncommitted changes in the archive.")
+            return
         self.archive_story()
 
         if self.args.write_epub:
@@ -35,11 +41,12 @@ class Controller:
         print(f"wrote {outfile}")
 
     def archive_story(self):
-        #TODO we can't commit just the story before fetching, because we don't know the name/id/path/anything
-        #       so just commit everything? or stash and notify the user? or commit to a [new?] branch?
         git.commit_story(self.story, f"Local changes before fetching {self.story.title}")
         archive.store(self.story)
         git.commit_story(self.story, f"Fetch {self.story.title}")
+        if git.previous_commit_is_not_efic(self.story):
+            print("This story's git history contains commits made outside of this program."
+                  "Please review these commits so that your changes are not lost!")
 
     def store_args_in_config(self):
         config.store_options(self.args)
