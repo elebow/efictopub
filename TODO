@@ -1,6 +1,5 @@
 specific things like reddit's upvotes are stored in rendered form as the "extra" attr or something on the generic chapter
 guess abandonment by average update interval and time since last update
-readme with instructions for adding new fetchers
 separate field in Chapter for author's notes. Before and after notes.
 	This might need to be manually filled by editing the archive
 Generate a (text-only?) cover image for readers that can display such things
@@ -12,7 +11,6 @@ ffnet category and property. Append in brackets to title?
 general --options arg that gets passed to the fetcher class?
 	minimum length of forum post to consider a chapter, reddit author pattern, etc
 Edit story script. Reads archive, opens vim with each chapter in its own buffer, writes back to archive file. No comments?
-readme: Many written works are protected by copyright law. It is your responsibility when using this tool to ensure your usage is permissible in all applicable jurisdictions.
 "update" operation. Fetch new chapters.
 default output dir for epubs
 ditch YAML for JSON. The archived stories are not human-readable anyway with all the comments.
