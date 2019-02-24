@@ -52,19 +52,12 @@ class Fetcher(fetchers.BaseFetcher):
         return None
 
     @functools.lru_cache()
-    def get_story_base_url(self):
-        return f"https://www.fanfiction.net/s/{self.ffnet_id}"
-
-    @functools.lru_cache()
-    def get_review_base_url(self):
-        return f"https://www.fanfiction.net/r/{self.ffnet_id}"
-
-    @functools.lru_cache()
     def get_chapter_url(self, n):
-        return f"{self.get_story_base_url()}/{n}"
+        #TODO move this into the FFNetChapter object
+        return f"https://www.fanfiction.net/s/{self.ffnet_id}/{n}"
 
     @functools.lru_cache()
     def get_chapter_reviews_url(self, n):
         # Reviews are not paginated, it seems. The pattern is always
         # https://www.fanfiction.net/r/{story_id}/{chap_num}/1/
-        return f"{self.get_story_base_url()}/{n}/1/"
+        return f"https://www.fanfiction.net/r/{self.ffnet_id}/{n}/1/"
