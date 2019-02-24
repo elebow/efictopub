@@ -9,12 +9,12 @@ class TestFFnetChapter:
         self.subject = FFNetChapter(chapter_html)
 
     def test_set_fields_from_html(self):
-        assert self.subject.get_author_name() == "Great Author"
-        assert self.subject.get_chapter_title() == "1. Yes, these option tags are"
-        assert self.subject.get_score() == "5,555"
-        assert self.subject.get_date_updated() == 1290054512
-        assert self.subject.get_date_published() == 1279499410
-        assert self.subject.get_permalink() == "https://www.fanfiction.net/s/555/1/My-Great-Story"
+        assert self.subject.author_name == "Great Author"
+        assert self.subject.chapter_title == "1. Yes, these option tags are"
+        assert self.subject.score == "5,555"
+        assert self.subject.date_updated == 1290054512
+        assert self.subject.date_published == 1279499410
+        assert self.subject.permalink == "https://www.fanfiction.net/s/555/1/My-Great-Story"
         assert self.subject.text == "<p>\n    Story Text <em>Goes</em> <strong>Here</strong>. Chapter 1.\n    </p>"
         assert self.subject.reviews == []
 
