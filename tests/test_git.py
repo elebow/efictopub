@@ -42,14 +42,14 @@ class TestGit:
         assert git.repo_is_dirty() is False
 
     @patch("dulwich.repo.Repo.get_walker",
-           lambda _x, **args: [MagicMock(commit=MagicMock(author="some other committer"))])
+           lambda _x, **args: [MagicMock(commit=MagicMock(author=b"some other committer"))])
     def test_previous_commit_is_not_efic_true(self):
         story = story_double()
         assert git.previous_commit_is_not_efic(story) is True
 
     @patch("dulwich.repo.Repo.get_walker",
            lambda _x, **args: [MagicMock(commit=MagicMock(
-               author="efictopub <efictopub@users.noreply.github.com>"))])
+               author=b"efictopub <efictopub@users.noreply.github.com>"))])
     def test_previous_commit_is_not_efic_false(self):
         story = story_double()
         assert git.previous_commit_is_not_efic(story) is False

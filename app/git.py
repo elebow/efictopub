@@ -29,8 +29,8 @@ def repo_is_dirty():
 
 
 def previous_commit_is_not_efic(story):
-    filename = archive.path_for_story(story)
-    authors = [entry.commit.author
+    filename = archive.path_for_story(story).encode()
+    authors = [entry.commit.author.decode()
                for entry
                in dulwich.repo.Repo(".").get_walker(paths=[filename], max_entries=2)]
 
