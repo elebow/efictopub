@@ -1,11 +1,9 @@
 specific things like reddit's upvotes are stored in rendered form as the "extra" attr or something on the generic chapter
-guess abandonment by average update interval and time since last update
 separate field in Chapter for author's notes. Before and after notes.
 	This might need to be manually filled by editing the archive
 Generate a (text-only?) cover image for readers that can display such things
-Add metadata to cover page text, including permalink, whether the story is ongoing (or dead), which site it came from, word count, etc.
+	title, author, permalink, dates, complete/incomplete/dead, word count, etc.
 FF.net story score (just pick any of the chapter scores, because they actually apply to the story as a whole)
-cover images, for sources that have them
 ebooklib MR: stop automatically setting dcterms:modified if it's being set manually
 ffnet category and property. Append in brackets to title?
 general --options arg that gets passed to the fetcher class?
