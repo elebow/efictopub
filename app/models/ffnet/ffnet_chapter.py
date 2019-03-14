@@ -8,7 +8,7 @@ from app.models.chapter import Chapter
 class FFNetChapter:
     def __init__(self, chapter_html, reviews_htmls=[]):
         self.dom = bs4.BeautifulSoup(chapter_html, "lxml")
-        self.reviews = reviews_htmls
+        self.reviews = reviews_htmls #TODO make objects
 
     @property
     @functools.lru_cache()
