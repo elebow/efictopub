@@ -10,4 +10,3 @@ general --options arg that gets passed to the fetcher class?
 	minimum length of forum post to consider a chapter, reddit author pattern, etc
 Edit story script. Reads archive, opens vim with each chapter in its own buffer, writes back to archive file. No comments?
 "update" operation. Fetch new chapters.
-ditch YAML for JSON. The archived stories are not human-readable anyway with all the comments.

@@ -22,7 +22,7 @@ class TestGit:
         git.commit_story(story)
 
         ensure_repo_initialized.assert_called_once()
-        add.assert_called_once_with("/path/to/archive", f"/path/to/archive/{story.id}.yml")
+        add.assert_called_once_with("/path/to/archive", f"/path/to/archive/{story.id}.json")
         commit.assert_called_once_with("/path/to/archive",
                                        message="Update story",
                                        author="efictopub <efictopub@users.noreply.github.com>")
