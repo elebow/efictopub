@@ -37,20 +37,6 @@ class TestFetchersFFNet:
             "reviews for chapter 3"
         ]
 
-    """
-    def test_generate_chapters(self):
-        #TODO
-        tests.fixtures.stubs.return_values = [
-            MagicMock(status_code=200, text="5"),
-            MagicMock(status_code=200, text="6"),
-            MagicMock(status_code=200, text="7"),
-            MagicMock(status_code=200, text="FanFiction.Net Message Type 1<hr size=1 noshade>Chapter not found.")
-        ]
-        fetcher = ffnet.Fetcher("https://www.fanfiction.net/s/555/8/")
-        htmls = [x for x in fetcher.generate_ffnet_chapters()]
-        assert htmls == ["5", "6", "7"]
-    """
-
     def test_generate_chapters_for_single_chapter_story(self):
         tests.fixtures.stubs.return_values = [
             MagicMock(status_code=200, text=ffnet_single_chapter_story_html_real()),
