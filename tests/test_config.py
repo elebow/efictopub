@@ -14,6 +14,9 @@ def configparser_get(section, key, fallback=None):
         },
         "ARCHIVE": {
             "location": "my-great-location"
+        },
+        "OUTPUT": {
+            "dir": "my-great-output-dir"
         }
     }[section][key]
 
@@ -39,3 +42,6 @@ class TestConfig:
 
     def test_archive(self):
         assert dict(config.archive._asdict()) == {"location": "my-great-location"}
+
+    def test_output(self):
+        assert dict(config.output._asdict()) == {"dir": "my-great-output-dir"}

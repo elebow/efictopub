@@ -1,4 +1,5 @@
 import functools
+import os
 
 from app import archive
 from app import config
@@ -36,9 +37,15 @@ class Controller:
         return fetcher.fetch_story()
 
     def output_story(self):
-        outfile = self.args.outfile if self.args.outfile else "book.epub"
-        EpubWriter(self.story, outfile).write_epub()
-        print(f"wrote {outfile}")
+        EpubWriter(self.story, self.output_filename).write_epub()
+        print(f"wrote {self.output_filename}")
+
+    @property
+    @functools.lru_cache()
+    def output_filename(self):
+        if self.args.outfile:
+            return self.args.outfile
+        return os.path.join(config.output.dir, self.story.id)
 
     def archive_story(self):
         git.commit_story(self.story, f"Local changes before fetching {self.story.title}")

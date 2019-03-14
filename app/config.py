@@ -6,6 +6,7 @@ import os
 
 Reddit = namedtuple("Reddit", ["app", "secret", "user_agent"])
 Archive = namedtuple("Archive", ["location"])
+Output = namedtuple("Output", ["dir"])
 Options = namedtuple("Options", ["fetch_comments", "write_archive", "write_epub"])
 
 
@@ -17,13 +18,16 @@ def load(filename):
     cfg = configparser.ConfigParser()
     cfg.read(filename)
 
-    global reddit, archive
+    global reddit, archive, output
     reddit = Reddit(app=cfg.get("REDDIT", "app"),
                     secret=cfg.get("REDDIT", "secret"),
                     user_agent=cfg.get("REDDIT", "user_agent"))
     archive = Archive(location=cfg.get("ARCHIVE",
                                        "location",
                                        fallback="%s/.efictopub/archive" % os.environ.get("HOME")))
+    output = Output(dir=cfg.get("OUTPUT",
+                                "dir",
+                                fallback=os.environ.get("HOME")))
 
 
 def store_options(args):
