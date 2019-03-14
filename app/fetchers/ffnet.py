@@ -26,8 +26,8 @@ class Fetcher(fetchers.BaseFetcher):
 
     def generate_ffnet_chapters(self):
         for n in itertools.count(1):
-            chapter_url = self.get_chapter_url(n)
-            reviews_url = self.get_chapter_reviews_url(n)
+            chapter_url = self.generate_chapter_url(n)
+            reviews_url = self.generate_chapter_reviews_url(n)
             print(f"Fetching chapter {n} ({chapter_url}, {reviews_url})")
 
             chapter_response = request_delay.get(chapter_url)
@@ -52,12 +52,11 @@ class Fetcher(fetchers.BaseFetcher):
         return None
 
     @functools.lru_cache()
-    def get_chapter_url(self, n):
-        #TODO move this into the FFNetChapter object
+    def generate_chapter_url(self, n):
         return f"https://www.fanfiction.net/s/{self.ffnet_id}/{n}"
 
     @functools.lru_cache()
-    def get_chapter_reviews_url(self, n):
+    def generate_chapter_reviews_url(self, n):
         # Reviews are not paginated, it seems. The pattern is always
         # https://www.fanfiction.net/r/{story_id}/{chap_num}/1/
         return f"https://www.fanfiction.net/r/{self.ffnet_id}/{n}/1/"
