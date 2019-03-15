@@ -22,6 +22,8 @@ class Controller:
                   "2. Add the --no-archive option to omit writing to the archive."
                   "3. Add the --clobber option to clobber uncommitted changes in the archive.")
             return
+
+        #TODO if not archive fetcher, else we're uselessly overwriting the file we're reading from
         self.archive_story()
 
         if self.args.write_epub:
