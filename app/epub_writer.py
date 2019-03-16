@@ -30,6 +30,7 @@ class EpubWriter:
                                {"property": "dcterms:available"})
 
         self.add_cover()
+        self.add_info_page()
         self.add_chapters()
 
         self.add_toc()
@@ -45,7 +46,10 @@ class EpubWriter:
             self.book.add_item(chapter)
 
     def add_cover(self):
-        page = epub.EpubHtml(uid="cover", title="cover", file_name="cover.xhtml")
+        self.book.set_cover("cover_image.svg", self.story.cover_svg)
+
+    def add_info_page(self):
+        page = epub.EpubHtml(uid="info_page", title="info page", file_name="info.xhtml")
         page.content = f"{self.story.title}<br>by {self.story.author_name}"
         self.book.add_item(page)
 

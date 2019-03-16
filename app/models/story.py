@@ -1,6 +1,8 @@
 import functools
 import urllib.parse
 
+from app.cover_generator import CoverGenerator
+
 
 class Story:
     def __init__(self, *, title=None, chapters):
@@ -36,6 +38,11 @@ class Story:
             "title": self.title,
             "chapters": self.chapters
         }
+
+    @property
+    @functools.lru_cache()
+    def cover_svg(self):
+        return CoverGenerator(self).generate_cover_svg()
 
     @classmethod
     def from_dict(cls, mapping):

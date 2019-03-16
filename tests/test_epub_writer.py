@@ -25,13 +25,13 @@ class TestEpubWriter:
                                                 mock.ANY,
                                                 {"mtime": datetime(2015, 7, 27, 12, 26, 40)})
 
-    def test_add_cover(self):
+    def test_add_info_page(self):
         allow(epub).write_epub
 
         subject = EpubWriter(story_double(), "outfile.epub")
         subject.write_epub()
 
-        assert subject.book.items[0].content == "great title<br>by great author"
+        assert subject.book.items[2].content == "great title<br>by great author"
 
     def test_add_chapters(self):
         subject = EpubWriter(story_double(), "_outfile.epub")

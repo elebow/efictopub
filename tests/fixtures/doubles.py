@@ -124,6 +124,7 @@ def story_double():
                           date_start=1435000000.0,
                           date_end=1438000000,
                           title="great title",
+                          cover_svg="<text>aaa</text>",
                           id="555https%3A%2F%2Fwww.fanfiction.net%2Fs%2F10550829%2F1%2FGreat-Title")
 
 
