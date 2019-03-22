@@ -8,5 +8,5 @@ ebooklib MR: stop automatically setting dcterms:modified if it's being set manua
 ffnet category and property. Append in brackets to title?
 general --options arg that gets passed to the fetcher class?
 	minimum length of forum post to consider a chapter, reddit author pattern, etc
-Edit story script. Reads archive, opens vim with each chapter in its own buffer, writes back to archive file. No comments?
+Edit story script. Reads archive, opens vim with each chapter in its own buffer, writes back to archive file. option for no comments.
 "update" operation. Fetch new chapters.

@@ -32,11 +32,7 @@ class Controller:
     @property
     @functools.lru_cache()
     def story(self):
-        if self.args.fetcher:
-            fetcher = fetchers.fetcher_by_name(self.args.fetcher, self.args.target)
-        else:
-            fetcher = fetchers.fetcher_for_url(self.args.target)
-        return fetcher.fetch_story()
+        return self.fetcher.fetch_story()
 
     def output_story(self):
         EpubWriter(self.story, self.output_filename).write_epub()
@@ -56,6 +52,14 @@ class Controller:
         if git.previous_commit_is_not_efic(self.story):
             print("This story's git history contains commits made outside of this program."
                   "Please review these commits so that your changes are not lost!")
+
+    @property
+    @functools.lru_cache()
+    def fetcher(self):
+        if self.args.fetcher:
+            return fetchers.fetcher_by_name(self.args.fetcher, self.args.target)
+        else:
+            return fetchers.fetcher_for_url(self.args.target)
 
     def store_args_in_config(self):
         config.store_options(self.args)
