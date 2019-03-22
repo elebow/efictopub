@@ -11,5 +11,8 @@ else
   coverage_arg='--cov=app'
 fi
 
-pipenv run python3 -m pytest -s $coverage_arg "$@"
 # -s         do not capture output. This is needed for ipdb.set_trace()
+
+pipenv run python3 -m pytest -s $coverage_arg "$@"
+
+exit $?
