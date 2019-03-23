@@ -12,4 +12,4 @@ class TestCoverGenerator:
         svg = generator.generate_cover_svg()
 
         assert re.search(r"<text.*?>%s</text>" % story.title, svg) is not None
-        assert "2015-06-22 – 2015-07-27 (fetched TODO)" in svg
+        assert "2015-06-22 – 2015-07-27 (fetched 2019-03-23)" in svg

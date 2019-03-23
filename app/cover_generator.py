@@ -22,6 +22,6 @@ class CoverGenerator:
     def date_line(self):
         start = datetime.date.fromtimestamp(self.story.date_start).strftime("%Y-%m-%d")
         end = datetime.date.fromtimestamp(self.story.date_end).strftime("%Y-%m-%d")
-        fetched = "TODO"
+        fetched = datetime.date.fromtimestamp(self.story.date_fetched).strftime("%Y-%m-%d")
 
         return f"{start} – {end} (fetched {fetched})"
