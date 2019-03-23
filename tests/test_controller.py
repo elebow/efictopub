@@ -47,6 +47,22 @@ class TestController:
         output_story.assert_called_once()
         archive_story.assert_called_once()
 
+    @patch("app.config.load", MagicMock())
+    @patch("app.controller.Controller.archive_story")
+    @patch("app.git.repo_is_dirty")
+    @patch("app.controller.Controller.output_story")
+    def test_run_do_not_archive_when_fetcher_is_archive(self, output_story, git_repo_is_dirty, archive_story):
+        args = MagicMock(fetcher="archive", target="reddit.com/u/some_redditor")
+        subject = Controller(args)
+        story = story_double()
+        allow(subject).story.and_return(story)
+
+        subject.run()
+
+        git_repo_is_dirty.assert_called_once()
+        output_story.assert_called_once()
+        archive_story.assert_not_called()
+
     @patch("app.config.archive", MagicMock(location="/path/to/archive"))
     @patch("app.git.previous_commit_is_not_efic")
     @patch("app.git.commit_story")

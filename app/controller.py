@@ -23,8 +23,9 @@ class Controller:
                   "3. Add the --clobber option to clobber uncommitted changes in the archive.")
             return
 
-        #TODO if not archive fetcher, else we're uselessly overwriting the file we're reading from
-        self.archive_story()
+        if not self.fetcher.__module__ == "archive":
+            # Only archive if the fetcher is not already pulling the story from the archive
+            self.archive_story()
 
         if self.args.write_epub:
             self.output_story()
