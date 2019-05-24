@@ -4,7 +4,7 @@ import re
 from app import fetchers
 from app.lib import reddit_util
 from app.html_parser import HTMLParser
-from app.models import reddit
+from app.models.reddit import RedditSubmission
 from app.models.story import Story
 from app.exceptions import AmbiguousNextError
 
@@ -39,4 +39,4 @@ class Fetcher(fetchers.BaseFetcher):
                 raise AmbiguousNextError
             elif len(next_urls) == 0:
                 return
-            subm = reddit.Submission(praw.models.Submission(self.reddit, url=next_urls[0]))
+            subm = RedditSubmission(praw.models.Submission(self.reddit, url=next_urls[0]))

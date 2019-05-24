@@ -2,11 +2,11 @@ import bs4
 import functools
 
 from app import config
-from app.models import reddit
+from app.models.reddit import RedditComment
 from app.models.chapter import Chapter
 
 
-class Submission:
+class RedditSubmission:
     def __init__(self, praw_submission):
         self.author_name = praw_submission.author.name
         if config.options.fetch_comments:
@@ -23,7 +23,7 @@ class Submission:
 
     def fetch_all_comments(self, praw_submission):
         praw_submission.comments.replace_more(limit=None)
-        return [reddit.Comment(comm).as_comment() for comm in praw_submission.comments]
+        return [RedditComment(comm).as_comment() for comm in praw_submission.comments]
 
     @property
     @functools.lru_cache()

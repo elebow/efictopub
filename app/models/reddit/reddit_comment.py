@@ -5,7 +5,7 @@ from app.html_parser import HTMLParser
 import app.models
 
 
-class Comment:
+class RedditComment:
     def __init__(self, praw_comment):
         self.praw_comment = praw_comment
 
@@ -32,7 +32,7 @@ class Comment:
     @property
     @functools.lru_cache()
     def replies(self):
-        return [Comment(c) for c in self.praw_comment.replies]
+        return [RedditComment(c) for c in self.praw_comment.replies]
 
     @functools.lru_cache()
     def all_links_in_text(self):

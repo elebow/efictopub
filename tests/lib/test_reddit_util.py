@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 
 from app.lib import reddit_util
-from app.models import reddit
+from app.models.reddit import RedditSubmission, RedditComment, RedditWikiPage
 from app import exceptions
 
 from tests.fixtures.doubles import praw_submissions
@@ -59,14 +59,14 @@ class TestRedditUtil:
         wiki_url = 'https://reddit.com/r/my_great_subreddit/wiki/some/page/name'
 
         result = self.subject.parse_url(submission_url, self.praw_reddit)
-        assert isinstance(result, reddit.Submission)
+        assert isinstance(result, RedditSubmission)
         submission_class.assert_called_once_with(self.praw_reddit, url=submission_url)
 
         result = self.subject.parse_url(comment_url, self.praw_reddit)
-        assert isinstance(result, reddit.Comment)
+        assert isinstance(result, RedditComment)
         comment_class.assert_called_once_with(self.praw_reddit, url=comment_url)
 
         result = self.subject.parse_url(wiki_url, self.praw_reddit)
-        assert isinstance(result, reddit.WikiPage)
+        assert isinstance(result, RedditWikiPage)
         subreddit_class.assert_called_once_with(self.praw_reddit, "my_great_subreddit")
         wikipage_class.assert_called_once_with(self.praw_reddit, subreddit_inst, "some/page/name")

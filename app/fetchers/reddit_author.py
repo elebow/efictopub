@@ -2,7 +2,7 @@ import re
 
 from app import fetchers
 from app.lib import reddit_util
-from app.models import reddit
+from app.models.reddit import RedditSubmission
 from app.models.story import Story
 
 
@@ -25,4 +25,4 @@ class Fetcher(fetchers.BaseFetcher):
     def fetch_submissions(self):
         author = self.reddit.redditor(self.author_name)
         regex = re.compile(self.pattern)
-        return [reddit.Submission(subm) for subm in author.submissions.new() if regex.search(subm.title)]
+        return [RedditSubmission(subm) for subm in author.submissions.new() if regex.search(subm.title)]

@@ -1,3 +1,3 @@
-from .comment import Comment
-from .submission import Submission
-from .wiki_page import WikiPage
+from .reddit_comment import RedditComment
+from .reddit_submission import RedditSubmission
+from .reddit_wiki_page import RedditWikiPage
