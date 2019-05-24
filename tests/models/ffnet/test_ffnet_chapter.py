@@ -3,7 +3,7 @@ from app.models.ffnet.ffnet_chapter import FFNetChapter
 from tests.fixtures.real import ffnet_chapter_html_real
 
 
-class TestFFnetChapter:
+class TestFFNetChapter:
     def setup_method(self):
         chapter_html = ffnet_chapter_html_real()
         self.subject = FFNetChapter(chapter_html)
