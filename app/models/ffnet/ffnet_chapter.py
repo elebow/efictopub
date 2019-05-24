@@ -3,12 +3,13 @@ import functools
 import re
 
 from app.models.chapter import Chapter
+from app.models.ffnet.ffnet_reviews import FFNetReviews
 
 
 class FFNetChapter:
-    def __init__(self, chapter_html, reviews_htmls=[]):
+    def __init__(self, chapter_html, reviews_html=""):
         self.dom = bs4.BeautifulSoup(chapter_html, "lxml")
-        self.reviews = reviews_htmls #TODO make objects
+        self.reviews_html = reviews_html
 
     @property
     @functools.lru_cache()
@@ -69,6 +70,14 @@ class FFNetChapter:
     def summary(self):
         # TODO do something with this
         return self.info_fields[5].text.strip()
+
+    @property
+    @functools.lru_cache()
+    def reviews(self):
+        if len(self.reviews_html) == 0:
+            return []
+
+        return FFNetReviews(self.reviews_html).reviews
 
     @property
     @functools.lru_cache()
