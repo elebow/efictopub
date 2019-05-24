@@ -47,6 +47,11 @@ def ffnet_chapter_3_html_real():
         return file.read()
 
 
+def ffnet_chapter_reviews_html_real():
+    with open("tests/fixtures/www.fanfiction.net_reviews.html", "r") as file:
+        return file.read()
+
+
 def ffnet_single_chapter_story_html_real():
     with open("tests/fixtures/www.fanfiction.net_single.html", "r") as file:
         return file.read()
