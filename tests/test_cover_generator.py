@@ -11,5 +11,7 @@ class TestCoverGenerator:
         generator = CoverGenerator(story)
         svg = generator.generate_cover_svg()
 
-        assert re.search(r"<text.*?>%s</text>" % story.title, svg) is not None
+        assert re.search(fr"<text[^>]*?>{story.title}</text>", svg) is not None
         assert "2015-06-22 – 2015-07-27 (fetched 2019-03-23)" in svg
+        assert re.search(fr"<text[^>]*?>{story.author_name}</text>", svg) is not None
+        assert re.search(fr"<text[^>]*?>{story.chapters[0].permalink}</text>", svg) is not None
