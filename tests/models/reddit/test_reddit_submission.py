@@ -13,7 +13,7 @@ class TestRedditSubmission:
     def test_comments(self):
         comments = self.submissions[0].comments
         assert len(comments) == 3
-        assert comments[0].author == "redditor 0 ()"
+        assert comments[0].author == "redditor 0"
 
     def test_init(self):
         submission = self.submissions[1]

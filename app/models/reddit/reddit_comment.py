@@ -38,9 +38,17 @@ class RedditComment:
     def all_links_in_text(self):
         return HTMLParser(self.body_html).links
 
+    @property
+    @functools.lru_cache()
+    def formatted_author_name(self):
+        if self.author_flair_text:
+            return f"{self.author_name} ({self.author_flair_text})"
+        else:
+            return self.author_name
+
     @functools.lru_cache()
     def as_comment(self):
-        return app.models.comment.Comment(author=f"{self.author_name} ({self.author_flair_text})",
+        return app.models.comment.Comment(author=self.formatted_author_name,
                                           date_published=self.created_utc,
                                           date_updated=self.edited,
                                           permalink=self.permalink,
