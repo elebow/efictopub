@@ -11,7 +11,7 @@ class Chapter:
         score           score, if available. Reddit upvotes, ff.net favorites, etc.
         story_title     title of the story
         text            text content
-        title           title
+        title           title of the chapter
     """
 
     def __init__(self, *,
