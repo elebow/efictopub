@@ -26,6 +26,9 @@ PreCommit:
 #      - '**/db/structure.sql' # Ignore trailing whitespace in generated files
   RunTests:
     enabled: true
+
+  BlackCheck:
+    enabled: true
 #
 #PostCheckout:
 #  ALL: # Special hook name that customizes all hooks of this type
