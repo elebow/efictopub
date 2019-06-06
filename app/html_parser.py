@@ -13,9 +13,10 @@ class HTMLParser:
     @property
     @functools.lru_cache()
     def links(self):
-        return [self.Link(href=a.attrs.get("href"), text=a.text, title=a.attrs.get("title"))
-                for a
-                in self.dom.select("a")]
+        return [
+            self.Link(href=a.attrs.get("href"), text=a.text, title=a.attrs.get("title"))
+            for a in self.dom.select("a")
+        ]
 
     def as_html(self):
         self.dom.encode()

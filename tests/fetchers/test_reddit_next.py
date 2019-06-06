@@ -20,19 +20,26 @@ class TestFetchersRedditNext:
         assert [subm.permalink for subm in subms] == [
             "https://www.reddit.com/r/great_subreddit/comments/000000/great_title",
             "https://www.reddit.com/r/great_subreddit/comments/000001/great_title",
-            "https://www.reddit.com/r/great_subreddit/comments/000002/great_title"]
+            "https://www.reddit.com/r/great_subreddit/comments/000002/great_title",
+        ]
 
     def test_ambiguous_next(self):
         with pytest.raises(exceptions.AmbiguousNextError):
-            [subm
-             for subm
-             in reddit_next.Fetcher("_what").generate_next_submissions(praw_submission_with_ambiguous_next())]
+            [
+                subm
+                for subm in reddit_next.Fetcher("_what").generate_next_submissions(
+                    praw_submission_with_ambiguous_next()
+                )
+            ]
 
     @patch("praw.models.Submission", find_praw_submission)
     def test_duplicate_next(self):
-        [subm
-         for subm
-         in reddit_next.Fetcher("_what").generate_next_submissions(praw_submission_with_duplicate_next())]
+        [
+            subm
+            for subm in reddit_next.Fetcher("_what").generate_next_submissions(
+                praw_submission_with_duplicate_next()
+            )
+        ]
 
     @patch("praw.models.Submission", find_praw_submission)
     def test_skip_comments(self):

@@ -9,7 +9,6 @@ from app.exceptions import NoArchivedStoryError, AmbiguousArchiveIdError
 
 
 class TestArchive:
-
     def setup_class(self):
         self.id = "55555-my-great-story-id"
 

@@ -16,18 +16,18 @@ class EpubWriter:
         self.book.add_author(self.story.author_name)
 
         # dc:date MUST be the time the EPUB file was generated
-        self.book.add_metadata("DC",
-                               "date",
-                               datetime.utcnow().isoformat())
+        self.book.add_metadata("DC", "date", datetime.utcnow().isoformat())
 
         # dcterms:modified is the last-modified date of the book content
         epub_options = {"mtime": datetime.utcfromtimestamp(self.story.date_end)}
 
         # dcterms:available is defined here to be the date the first chapter was published
-        self.book.add_metadata(None,
-                               "meta",
-                               datetime.utcfromtimestamp(self.story.date_start).isoformat(),
-                               {"property": "dcterms:available"})
+        self.book.add_metadata(
+            None,
+            "meta",
+            datetime.utcfromtimestamp(self.story.date_start).isoformat(),
+            {"property": "dcterms:available"},
+        )
 
         self.add_cover()
         self.add_info_page()
@@ -72,6 +72,4 @@ class EpubWriter:
 
     @functools.lru_cache()
     def epub_chapters(self):
-        return [self.build_epub_html(chapter, num)
-                for num, chapter
-                in enumerate(self.story.chapters)]
+        return [self.build_epub_html(chapter, num) for num, chapter in enumerate(self.story.chapters)]

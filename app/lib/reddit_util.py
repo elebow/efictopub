@@ -7,7 +7,7 @@ from app.models.reddit import RedditSubmission, RedditComment, RedditWikiPage
 
 
 def redditor_name_from_url(url):
-    matches = re.findall(r'.*reddit.com/u/([^/?]*)', url)
+    matches = re.findall(r".*reddit.com/u/([^/?]*)", url)
     if matches:
         return matches[0]
     return None
@@ -24,13 +24,13 @@ def parse_id_or_url(thing, praw_reddit):
 
 
 def parse_url(url, praw_reddit):
-    if re.match(r'.*reddit.com/r/[^/]*?/comments/[^/]*?/[^/]*/?$', url):
+    if re.match(r".*reddit.com/r/[^/]*?/comments/[^/]*?/[^/]*/?$", url):
         return RedditSubmission(praw.models.Submission(praw_reddit, url=url))
 
-    if re.match(r'.*reddit.com/r/[^/]*?/comments/[^/]*?/[^/]*/[^/]*/?$', url):
+    if re.match(r".*reddit.com/r/[^/]*?/comments/[^/]*?/[^/]*/[^/]*/?$", url):
         return RedditComment(praw.models.Comment(praw_reddit, url=url))
 
-    matches = re.findall(r'.*reddit.com/r/(.*?)/wiki/(.*)$', url)[0]
+    matches = re.findall(r".*reddit.com/r/(.*?)/wiki/(.*)$", url)[0]
     if matches:
         subreddit_name = matches[0]
         name = matches[1]
@@ -41,6 +41,6 @@ def parse_url(url, praw_reddit):
 
 
 def setup_reddit():
-    return praw.Reddit(client_id=config.reddit.app,
-                       client_secret=config.reddit.secret,
-                       user_agent=config.reddit.user_agent)
+    return praw.Reddit(
+        client_id=config.reddit.app, client_secret=config.reddit.secret, user_agent=config.reddit.user_agent
+    )

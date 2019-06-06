@@ -36,10 +36,7 @@ class Story:
         return self.chapters[0].story_title
 
     def as_dict(self):
-        return {
-            "title": self.title,
-            "chapters": self.chapters
-        }
+        return {"title": self.title, "chapters": self.chapters}
 
     @property
     @functools.lru_cache()

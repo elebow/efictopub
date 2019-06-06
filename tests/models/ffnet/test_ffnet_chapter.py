@@ -15,7 +15,10 @@ class TestFFNetChapter:
         assert self.subject.date_updated == 1290054512
         assert self.subject.date_published == 1279499410
         assert self.subject.permalink == "https://www.fanfiction.net/s/555/1/My-Great-Story"
-        assert self.subject.text == "<p>\n    Story Text <em>Goes</em> <strong>Here</strong>. Chapter 1.\n    </p>"
+        assert (
+            self.subject.text
+            == "<p>\n    Story Text <em>Goes</em> <strong>Here</strong>. Chapter 1.\n    </p>"
+        )
         assert self.subject.reviews == []
 
     def test_as_chapter(self):
@@ -31,10 +34,16 @@ class TestFFNetChapter:
         assert chapter.title == "1. Yes, these option tags are"
 
     def test_is_last_chapter(self):
-        assert \
-            FFNetChapter("<select id='chap_select'><option selected>1</option><option>2</option></select><div id='storytext'></div>") \
-            .is_last_chapter() is False
+        assert (
+            FFNetChapter(
+                "<select id='chap_select'><option selected>1</option><option>2</option></select><div id='storytext'></div>"
+            ).is_last_chapter()
+            is False
+        )
 
-        assert \
-            FFNetChapter("<select id='chap_select'><option>1</option><option selected>2</option></select><div id='storytext'></div>") \
-            .is_last_chapter() is True
+        assert (
+            FFNetChapter(
+                "<select id='chap_select'><option>1</option><option selected>2</option></select><div id='storytext'></div>"
+            ).is_last_chapter()
+            is True
+        )

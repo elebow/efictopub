@@ -7,11 +7,13 @@ class AmbiguousArchiveIdError(Exception):
 
 class AmbiguousIdError(Exception):
     """An ID can't be mapped to a reddit object—they're all six characters long"""
+
     pass
 
 
 class AmbiguousNextError(Exception):
     """A submission has more than one "next" link, so we don't know which one to follow."""
+
     pass
 
 
@@ -24,9 +26,11 @@ class NoArchivedStoryError(Exception):
 
 class NoFetcherForUrlError(Exception):
     """No fetcher can handle the given URL"""
+
     pass
 
 
 class UnknownFetcherError(Exception):
     """The user specified an unrecognized fetcher"""
+
     pass

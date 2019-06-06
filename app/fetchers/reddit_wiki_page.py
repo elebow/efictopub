@@ -21,9 +21,10 @@ class Fetcher(fetchers.BaseFetcher):
         return Story(chapters=self.fetch_chapters())
 
     def fetch_chapters(self):
-        subms = [reddit.Submission(praw.models.Submission(self.reddit, url=link.href))
-                 for link
-                 in self.links_mentioned_in_wiki_page()]
+        subms = [
+            reddit.Submission(praw.models.Submission(self.reddit, url=link.href))
+            for link in self.links_mentioned_in_wiki_page()
+        ]
         return [subm.as_chapter() for subm in subms]
 
     def links_mentioned_in_wiki_page(self):

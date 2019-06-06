@@ -14,7 +14,6 @@ subreddit_class = MagicMock(return_value=subreddit_inst)
 
 
 class TestRedditUtil:
-
     def setup_method(self):
         self.subject = reddit_util
         self.praw_reddit = MagicMock()
@@ -47,16 +46,16 @@ class TestRedditUtil:
     def test_parse_id_or_url_ambiguous(self, parse_url):
         # ambiguous id
         with pytest.raises(exceptions.AmbiguousIdError):
-            self.subject.parse_id_or_url('aaaaaa', self.praw_reddit)
+            self.subject.parse_id_or_url("aaaaaa", self.praw_reddit)
 
     @patch("praw.models.Submission")
     @patch("praw.models.Comment")
     @patch("praw.models.WikiPage")
     @patch("praw.models.Subreddit", subreddit_class)
     def test_parse_url(self, wikipage_class, comment_class, submission_class):
-        submission_url = 'https://reddit.com/r/my_great_subreddit/comments/a123/my_great_title/'
-        comment_url = 'https://reddit.com/r/my_great_subreddit/comments/a123/my_great_title/b456/'
-        wiki_url = 'https://reddit.com/r/my_great_subreddit/wiki/some/page/name'
+        submission_url = "https://reddit.com/r/my_great_subreddit/comments/a123/my_great_title/"
+        comment_url = "https://reddit.com/r/my_great_subreddit/comments/a123/my_great_title/b456/"
+        wiki_url = "https://reddit.com/r/my_great_subreddit/wiki/some/page/name"
 
         result = self.subject.parse_url(submission_url, self.praw_reddit)
         assert isinstance(result, RedditSubmission)

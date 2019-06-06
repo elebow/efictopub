@@ -10,9 +10,9 @@ class CoverGenerator:
         drawing = svgwrite.Drawing()
 
         group = drawing.g(style="font-family:Times")
-        group.add(drawing.text(self.story.title,
-                               y=[50],
-                               style="font-size: 30; width: 100%; text-align: center;"))
+        group.add(
+            drawing.text(self.story.title, y=[50], style="font-size: 30; width: 100%; text-align: center;")
+        )
         group.add(drawing.text(self.date_line, dy=[80]))
         drawing.add(group)
 

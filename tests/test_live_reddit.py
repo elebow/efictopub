@@ -3,9 +3,11 @@ import os
 from app import fetchers
 
 if os.environ.get("LIVE_REDDIT") == "true":
+
     class TestLiveReddit:
         def setup_class(self):
             import configparser
+
             cfg = configparser.ConfigParser()
             cfg.read("../creds.ini")
 
@@ -17,5 +19,7 @@ if os.environ.get("LIVE_REDDIT") == "true":
 
             # These values could change!
             assert [len(subm.comments) for subm in subms] == [9, 4, 3]
+
+
 else:
     pass

@@ -14,16 +14,17 @@ class TestFetchersFFNet:
     def test_fetch_story(self):
         tests.fixtures.stubs.return_values = [
             MagicMock(status_code=200, text=ffnet_chapter_html_real()),
-            MagicMock(status_code=200,
-                      text="<div id='content_wrapper_inner'><td><div>ch 1 review</div></td></div>"),
-
+            MagicMock(
+                status_code=200, text="<div id='content_wrapper_inner'><td><div>ch 1 review</div></td></div>"
+            ),
             MagicMock(status_code=200, text=ffnet_chapter_2_html_real()),
-            MagicMock(status_code=200,
-                      text="<div id='content_wrapper_inner'><td><div>ch 2 review</div></td></div>"),
-
+            MagicMock(
+                status_code=200, text="<div id='content_wrapper_inner'><td><div>ch 2 review</div></td></div>"
+            ),
             MagicMock(status_code=200, text=ffnet_chapter_3_html_real()),
-            MagicMock(status_code=200,
-                      text="<div id='content_wrapper_inner'><td><div>ch 3 review</div></td></div>")
+            MagicMock(
+                status_code=200, text="<div id='content_wrapper_inner'><td><div>ch 3 review</div></td></div>"
+            ),
         ]
         fetcher = ffnet.Fetcher("https://www.fanfiction.net/s/555/8/")
         story = fetcher.fetch_story()
@@ -34,15 +35,16 @@ class TestFetchersFFNet:
             "<p>\n    Story Text <em>Goes</em> <strong>Here</strong>. Chapter 2.\n    </p>",
             "<p>\n    Story Text <em>Goes</em> <strong>Here</strong>. Chapter 3.\n    </p>",
         ]
-        assert [comment[0].text
-                for comment
-                in [ch.comments for ch in story.chapters]] == \
-               ["ch 1 review", "ch 2 review", "ch 3 review"]
+        assert [comment[0].text for comment in [ch.comments for ch in story.chapters]] == [
+            "ch 1 review",
+            "ch 2 review",
+            "ch 3 review",
+        ]
 
     def test_generate_chapters_for_single_chapter_story(self):
         tests.fixtures.stubs.return_values = [
             MagicMock(status_code=200, text=ffnet_single_chapter_story_html_real()),
-            MagicMock(status_code=200, text=ffnet_single_chapter_story_reviews_html_real())
+            MagicMock(status_code=200, text=ffnet_single_chapter_story_reviews_html_real()),
         ]
         fetcher = ffnet.Fetcher("https://www.fanfiction.net/s/555/8/")
         htmls = [x for x in fetcher.generate_ffnet_chapters()]

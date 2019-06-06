@@ -14,16 +14,9 @@ class Chapter:
         title           title of the chapter
     """
 
-    def __init__(self, *,
-                 author,
-                 comments,
-                 date_published,
-                 date_updated,
-                 permalink,
-                 score,
-                 story_title,
-                 text,
-                 title):
+    def __init__(
+        self, *, author, comments, date_published, date_updated, permalink, score, story_title, text, title
+    ):
         self.author = author
         self.comments = comments
         self.date_published = date_published
@@ -35,19 +28,30 @@ class Chapter:
         self.title = title
 
     def as_dict(self):
-        attr_names = ["author", "comments", "date_published", "date_updated", "permalink", "score",
-                      "story_title", "text", "title"]
+        attr_names = [
+            "author",
+            "comments",
+            "date_published",
+            "date_updated",
+            "permalink",
+            "score",
+            "story_title",
+            "text",
+            "title",
+        ]
         mapping = {name: getattr(self, name) for name in attr_names}
         return mapping
 
     @classmethod
     def from_dict(cls, mapping):
-        return cls(author=mapping["author"],
-                   comments=mapping["comments"],
-                   date_published=mapping["date_published"],
-                   date_updated=mapping["date_updated"],
-                   permalink=mapping["permalink"],
-                   score=mapping["score"],
-                   story_title=mapping["story_title"],
-                   text=mapping["text"],
-                   title=mapping["title"])
+        return cls(
+            author=mapping["author"],
+            comments=mapping["comments"],
+            date_published=mapping["date_published"],
+            date_updated=mapping["date_updated"],
+            permalink=mapping["permalink"],
+            score=mapping["score"],
+            story_title=mapping["story_title"],
+            text=mapping["text"],
+            title=mapping["title"],
+        )

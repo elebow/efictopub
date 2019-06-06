@@ -48,10 +48,12 @@ class RedditComment:
 
     @functools.lru_cache()
     def as_comment(self):
-        return app.models.comment.Comment(author=self.formatted_author_name,
-                                          date_published=self.created_utc,
-                                          date_updated=self.edited,
-                                          permalink=self.permalink,
-                                          replies=[reply.as_comment() for reply in self.replies],
-                                          score=self.ups,
-                                          text=self.body_html)
+        return app.models.comment.Comment(
+            author=self.formatted_author_name,
+            date_published=self.created_utc,
+            date_updated=self.edited,
+            permalink=self.permalink,
+            replies=[reply.as_comment() for reply in self.replies],
+            score=self.ups,
+            text=self.body_html,
+        )

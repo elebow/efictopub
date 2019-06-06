@@ -10,15 +10,17 @@ from tests.fixtures.doubles import chapters_double, story_double
 
 
 class TestController:
-
     @patch("reddit_next.Fetcher.fetch_chapters", lambda _x: chapters_double(3))
     @patch("app.archive.store")
     def test_fetch_from_reddit_next(self, archive):
         args = MagicMock(fetcher="reddit_next", target="_whatever-url-or-id")
         subject = Controller(args)
 
-        assert [chap.text for chap in subject.story.chapters] == \
-            ["<p>chapter content 0</p>", "<p>chapter content 1</p>", "<p>chapter content 2</p>"]
+        assert [chap.text for chap in subject.story.chapters] == [
+            "<p>chapter content 0</p>",
+            "<p>chapter content 1</p>",
+            "<p>chapter content 2</p>",
+        ]
         assert subject.story.author_name == "great author 0"
 
     @patch("reddit_author.Fetcher.fetch_chapters", lambda _x: chapters_double(3))
@@ -27,8 +29,11 @@ class TestController:
         args = MagicMock(fetcher=None, target="reddit.com/u/some_redditor")
         subject = Controller(args)
 
-        assert [chap.text for chap in subject.story.chapters] == \
-            ["<p>chapter content 0</p>", "<p>chapter content 1</p>", "<p>chapter content 2</p>"]
+        assert [chap.text for chap in subject.story.chapters] == [
+            "<p>chapter content 0</p>",
+            "<p>chapter content 1</p>",
+            "<p>chapter content 2</p>",
+        ]
         assert subject.story.author_name == "great author 0"
 
     @patch("app.config.load", MagicMock())
@@ -75,10 +80,9 @@ class TestController:
 
         subject.archive_story()
 
-        git_commit_story.assert_has_calls([
-            call(story, "Local changes before fetching great title"),
-            call(story, "Fetch great title")
-        ])
+        git_commit_story.assert_has_calls(
+            [call(story, "Local changes before fetching great title"), call(story, "Fetch great title")]
+        )
         archive_story.assert_called_once_with(story)
 
         previous_commit_is_not_efic.assert_called_once()

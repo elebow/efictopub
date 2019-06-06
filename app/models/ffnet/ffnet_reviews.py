@@ -11,6 +11,4 @@ class FFNetReviews:
     @property
     @functools.lru_cache()
     def reviews(self):
-        return [FFNetReview(td)
-                for td
-                in self.html.select("#content_wrapper_inner")[0].find_all("td")]
+        return [FFNetReview(td) for td in self.html.select("#content_wrapper_inner")[0].find_all("td")]

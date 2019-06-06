@@ -3,14 +3,7 @@ class Comment:
     A comment on a chapter.
     """
 
-    def __init__(self, *,
-                 author,
-                 date_published,
-                 date_updated,
-                 permalink,
-                 replies,
-                 score,
-                 text):
+    def __init__(self, *, author, date_published, date_updated, permalink, replies, score, text):
         self.author = author
         self.date_published = date_published
         self.date_updated = date_updated
@@ -26,10 +19,12 @@ class Comment:
 
     @classmethod
     def from_dict(cls, mapping):
-        return cls(author=mapping["author"],
-                   date_published=mapping["date_published"],
-                   date_updated=mapping["date_updated"],
-                   permalink=mapping["permalink"],
-                   replies=mapping["replies"],
-                   score=mapping["score"],
-                   text=mapping["text"])
+        return cls(
+            author=mapping["author"],
+            date_published=mapping["date_published"],
+            date_updated=mapping["date_updated"],
+            permalink=mapping["permalink"],
+            replies=mapping["replies"],
+            score=mapping["score"],
+            text=mapping["text"],
+        )

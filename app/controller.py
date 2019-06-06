@@ -17,10 +17,12 @@ class Controller:
         config.load(self.args.config_file)
 
         if git.repo_is_dirty() and self.args.archive and not self.args.clobber:
-            print("Git repo has uncommitted changes! Refusing to continue. Do one or more of the following:"
-                  f"1. Commit, reset, or otherwise settle the git repo at #{config.archive.location}"
-                  "2. Add the --no-archive option to omit writing to the archive."
-                  "3. Add the --clobber option to clobber uncommitted changes in the archive.")
+            print(
+                "Git repo has uncommitted changes! Refusing to continue. Do one or more of the following:"
+                f"1. Commit, reset, or otherwise settle the git repo at #{config.archive.location}"
+                "2. Add the --no-archive option to omit writing to the archive."
+                "3. Add the --clobber option to clobber uncommitted changes in the archive."
+            )
             return
 
         if not self.fetcher.__module__ == "archive":
@@ -51,8 +53,10 @@ class Controller:
         archive.store(self.story)
         git.commit_story(self.story, f"Fetch {self.story.title}")
         if git.previous_commit_is_not_efic(self.story):
-            print("This story's git history contains commits made outside of this program."
-                  "Please review these commits so that your changes are not lost!")
+            print(
+                "This story's git history contains commits made outside of this program."
+                "Please review these commits so that your changes are not lost!"
+            )
 
     @property
     @functools.lru_cache()

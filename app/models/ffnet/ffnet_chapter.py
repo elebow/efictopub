@@ -90,25 +90,26 @@ class FFNetChapter:
             return False
 
         select = self.chapter_selector[0]
-        chapters = [chap for chap in select.children
-                    if isinstance(chap, bs4.element.Tag)]
+        chapters = [chap for chap in select.children if isinstance(chap, bs4.element.Tag)]
 
         if len(chapters) == 1:
             return True
 
-        return 'selected' in chapters[-1].attrs
+        return "selected" in chapters[-1].attrs
 
     def is_single_chapter_story(self):
         return not self.chapter_selector
 
     @functools.lru_cache()
     def as_chapter(self):
-        return Chapter(author=self.author_name,
-                       comments=self.reviews,
-                       date_published=self.date_published,
-                       date_updated=self.date_updated,
-                       permalink=self.permalink,
-                       score=self.score,
-                       story_title=self.story_title,
-                       text=self.text,
-                       title=self.chapter_title)
+        return Chapter(
+            author=self.author_name,
+            comments=self.reviews,
+            date_published=self.date_published,
+            date_updated=self.date_updated,
+            permalink=self.permalink,
+            score=self.score,
+            story_title=self.story_title,
+            text=self.text,
+            title=self.chapter_title,
+        )
