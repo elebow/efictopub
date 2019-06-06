@@ -10,6 +10,7 @@ pytest = "*"
 pytest-cov = "*"
 doubles = "*"
 readline = "*"
+black = "*"
 
 [requires]
 python_version = "3.6"
