@@ -25,8 +25,7 @@ class Controller:
             )
             return
 
-        if not self.fetcher.__module__ == "archive":
-            # Only archive if the fetcher is not already pulling the story from the archive
+        if self.args.archive and not self.fetcher.__module__ == "archive":
             self.archive_story()
 
         if self.args.write_epub:
