@@ -18,9 +18,9 @@ class Controller:
 
         if git.repo_is_dirty() and self.args.archive and not self.args.clobber:
             print(
-                "Git repo has uncommitted changes! Refusing to continue. Do one or more of the following:"
-                f"1. Commit, reset, or otherwise settle the git repo at #{config.archive.location}"
-                "2. Add the --no-archive option to omit writing to the archive."
+                "Git repo has uncommitted changes! Refusing to continue. Do one or more of the following:\n"
+                f"1. Commit, reset, or otherwise settle the git repo at {config.archive.location}\n"
+                "2. Add the --no-archive option to omit writing to the archive.\n"
                 "3. Add the --clobber option to clobber uncommitted changes in the archive."
             )
             return
