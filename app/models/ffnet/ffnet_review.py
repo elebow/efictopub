@@ -1,7 +1,7 @@
 from datetime import datetime
 import functools
 
-import app.models
+import app.models.comment
 
 
 class FFNetReview:
