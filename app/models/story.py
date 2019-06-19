@@ -9,7 +9,9 @@ class Story:
     def __init__(self, *, title=None, chapters):
         self.manual_title = title
         self.chapters = chapters
-        self.author_name = chapters[0].author  # assume all the chapters have the same author
+        self.author_name = chapters[
+            0
+        ].author  # assume all the chapters have the same author
         self.date_fetched = datetime.now().timestamp()
 
     @property
@@ -20,12 +22,19 @@ class Story:
     @property
     @functools.lru_cache()
     def date_end(self):
-        return max([max(chapter.date_published, chapter.date_updated) for chapter in self.chapters])
+        return max(
+            [
+                max(chapter.date_published, chapter.date_updated)
+                for chapter in self.chapters
+            ]
+        )
 
     @property
     @functools.lru_cache()
     def id(self):
-        return urllib.parse.quote_plus(str(self.date_start) + self.chapters[0].permalink)
+        return urllib.parse.quote_plus(
+            str(self.date_start) + self.chapters[0].permalink
+        )
 
     @property
     @functools.lru_cache()

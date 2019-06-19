@@ -45,4 +45,7 @@ class TestRedditSubmission:
             + "</p>"
         )
         assert chapter.comments[0].text == "[efictopub]: included in chapter text"
-        assert chapter.comments[0].replies[0].text == "[efictopub]: included in chapter text"
+        assert (
+            chapter.comments[0].replies[0].text
+            == "[efictopub]: included in chapter text"
+        )

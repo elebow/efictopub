@@ -26,7 +26,9 @@ class FFNetReview:
     def date_published(self):
         try:
             # I'm not sure whether these are UTC or local, so assume UTC. Close enough.
-            return datetime.utcfromtimestamp(int(self.html.select("span[data-xutime]")[0]["data-xutime"]))
+            return datetime.utcfromtimestamp(
+                int(self.html.select("span[data-xutime]")[0]["data-xutime"])
+            )
         except IndexError:
             return None
 

@@ -7,7 +7,11 @@ from app import config
 
 def configparser_get(section, key, fallback=None):
     return {
-        "REDDIT": {"app": "my-great-app", "secret": "top-secret", "user_agent": "my-great-user-agent"},
+        "REDDIT": {
+            "app": "my-great-app",
+            "secret": "top-secret",
+            "user_agent": "my-great-user-agent",
+        },
         "ARCHIVE": {"location": "my-great-location"},
         "OUTPUT": {"dir": "my-great-output-dir"},
     }[section][key]

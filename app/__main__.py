@@ -9,7 +9,8 @@ from app.controller import Controller
 
 parser = argparse.ArgumentParser(
     prog="efictopub",
-    description="Fetch stories from various sources and optionally generate an " "EPUB file.",
+    description="Fetch stories from various sources and optionally generate an "
+    "EPUB file.",
 )
 
 parser.add_argument(
@@ -67,7 +68,11 @@ parser.add_argument(
     help="do not store or write comments, for fetchers that support comments",
 )
 parser.add_argument(
-    "--no-write-epub", dest="write_epub", action="store_false", default=True, help="do not write an EPUB file"
+    "--no-write-epub",
+    dest="write_epub",
+    action="store_false",
+    default=True,
+    help="do not write an EPUB file",
 )
 
 args = parser.parse_args()

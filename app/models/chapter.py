@@ -15,7 +15,17 @@ class Chapter:
     """
 
     def __init__(
-        self, *, author, comments, date_published, date_updated, permalink, score, story_title, text, title
+        self,
+        *,
+        author,
+        comments,
+        date_published,
+        date_updated,
+        permalink,
+        score,
+        story_title,
+        text,
+        title
     ):
         self.author = author
         self.comments = comments

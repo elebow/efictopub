@@ -16,7 +16,15 @@ class FFNetChapter:
     def info_fields(self):
         info_box = self.dom.select("#profile_top")
         if not info_box:
-            return ["unknown", "unknown", "unknown", "unknown", "unknown", "unknown", "unknown"]
+            return [
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+            ]
         return info_box[0].select(".xcontrast_txt")
 
     @property
@@ -36,11 +44,17 @@ class FFNetChapter:
 
     @property
     def date_published(self):
-        return int(re.search(r"Published:.*?xutime=\"(\d+)\"", self.score_dates_id, re.DOTALL).group(1))
+        return int(
+            re.search(
+                r"Published:.*?xutime=\"(\d+)\"", self.score_dates_id, re.DOTALL
+            ).group(1)
+        )
 
     @property
     def date_updated(self):
-        groups = re.search(r"Updated:.*?xutime=\"(\d+)\"", self.score_dates_id, re.DOTALL)
+        groups = re.search(
+            r"Updated:.*?xutime=\"(\d+)\"", self.score_dates_id, re.DOTALL
+        )
         if groups:
             return int(groups.group(1))
         else:
@@ -90,7 +104,9 @@ class FFNetChapter:
             return False
 
         select = self.chapter_selector[0]
-        chapters = [chap for chap in select.children if isinstance(chap, bs4.element.Tag)]
+        chapters = [
+            chap for chap in select.children if isinstance(chap, bs4.element.Tag)
+        ]
 
         if len(chapters) == 1:
             return True

@@ -48,13 +48,17 @@ def praw_redditor_with_submissions_double(name="some redditor"):
         "praw.models.Redditor",
         name=name,
         submissions=InstanceDouble(
-            "praw.models.listing.mixins.redditor.SubListing", new=lambda: praw_submissions
+            "praw.models.listing.mixins.redditor.SubListing",
+            new=lambda: praw_submissions,
         ),
     )
 
 
 def praw_comment_double(
-    n=0, author=praw_redditor(), body_html='<div class="md"><p>some body text</p>\n</div>', replies=[]
+    n=0,
+    author=praw_redditor(),
+    body_html='<div class="md"><p>some body text</p>\n</div>',
+    replies=[],
 ):
     return InstanceDouble(
         "praw.models.reddit.comment.Comment",
@@ -106,14 +110,20 @@ def praw_submission_with_author_note_double(n=0):
 
 def praw_submission_continued_in_comments_double(n=0):
     author = praw_redditor()
-    comment2 = praw_comment_double(author=author, body_html="long continuation 2" * 200, replies=[])
-    comment1 = praw_comment_double(author=author, body_html="long continuation 1" * 200, replies=[comment2])
+    comment2 = praw_comment_double(
+        author=author, body_html="long continuation 2" * 200, replies=[]
+    )
+    comment1 = praw_comment_double(
+        author=author, body_html="long continuation 1" * 200, replies=[comment2]
+    )
     comment_forest = praw.models.comment_forest.CommentForest(None, [comment1])
     return praw_submission_double(author=author, comments=comment_forest)
 
 
 def praw_submission_with_ambiguous_next():
-    return praw_submission_double(selftext_html="<a href='link1'>next</a> <a href='link2'>next</a>")
+    return praw_submission_double(
+        selftext_html="<a href='link1'>next</a> <a href='link2'>next</a>"
+    )
 
 
 def praw_submission_with_duplicate_next():

@@ -3,7 +3,9 @@ class Comment:
     A comment on a chapter.
     """
 
-    def __init__(self, *, author, date_published, date_updated, permalink, replies, score, text):
+    def __init__(
+        self, *, author, date_published, date_updated, permalink, replies, score, text
+    ):
         self.author = author
         self.date_published = date_published
         self.date_updated = date_updated
@@ -13,7 +15,15 @@ class Comment:
         self.text = text
 
     def as_dict(self):
-        attr_names = ["author", "date_published", "date_updated", "permalink", "replies", "score", "text"]
+        attr_names = [
+            "author",
+            "date_published",
+            "date_updated",
+            "permalink",
+            "replies",
+            "score",
+            "text",
+        ]
         mapping = {name: getattr(self, name) for name in attr_names}
         return mapping
 

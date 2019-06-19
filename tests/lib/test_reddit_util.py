@@ -19,10 +19,21 @@ class TestRedditUtil:
         self.praw_reddit = MagicMock()
 
     def test_redditor_name_from_url(self):
-        assert self.subject.redditor_name_from_url("reddit.com/u/redditor1") == "redditor1"
-        assert self.subject.redditor_name_from_url("www.reddit.com/u/redditor1") == "redditor1"
-        assert self.subject.redditor_name_from_url("http://reddit.com/u/redditor1") == "redditor1"
-        assert self.subject.redditor_name_from_url("https://www.reddit.com/u/redditor1") == "redditor1"
+        assert (
+            self.subject.redditor_name_from_url("reddit.com/u/redditor1") == "redditor1"
+        )
+        assert (
+            self.subject.redditor_name_from_url("www.reddit.com/u/redditor1")
+            == "redditor1"
+        )
+        assert (
+            self.subject.redditor_name_from_url("http://reddit.com/u/redditor1")
+            == "redditor1"
+        )
+        assert (
+            self.subject.redditor_name_from_url("https://www.reddit.com/u/redditor1")
+            == "redditor1"
+        )
 
     @patch("app.lib.reddit_util.parse_url")
     def test_parse_id_or_url_submission(self, parse_url):
@@ -53,8 +64,12 @@ class TestRedditUtil:
     @patch("praw.models.WikiPage")
     @patch("praw.models.Subreddit", subreddit_class)
     def test_parse_url(self, wikipage_class, comment_class, submission_class):
-        submission_url = "https://reddit.com/r/my_great_subreddit/comments/a123/my_great_title/"
-        comment_url = "https://reddit.com/r/my_great_subreddit/comments/a123/my_great_title/b456/"
+        submission_url = (
+            "https://reddit.com/r/my_great_subreddit/comments/a123/my_great_title/"
+        )
+        comment_url = (
+            "https://reddit.com/r/my_great_subreddit/comments/a123/my_great_title/b456/"
+        )
         wiki_url = "https://reddit.com/r/my_great_subreddit/wiki/some/page/name"
 
         result = self.subject.parse_url(submission_url, self.praw_reddit)
@@ -68,4 +83,6 @@ class TestRedditUtil:
         result = self.subject.parse_url(wiki_url, self.praw_reddit)
         assert isinstance(result, RedditWikiPage)
         subreddit_class.assert_called_once_with(self.praw_reddit, "my_great_subreddit")
-        wikipage_class.assert_called_once_with(self.praw_reddit, subreddit_inst, "some/page/name")
+        wikipage_class.assert_called_once_with(
+            self.praw_reddit, subreddit_inst, "some/page/name"
+        )

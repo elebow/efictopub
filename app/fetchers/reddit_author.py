@@ -25,4 +25,8 @@ class Fetcher(fetchers.BaseFetcher):
     def fetch_submissions(self):
         author = self.reddit.redditor(self.author_name)
         regex = re.compile(self.pattern)
-        return [RedditSubmission(subm) for subm in author.submissions.new() if regex.search(subm.title)]
+        return [
+            RedditSubmission(subm)
+            for subm in author.submissions.new()
+            if regex.search(subm.title)
+        ]

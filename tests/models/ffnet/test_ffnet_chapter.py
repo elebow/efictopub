@@ -14,7 +14,10 @@ class TestFFNetChapter:
         assert self.subject.score == "5,555"
         assert self.subject.date_updated == 1290054512
         assert self.subject.date_published == 1279499410
-        assert self.subject.permalink == "https://www.fanfiction.net/s/555/1/My-Great-Story"
+        assert (
+            self.subject.permalink
+            == "https://www.fanfiction.net/s/555/1/My-Great-Story"
+        )
         assert (
             self.subject.text
             == "<p>\n    Story Text <em>Goes</em> <strong>Here</strong>. Chapter 1.\n    </p>"
@@ -30,7 +33,10 @@ class TestFFNetChapter:
         assert chapter.date_updated == 1290054512
         assert chapter.permalink == "https://www.fanfiction.net/s/555/1/My-Great-Story"
         assert chapter.score == "5,555"
-        assert chapter.text == "<p>\n    Story Text <em>Goes</em> <strong>Here</strong>. Chapter 1.\n    </p>"
+        assert (
+            chapter.text
+            == "<p>\n    Story Text <em>Goes</em> <strong>Here</strong>. Chapter 1.\n    </p>"
+        )
         assert chapter.title == "1. Yes, these option tags are"
 
     def test_is_last_chapter(self):

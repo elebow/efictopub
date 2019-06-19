@@ -20,4 +20,6 @@ if os.environ.get("LIVE_REQUESTS") != "true":
 
     app.lib.request_delay.DELAY = 0
 
-app.config.options = app.config.Options(fetch_comments=True, write_archive=True, write_epub=True)
+app.config.options = app.config.Options(
+    fetch_comments=True, write_archive=True, write_epub=True
+)

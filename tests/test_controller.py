@@ -56,7 +56,9 @@ class TestController:
     @patch("app.controller.Controller.archive_story")
     @patch("app.git.repo_is_dirty")
     @patch("app.controller.Controller.output_story")
-    def test_run_do_not_archive_when_fetcher_is_archive(self, output_story, git_repo_is_dirty, archive_story):
+    def test_run_do_not_archive_when_fetcher_is_archive(
+        self, output_story, git_repo_is_dirty, archive_story
+    ):
         args = MagicMock(fetcher="archive", target="reddit.com/u/some_redditor")
         subject = Controller(args)
         story = story_double()
@@ -72,8 +74,12 @@ class TestController:
     @patch("app.controller.Controller.archive_story")
     @patch("app.git.repo_is_dirty")
     @patch("app.controller.Controller.output_story")
-    def test_run_do_not_archive_when_arg_not_present(self, output_story, git_repo_is_dirty, archive_story):
-        args = MagicMock(fetcher=None, archive=False, target="reddit.com/u/some_redditor")
+    def test_run_do_not_archive_when_arg_not_present(
+        self, output_story, git_repo_is_dirty, archive_story
+    ):
+        args = MagicMock(
+            fetcher=None, archive=False, target="reddit.com/u/some_redditor"
+        )
         subject = Controller(args)
         story = story_double()
         allow(subject).story.and_return(story)
@@ -88,7 +94,9 @@ class TestController:
     @patch("app.git.previous_commit_is_not_efic")
     @patch("app.git.commit_story")
     @patch("app.archive.store")
-    def test_archive_and_git(self, archive_story, git_commit_story, previous_commit_is_not_efic):
+    def test_archive_and_git(
+        self, archive_story, git_commit_story, previous_commit_is_not_efic
+    ):
         args = MagicMock(fetcher=None, target="reddit.com/u/some_redditor")
         subject = Controller(args)
         story = story_double()
@@ -97,7 +105,10 @@ class TestController:
         subject.archive_story()
 
         git_commit_story.assert_has_calls(
-            [call(story, "Local changes before fetching great title"), call(story, "Fetch great title")]
+            [
+                call(story, "Local changes before fetching great title"),
+                call(story, "Fetch great title"),
+            ]
         )
         archive_story.assert_called_once_with(story)
 

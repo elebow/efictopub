@@ -22,7 +22,10 @@ class Fetcher(fetchers.BaseFetcher):
         return Story(chapters=self.fetch_chapters())
 
     def fetch_chapters(self):
-        return [ffnet_chapter.as_chapter() for ffnet_chapter in self.generate_ffnet_chapters()]
+        return [
+            ffnet_chapter.as_chapter()
+            for ffnet_chapter in self.generate_ffnet_chapters()
+        ]
 
     def generate_ffnet_chapters(self):
         for n in itertools.count(1):
@@ -32,12 +35,17 @@ class Fetcher(fetchers.BaseFetcher):
 
             chapter_response = request_delay.get(chapter_url)
             reviews_response = request_delay.get(reviews_url)
-            ffnet_chapter = FFNetChapter(str(chapter_response.text), str(reviews_response.text))
+            ffnet_chapter = FFNetChapter(
+                str(chapter_response.text), str(reviews_response.text)
+            )
 
             print("OK")
             yield ffnet_chapter
 
-            if ffnet_chapter.is_last_chapter() or ffnet_chapter.is_single_chapter_story():
+            if (
+                ffnet_chapter.is_last_chapter()
+                or ffnet_chapter.is_single_chapter_story()
+            ):
                 print("Done")
                 return
 

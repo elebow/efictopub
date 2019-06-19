@@ -38,7 +38,10 @@ class TestArchive:
 
     @patch("glob.glob", lambda x: ["/whatever/path/to/55555-my-great-story-id.json"])
     def test_path_one_match_found(self):
-        assert archive.id_or_path_to_path(self.id) == "/whatever/path/to/55555-my-great-story-id.json"
+        assert (
+            archive.id_or_path_to_path(self.id)
+            == "/whatever/path/to/55555-my-great-story-id.json"
+        )
 
     @patch("glob.glob", lambda x: ["/whatever/1", "/whatever/2"])
     def test_path_many_matches_found(self):

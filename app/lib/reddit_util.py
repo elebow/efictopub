@@ -42,5 +42,7 @@ def parse_url(url, praw_reddit):
 
 def setup_reddit():
     return praw.Reddit(
-        client_id=config.reddit.app, client_secret=config.reddit.secret, user_agent=config.reddit.user_agent
+        client_id=config.reddit.app,
+        client_secret=config.reddit.secret,
+        user_agent=config.reddit.user_agent,
     )

@@ -25,7 +25,9 @@ class Fetcher(fetchers.BaseFetcher):
 
     def fetch_chapters(self):
         start_subm = reddit_util.parse_id_or_url(self.start_id_or_url, self.reddit)
-        return [subm.as_chapter() for subm in self.generate_next_submissions(start_subm)]
+        return [
+            subm.as_chapter() for subm in self.generate_next_submissions(start_subm)
+        ]
 
     # Generate reddit.Submission objects by following "next" links, including the specified starting
     # submission. Raises exception if there's more than one link that contains the word "next"
@@ -39,4 +41,6 @@ class Fetcher(fetchers.BaseFetcher):
                 raise AmbiguousNextError
             elif len(next_urls) == 0:
                 return
-            subm = RedditSubmission(praw.models.Submission(self.reddit, url=next_urls[0]))
+            subm = RedditSubmission(
+                praw.models.Submission(self.reddit, url=next_urls[0])
+            )

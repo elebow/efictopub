@@ -72,4 +72,7 @@ class EpubWriter:
 
     @functools.lru_cache()
     def epub_chapters(self):
-        return [self.build_epub_html(chapter, num) for num, chapter in enumerate(self.story.chapters)]
+        return [
+            self.build_epub_html(chapter, num)
+            for num, chapter in enumerate(self.story.chapters)
+        ]

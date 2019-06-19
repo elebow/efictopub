@@ -48,7 +48,9 @@ class Controller:
         return os.path.join(config.output.dir, self.story.id)
 
     def archive_story(self):
-        git.commit_story(self.story, f"Local changes before fetching {self.story.title}")
+        git.commit_story(
+            self.story, f"Local changes before fetching {self.story.title}"
+        )
         archive.store(self.story)
         git.commit_story(self.story, f"Fetch {self.story.title}")
         if git.previous_commit_is_not_efic(self.story):
