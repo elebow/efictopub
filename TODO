@@ -1,6 +1,4 @@
 specific things like reddit's upvotes are stored in rendered form as the "extra" attr or something on the generic chapter
-separate field in Chapter for author's notes. Before and after notes.
-	This might need to be manually filled by editing the archive
 FF.net story score (just pick any of the chapter scores, because they actually apply to the story as a whole)
 ebooklib MR: stop automatically setting dcterms:modified if it's being set manually
 ffnet category and property. Append in brackets to title?
