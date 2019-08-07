@@ -2,11 +2,11 @@ import dulwich
 import dulwich.porcelain
 
 from app import archive
-from app import config
+from app.config import config
 
 """Commits archived files to local git repo."""
 
-repo_path = config.archive.location
+repo_path = config["archive_location"].get()
 efic_author = "efictopub <efictopub@users.noreply.github.com>"
 
 

@@ -82,7 +82,7 @@ class FFNetChapter:
 
     @property
     def summary(self):
-        # TODO do something with this
+        # TODO do something with this. New field on Chapter? On Story (and also move story_title)?
         return self.info_fields[5].text.strip()
 
     @property

@@ -11,24 +11,30 @@ from app.epub_writer import EpubWriter
 class Controller:
     def __init__(self, args={}):
         self.args = args
-        self.store_args_in_config()
 
     def run(self):
-        config.load(self.args.config_file)
+        config.load(args=self.args, fetcher=self.fetcher)
 
-        if git.repo_is_dirty() and self.args.archive and not self.args.clobber:
+        if (
+            git.repo_is_dirty()
+            and config.config["write_archive"].get(bool)
+            and not config.config["clobber"].get(bool)
+        ):
             print(
                 "Git repo has uncommitted changes! Refusing to continue. Do one or more of the following:\n"
-                f"1. Commit, reset, or otherwise settle the git repo at {config.archive.location}\n"
+                f"1. Commit, reset, or otherwise settle the git repo at {config.config['archive_location']}\n"
                 "2. Add the --no-archive option to omit writing to the archive.\n"
                 "3. Add the --clobber option to clobber uncommitted changes in the archive."
             )
             return
 
-        if self.args.archive and not self.fetcher.__module__ == "archive":
+        if (
+            config.config["write_archive"].get(bool)
+            and not self.fetcher.__module__ == "archive"
+        ):
             self.archive_story()
 
-        if self.args.write_epub:
+        if config.config["write_epub"].get(bool):
             self.output_story()
 
     @property
@@ -45,7 +51,8 @@ class Controller:
     def output_filename(self):
         if self.args.outfile:
             return self.args.outfile
-        return os.path.join(config.output.dir, self.story.id)
+        # TODO move this to EpubWriter
+        return os.path.join(config.config["epub_location"].get(), self.story.id)
 
     def archive_story(self):
         git.commit_story(
@@ -66,6 +73,3 @@ class Controller:
             return fetchers.fetcher_by_name(self.args.fetcher, self.args.target)
         else:
             return fetchers.fetcher_for_url(self.args.target)
-
-    def store_args_in_config(self):
-        config.store_options(self.args)

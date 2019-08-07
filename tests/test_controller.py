@@ -1,19 +1,38 @@
+import argparse
+
 from doubles import allow
 from unittest.mock import call
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
-
+from app import git
 from app.controller import Controller
 
 from tests.fixtures.doubles import chapters_double, story_double
 
 
 class TestController:
+    def setup_method(self, method):
+        self.parser = argparse.ArgumentParser()
+        self.parser.add_argument("target")
+        self.parser.add_argument("--fetcher", action="store")
+        self.parser.add_argument("-o", action="store", dest="outfile")
+        self.parser.add_argument(
+            "--no-write-archive",
+            action="store_false",
+            dest="write_archive",
+            default=True,
+        )
+        self.parser.add_argument(
+            "--no-write-epub", action="store_false", dest="write_epub", default=True
+        )
+
     @patch("reddit_next.Fetcher.fetch_chapters", lambda _x: chapters_double(3))
     @patch("app.archive.store")
     def test_fetch_from_reddit_next(self, archive):
-        args = MagicMock(fetcher="reddit_next", target="_whatever-url-or-id")
+        args = self.parser.parse_args(
+            ["--fetcher", "reddit_next", "_whatever-url-or-id"]
+        )
         subject = Controller(args)
 
         assert [chap.text for chap in subject.story.chapters] == [
@@ -26,7 +45,7 @@ class TestController:
     @patch("reddit_author.Fetcher.fetch_chapters", lambda _x: chapters_double(3))
     @patch("app.archive.store")
     def test_fetch_from_reddit_author_by_url(self, archive):
-        args = MagicMock(fetcher=None, target="reddit.com/u/some_redditor")
+        args = self.parser.parse_args(["reddit.com/u/some_redditor"])
         subject = Controller(args)
 
         assert [chap.text for chap in subject.story.chapters] == [
@@ -36,68 +55,61 @@ class TestController:
         ]
         assert subject.story.author_name == "great author 0"
 
-    @patch("app.config.load", MagicMock())
     @patch("app.controller.Controller.archive_story")
-    @patch("app.git.repo_is_dirty")
     @patch("app.controller.Controller.output_story")
-    def test_run(self, output_story, git_repo_is_dirty, archive_story):
-        args = MagicMock(fetcher=None, target="reddit.com/u/some_redditor")
+    def test_run(self, output_story, archive_story):
+        args = self.parser.parse_args(["reddit.com/u/some_redditor"])
         subject = Controller(args)
         story = story_double()
         allow(subject).story.and_return(story)
+        allow(git).repo_is_dirty.and_return(False)
 
         subject.run()
 
-        git_repo_is_dirty.assert_called_once()
         output_story.assert_called_once()
         archive_story.assert_called_once()
 
-    @patch("app.config.load", MagicMock())
     @patch("app.controller.Controller.archive_story")
-    @patch("app.git.repo_is_dirty")
     @patch("app.controller.Controller.output_story")
     def test_run_do_not_archive_when_fetcher_is_archive(
-        self, output_story, git_repo_is_dirty, archive_story
+        self, output_story, archive_story
     ):
-        args = MagicMock(fetcher="archive", target="reddit.com/u/some_redditor")
-        subject = Controller(args)
-        story = story_double()
-        allow(subject).story.and_return(story)
-
-        subject.run()
-
-        git_repo_is_dirty.assert_called_once()
-        output_story.assert_called_once()
-        archive_story.assert_not_called()
-
-    @patch("app.config.load", MagicMock())
-    @patch("app.controller.Controller.archive_story")
-    @patch("app.git.repo_is_dirty")
-    @patch("app.controller.Controller.output_story")
-    def test_run_do_not_archive_when_arg_not_present(
-        self, output_story, git_repo_is_dirty, archive_story
-    ):
-        args = MagicMock(
-            fetcher=None, archive=False, target="reddit.com/u/some_redditor"
+        args = self.parser.parse_args(
+            ["--fetcher", "archive", "reddit.com/u/some_redditor"]
         )
         subject = Controller(args)
         story = story_double()
         allow(subject).story.and_return(story)
+        allow(git).repo_is_dirty.and_return(False)
 
         subject.run()
 
-        git_repo_is_dirty.assert_called_once()
         output_story.assert_called_once()
         archive_story.assert_not_called()
 
-    @patch("app.config.archive", MagicMock(location="/path/to/archive"))
+    @patch("app.controller.Controller.archive_story")
+    @patch("app.controller.Controller.output_story")
+    def test_run_do_not_archive_when_arg_not_present(self, output_story, archive_story):
+        args = self.parser.parse_args(
+            ["--no-write-archive", "reddit.com/u/some_redditor"]
+        )
+        subject = Controller(args)
+        story = story_double()
+        allow(subject).story.and_return(story)
+        allow(git).repo_is_dirty.and_return(False)
+
+        subject.run()
+
+        output_story.assert_called_once()
+        archive_story.assert_not_called()
+
     @patch("app.git.previous_commit_is_not_efic")
     @patch("app.git.commit_story")
     @patch("app.archive.store")
     def test_archive_and_git(
         self, archive_story, git_commit_story, previous_commit_is_not_efic
     ):
-        args = MagicMock(fetcher=None, target="reddit.com/u/some_redditor")
+        args = self.parser.parse_args(["reddit.com/u/some_redditor"])
         subject = Controller(args)
         story = story_double()
         allow(subject).story.and_return(story)
@@ -116,7 +128,9 @@ class TestController:
 
     @patch("app.controller.EpubWriter")
     def test_output_story_outfile(self, epub_writer):
-        args = MagicMock(fetcher="archive", outfile="great-outfile.epub")
+        args = self.parser.parse_args(
+            ["--fetcher", "archive", "-o", "great-outfile.epub", "whatever-target"]
+        )
         subject = Controller(args)
         story = story_double()
         allow(subject).story.and_return(story)
@@ -127,12 +141,12 @@ class TestController:
 
     @patch("app.controller.EpubWriter")
     def test_output_story_no_outfile(self, epub_writer):
-        args = MagicMock(fetcher="archive", outfile=None)
+        args = self.parser.parse_args(["--fetcher", "archive", "whatever-id"])
         subject = Controller(args)
         story = story_double()
         allow(subject).story.and_return(story)
 
         subject.output_story()
 
-        expected_path = f"$HOME/doc/books/fic/{story.id}"
+        expected_path = f"$HOME/books/fic/{story.id}"
         epub_writer.assert_called_once_with(story, expected_path)

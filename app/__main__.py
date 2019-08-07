@@ -48,7 +48,7 @@ parser.add_argument(
 
 parser.add_argument(
     "--no-archive",
-    dest="archive",
+    dest="write_archive",
     action="store_false",
     default=True,
     help="do not write the story to the archive",

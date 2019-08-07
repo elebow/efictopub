@@ -1,0 +1,18 @@
+---
+reddit:
+  app: app-id
+  secret: app-secret
+  user_agent: efictopub
+archive_location: /path/to/archive
+epub_location: $HOME/books/fic/
+fetch_comments: true
+write_archive: true
+write_epub: true
+overrides:
+  reddit_next:
+    epub_location: $HOME/doc/books/reddit_fics/
+    write_epub: false
+    reddit:
+      app: reddit-next-app-id
+  ffnet:
+    fetch_comments: false
