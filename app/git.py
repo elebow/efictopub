@@ -1,5 +1,6 @@
 import dulwich
 import dulwich.porcelain
+import os
 
 from app import archive
 from app.config import config
@@ -20,6 +21,7 @@ def commit_story(story, commit_msg="Update story"):
 
 def repo_is_dirty():
     """Return true if the git repo has any uncommitted changes, which we don't want to clobber."""
+    ensure_repo_initialized()
     status = dulwich.porcelain.status(repo_path)
     return (
         len(status.staged["add"]) > 0
@@ -41,6 +43,9 @@ def previous_commit_is_not_efic(story):
 
 
 def ensure_repo_initialized():
+    if not os.path.isdir(repo_path):
+        os.makedirs(repo_path)
+
     try:
         dulwich.porcelain.init(repo_path)
     except FileExistsError:

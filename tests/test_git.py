@@ -31,6 +31,7 @@ class TestGit:
         )
 
     @patch("app.git.repo_path", "/path/to/archive")
+    @patch("app.git.ensure_repo_initialized", MagicMock())
     @patch(
         "dulwich.porcelain.status",
         lambda _x: GitStatus(
@@ -43,6 +44,7 @@ class TestGit:
         assert git.repo_is_dirty() is True
 
     @patch("app.git.repo_path", "/path/to/archive")
+    @patch("app.git.ensure_repo_initialized", MagicMock())
     @patch(
         "dulwich.porcelain.status",
         lambda _x: GitStatus(
