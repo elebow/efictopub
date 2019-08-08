@@ -27,9 +27,7 @@ class TestArchive:
         story = MagicMock(id="my-great-path", text="hhh")
         archive.store(story)
 
-        file_open.assert_called_once_with(
-            "${XDG_DATA_HOME}/efictopub/archive/my-great-path.json", "w"
-        )
+        file_open.assert_called_once_with("/path/to/archive/my-great-path.json", "w")
         jsonpickle_encode.assert_called_once_with(story)
 
     @patch("glob.glob", lambda x: [])

@@ -22,7 +22,7 @@ class TestGit:
 
         ensure_repo_initialized.assert_called_once()
         add.assert_called_once_with(
-            "/path/to/archive", f"${{XDG_DATA_HOME}}/efictopub/archive/{story.id}.json"
+            "/path/to/archive", f"/path/to/archive/{story.id}.json"
         )
         commit.assert_called_once_with(
             "/path/to/archive",
