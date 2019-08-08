@@ -2,7 +2,6 @@ import glob
 from pathlib import Path
 import jsonpickle
 
-from app import config
 from app.exceptions import NoArchivedStoryError, AmbiguousArchiveIdError
 
 
@@ -21,6 +20,8 @@ def store(story):
 
 
 def path_for_story(story):
+    from app import config
+
     return f"{config['archive_location']}/{story.id}.json"
 
 
@@ -29,6 +30,8 @@ def id_or_path_to_path(id_or_path):
     if archive_file.is_file():
         # id_or_path is already a path. Or the user is very unlucky.
         return id_or_path
+
+    from app import config
 
     candidates = glob.glob(f"{config['archive_location']}/{id_or_path}*")
     num_candidates = len(candidates)

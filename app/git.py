@@ -3,7 +3,6 @@ import dulwich.porcelain
 import os
 
 from app import archive
-from app import config
 
 """Commits archived files to local git repo."""
 
@@ -11,6 +10,8 @@ efic_author = "efictopub <efictopub@users.noreply.github.com>"
 
 
 def repo_path():
+    from app import config
+
     return config["archive_location"].get()
 
 

@@ -1,7 +1,6 @@
 import functools
 
 from app import config_loader
-from app import config
 from app import archive
 from app import fetchers
 from app import git

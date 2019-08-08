@@ -3,8 +3,6 @@ from ebooklib import epub
 import functools
 import os
 
-from app import config
-
 
 class EpubWriter:
     def __init__(self, story):
@@ -82,12 +80,16 @@ class EpubWriter:
 
     @functools.lru_cache()
     def output_filename(self):
+        from app import config
+
         return self.configured_filename() or os.path.join(
             config["epub_location"].get(), self.story.id
         )
 
     @functools.lru_cache()
     def configured_filename(self):
+        from app import config
+
         if "outfile" not in config:
             return None
 

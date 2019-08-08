@@ -5,7 +5,7 @@ from doubles import allow
 from unittest import mock
 from unittest.mock import patch
 
-from app import config
+import app
 from app.epub_writer import EpubWriter
 
 from tests.fixtures.doubles import story_double
@@ -15,7 +15,7 @@ class TestEpubWriter:
     @patch("app.epub_writer.EpubWriter.add_chapters")
     @patch("ebooklib.epub.write_epub")
     def test_write_epub(self, write_epub_mock, add_chapters_mock):
-        config["outfile"] = "outfile.epub"
+        app.config["outfile"] = "outfile.epub"
         subject = EpubWriter(story_double())
         subject.write_epub()
 
@@ -70,13 +70,13 @@ class TestEpubWriter:
         ]
 
     def test_output_filename_config(self):
-        config["outfile"] = "great-outfile.epub"
+        app.config["outfile"] = "great-outfile.epub"
         subject = EpubWriter(story_double())
 
         assert subject.output_filename() == "great-outfile.epub"
 
     def test_output_filename_auto(self):
-        config["outfile"] = None
+        app.config["outfile"] = None
         story = story_double()
         subject = EpubWriter(story)
 
