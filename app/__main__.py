@@ -2,7 +2,6 @@
 
 import argparse
 
-from app import config
 from app import fetchers
 from app.controller import Controller
 
@@ -34,16 +33,14 @@ parser.add_argument(
     "-c",
     dest="config_file",
     action="store",
-    default=config.default_config_file,
-    help=f"specify config file (default: {config.default_config_file})",
+    help=f"override default config file",
 )
 parser.add_argument(
     "--outfile",
     "-o",
     dest="outfile",
     action="store",
-    help=f"specify output file, for actions that support an output file (default varies per \
-                            action)",
+    help=f"specify output file, for actions that support an output file (default varies per action)",
 )
 
 parser.add_argument(
