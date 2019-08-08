@@ -1,6 +1,7 @@
 import praw
 import re
 
+from app import config
 from app.exceptions import AmbiguousIdError
 from app.models.reddit import RedditSubmission, RedditComment, RedditWikiPage
 
@@ -40,10 +41,8 @@ def parse_url(url, praw_reddit):
 
 
 def setup_reddit():
-    from app import config
-
     return praw.Reddit(
-        client_id=config.reddit.app,
-        client_secret=config.reddit.secret,
-        user_agent=config.reddit.user_agent,
+        client_id=config.get(["reddit", "app"]),
+        client_secret=config.get(["reddit", "secret"]),
+        user_agent=config.get(["reddit", "user_agent"]),
     )

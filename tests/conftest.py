@@ -4,21 +4,7 @@ import requests
 
 from unittest.mock import MagicMock
 
-from app import config_loader
-import app
-
-
-def load_config_file():
-    import confuse
-
-    conf = confuse.Configuration("efictopub", read=False)
-    conf.set_file("tests/fixtures/config.yaml")
-    return conf
-
-
-app.config_loader.load_config_file = load_config_file
-app.config_loader.load(args={}, fetcher=None)
-
+from app import config
 
 import app.lib.reddit_util
 import app.lib.request_delay
@@ -36,3 +22,15 @@ if os.environ.get("LIVE_REQUESTS") != "true":
         requests.get = tests.fixtures.stubs.request_get
 
     app.lib.request_delay.DELAY = 0
+
+
+def load_config_file():
+    import confuse
+
+    conf = confuse.Configuration("efictopub", read=False)
+    conf.set_file("tests/fixtures/config.yaml")
+    return conf
+
+
+config.load_config_file = load_config_file
+config.load(args={}, fetcher=None)

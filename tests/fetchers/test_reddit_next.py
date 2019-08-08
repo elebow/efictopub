@@ -45,6 +45,6 @@ class TestFetchersRedditNext:
     @patch("praw.models.Submission", find_praw_submission)
     def test_skip_comments(self):
         # TODO rename this test. It's not skipping comments.
-        config["fetch_comments"] = True
+        config.config["fetch_comments"] = True
         chapters = reddit_next.Fetcher(praw_submissions[0].permalink).fetch_chapters()
         assert [len(chapter.comments) for chapter in chapters] == [3, 4, 5]
