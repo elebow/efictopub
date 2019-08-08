@@ -12,27 +12,10 @@ from tests.fixtures.doubles import chapters_double, story_double
 
 
 class TestController:
-    def setup_method(self, method):
-        self.parser = argparse.ArgumentParser()
-        self.parser.add_argument("target")
-        self.parser.add_argument("--fetcher", action="store")
-        self.parser.add_argument("-o", action="store", dest="outfile")
-        self.parser.add_argument(
-            "--no-write-archive",
-            action="store_false",
-            dest="write_archive",
-            default=True,
-        )
-        self.parser.add_argument(
-            "--no-write-epub", action="store_false", dest="write_epub", default=True
-        )
-
     @patch("reddit_next.Fetcher.fetch_chapters", lambda _x: chapters_double(3))
     @patch("app.archive.store")
     def test_fetch_from_reddit_next(self, archive):
-        args = self.parser.parse_args(
-            ["--fetcher", "reddit_next", "_whatever-url-or-id"]
-        )
+        args = {"fetcher": "reddit_next", "target": "_whatever-url-or-id"}
         subject = Controller(args)
 
         assert [chap.text for chap in subject.story.chapters] == [
@@ -45,7 +28,7 @@ class TestController:
     @patch("reddit_author.Fetcher.fetch_chapters", lambda _x: chapters_double(3))
     @patch("app.archive.store")
     def test_fetch_from_reddit_author_by_url(self, archive):
-        args = self.parser.parse_args(["reddit.com/u/some_redditor"])
+        args = {"target": "reddit.com/u/some_redditor"}
         subject = Controller(args)
 
         assert [chap.text for chap in subject.story.chapters] == [
@@ -58,7 +41,7 @@ class TestController:
     @patch("app.controller.Controller.archive_story")
     @patch("app.controller.Controller.output_story")
     def test_run(self, output_story, archive_story):
-        args = self.parser.parse_args(["reddit.com/u/some_redditor"])
+        args = {"target": "reddit.com/u/some_redditor"}
         subject = Controller(args)
         story = story_double()
         allow(subject).story.and_return(story)
@@ -74,9 +57,7 @@ class TestController:
     def test_run_do_not_archive_when_fetcher_is_archive(
         self, output_story, archive_story
     ):
-        args = self.parser.parse_args(
-            ["--fetcher", "archive", "reddit.com/u/some_redditor"]
-        )
+        args = {"fetcher": "archive", "target": "reddit.com/u/some_redditor"}
         subject = Controller(args)
         story = story_double()
         allow(subject).story.and_return(story)
@@ -90,9 +71,7 @@ class TestController:
     @patch("app.controller.Controller.archive_story")
     @patch("app.controller.Controller.output_story")
     def test_run_do_not_archive_when_arg_not_present(self, output_story, archive_story):
-        args = self.parser.parse_args(
-            ["--no-write-archive", "reddit.com/u/some_redditor"]
-        )
+        args = {"write_archive": False, "target": "reddit.com/u/some_redditor"}
         subject = Controller(args)
         story = story_double()
         allow(subject).story.and_return(story)
@@ -109,7 +88,7 @@ class TestController:
     def test_archive_and_git(
         self, archive_story, git_commit_story, previous_commit_is_not_efic
     ):
-        args = self.parser.parse_args(["reddit.com/u/some_redditor"])
+        args = {"target": "reddit.com/u/some_redditor"}
         subject = Controller(args)
         story = story_double()
         allow(subject).story.and_return(story)
@@ -128,9 +107,11 @@ class TestController:
 
     @patch("app.controller.EpubWriter")
     def test_output_story_outfile(self, epub_writer):
-        args = self.parser.parse_args(
-            ["--fetcher", "archive", "-o", "great-outfile.epub", "whatever-target"]
-        )
+        args = {
+            "fetcher": "archive",
+            "outfile": "great-outfile.epub",
+            "target": "whatever-target",
+        }
         subject = Controller(args)
         story = story_double()
         allow(subject).story.and_return(story)
@@ -141,7 +122,7 @@ class TestController:
 
     @patch("app.controller.EpubWriter")
     def test_output_story_no_outfile(self, epub_writer):
-        args = self.parser.parse_args(["--fetcher", "archive", "whatever-id"])
+        args = {"fetcher": "archive", "target": "whatever-id"}
         subject = Controller(args)
         story = story_double()
         allow(subject).story.and_return(story)

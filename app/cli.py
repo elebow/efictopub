@@ -70,4 +70,4 @@ parser.add_argument(
 
 
 def args():
-    return parser.parse_args()
+    return vars(parser.parse_args())

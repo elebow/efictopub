@@ -49,8 +49,8 @@ class Controller:
     @property
     @functools.lru_cache()
     def output_filename(self):
-        if self.args.outfile:
-            return self.args.outfile
+        if "outfile" in self.args and self.args["outfile"] is not None:
+            return self.args["outfile"]
         # TODO move this to EpubWriter
         return os.path.join(config.config["epub_location"].get(), self.story.id)
 
@@ -69,7 +69,7 @@ class Controller:
     @property
     @functools.lru_cache()
     def fetcher(self):
-        if self.args.fetcher:
-            return fetchers.fetcher_by_name(self.args.fetcher, self.args.target)
+        if "fetcher" in self.args and self.args["fetcher"] is not None:
+            return fetchers.fetcher_by_name(self.args["fetcher"], self.args["target"])
         else:
-            return fetchers.fetcher_for_url(self.args.target)
+            return fetchers.fetcher_for_url(self.args["target"])
