@@ -43,16 +43,7 @@ class Controller:
         return self.fetcher.fetch_story()
 
     def output_story(self):
-        EpubWriter(self.story, self.output_filename).write_epub()
-        print(f"wrote {self.output_filename}")
-
-    @property
-    @functools.lru_cache()
-    def output_filename(self):
-        if "outfile" in self.args and self.args["outfile"] is not None:
-            return self.args["outfile"]
-        # TODO move this to EpubWriter
-        return os.path.join(config.config["epub_location"].get(), self.story.id)
+        EpubWriter(self.story).write_epub()
 
     def archive_story(self):
         git.commit_story(

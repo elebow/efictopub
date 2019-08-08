@@ -1,13 +1,15 @@
 from datetime import datetime
 from ebooklib import epub
 import functools
+import os
+
+from app import config
 
 
 class EpubWriter:
-    def __init__(self, story, outfile_name):
+    def __init__(self, story):
         self.story = story
         self.book = epub.EpubBook()
-        self.outfile_name = outfile_name
 
     def write_epub(self):
         self.book.set_title(self.story.title)
@@ -39,7 +41,8 @@ class EpubWriter:
 
         self.book.spine = self.book.items
 
-        epub.write_epub(self.outfile_name, self.book, epub_options)
+        epub.write_epub(self.output_filename(), self.book, epub_options)
+        print(f"wrote {self.output_filename()}")
 
     def add_chapters(self):
         for chapter in self.epub_chapters():
@@ -76,3 +79,16 @@ class EpubWriter:
             self.build_epub_html(chapter, num)
             for num, chapter in enumerate(self.story.chapters)
         ]
+
+    @functools.lru_cache()
+    def output_filename(self):
+        return self.configured_filename() or os.path.join(
+            config["epub_location"].get(), self.story.id
+        )
+
+    @functools.lru_cache()
+    def configured_filename(self):
+        if "outfile" not in config:
+            return None
+
+        return config["outfile"].get()

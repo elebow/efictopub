@@ -5,6 +5,7 @@ from doubles import allow
 from unittest import mock
 from unittest.mock import patch
 
+from app import config
 from app.epub_writer import EpubWriter
 
 from tests.fixtures.doubles import story_double
@@ -14,7 +15,8 @@ class TestEpubWriter:
     @patch("app.epub_writer.EpubWriter.add_chapters")
     @patch("ebooklib.epub.write_epub")
     def test_write_epub(self, write_epub_mock, add_chapters_mock):
-        subject = EpubWriter(story_double(), "outfile.epub")
+        config["outfile"] = "outfile.epub"
+        subject = EpubWriter(story_double())
         subject.write_epub()
 
         assert subject.book.title == "great title"
@@ -30,13 +32,13 @@ class TestEpubWriter:
     def test_add_info_page(self):
         allow(epub).write_epub
 
-        subject = EpubWriter(story_double(), "outfile.epub")
+        subject = EpubWriter(story_double())
         subject.write_epub()
 
         assert subject.book.items[2].content == "great title<br>by great author"
 
     def test_add_chapters(self):
-        subject = EpubWriter(story_double(), "_outfile.epub")
+        subject = EpubWriter(story_double())
         subject.add_chapters()
 
         assert [chap.file_name for chap in subject.book.items] == [
@@ -56,7 +58,7 @@ class TestEpubWriter:
         ]
 
     def test_add_toc(self):
-        subject = EpubWriter(story_double(), "_outfile.epub")
+        subject = EpubWriter(story_double())
         subject.add_toc()
 
         assert isinstance(subject.book.toc, tuple)
