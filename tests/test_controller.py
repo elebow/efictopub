@@ -104,32 +104,3 @@ class TestController:
         archive_story.assert_called_once_with(story)
 
         previous_commit_is_not_efic.assert_called_once()
-
-    """TODO move to test_epub_writer
-    @patch("app.controller.EpubWriter")
-    def test_output_story_outfile(self, epub_writer):
-        args = {
-            "fetcher": "archive",
-            "outfile": "great-outfile.epub",
-            "target": "whatever-target",
-        }
-        subject = Controller(args)
-        story = story_double()
-        allow(subject).story.and_return(story)
-
-        subject.output_story()
-
-        epub_writer.assert_called_once_with(story, "great-outfile.epub")
-
-    @patch("app.controller.EpubWriter")
-    def test_output_story_no_outfile(self, epub_writer):
-        args = {"fetcher": "archive", "target": "whatever-id"}
-        subject = Controller(args)
-        story = story_double()
-        allow(subject).story.and_return(story)
-
-        subject.output_story()
-
-        expected_path = f"$HOME/books/fic/{story.id}"
-        epub_writer.assert_called_once_with(story, expected_path)
-    """

@@ -68,3 +68,16 @@ class TestEpubWriter:
             "chap_001.xhtml",
             "chap_002.xhtml",
         ]
+
+    def test_output_filename_config(self):
+        config["outfile"] = "great-outfile.epub"
+        subject = EpubWriter(story_double())
+
+        assert subject.output_filename() == "great-outfile.epub"
+
+    def test_output_filename_auto(self):
+        config["outfile"] = None
+        story = story_double()
+        subject = EpubWriter(story)
+
+        assert subject.output_filename() == f"$HOME/books/fic/{story.id}"
