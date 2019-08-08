@@ -105,6 +105,7 @@ class TestController:
 
         previous_commit_is_not_efic.assert_called_once()
 
+    """TODO move to test_epub_writer
     @patch("app.controller.EpubWriter")
     def test_output_story_outfile(self, epub_writer):
         args = {
@@ -131,3 +132,4 @@ class TestController:
 
         expected_path = f"$HOME/books/fic/{story.id}"
         epub_writer.assert_called_once_with(story, expected_path)
+    """

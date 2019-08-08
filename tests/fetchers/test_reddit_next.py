@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import patch
 from unittest.mock import MagicMock
 
-from app.config import config
+from app import config
 from app.fetchers import reddit_next
 from app import exceptions
 
@@ -40,6 +40,7 @@ class TestFetchersRedditNext:
                 praw_submission_with_duplicate_next()
             )
         ]
+        # TODO assert something
 
     @patch("praw.models.Submission", find_praw_submission)
     def test_skip_comments(self):

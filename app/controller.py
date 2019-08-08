@@ -1,8 +1,8 @@
 import functools
-import os
 
-from app import archive
+from app import config_loader
 from app import config
+from app import archive
 from app import fetchers
 from app import git
 from app.epub_writer import EpubWriter
@@ -13,28 +13,29 @@ class Controller:
         self.args = args
 
     def run(self):
-        config.load(args=self.args, fetcher=self.fetcher)
+        config_loader.load(args=self.args, fetcher=self.fetcher)
+        from app import config  # re-import after loading
 
         if (
             git.repo_is_dirty()
-            and config.config["write_archive"].get(bool)
-            and not config.config["clobber"].get(bool)
+            and config["write_archive"].get(bool)
+            and not config["clobber"].get(bool)
         ):
             print(
                 "Git repo has uncommitted changes! Refusing to continue. Do one or more of the following:\n"
-                f"1. Commit, reset, or otherwise settle the git repo at {config.config['archive_location']}\n"
+                f"1. Commit, reset, or otherwise settle the git repo at {config['archive_location']}\n"
                 "2. Add the --no-archive option to omit writing to the archive.\n"
                 "3. Add the --clobber option to clobber uncommitted changes in the archive."
             )
             return
 
         if (
-            config.config["write_archive"].get(bool)
+            config["write_archive"].get(bool)
             and not self.fetcher.__module__ == "archive"
         ):
             self.archive_story()
 
-        if config.config["write_epub"].get(bool):
+        if config["write_epub"].get(bool):
             self.output_story()
 
     @property

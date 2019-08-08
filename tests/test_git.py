@@ -11,7 +11,7 @@ from tests.fixtures.doubles import story_double
 
 
 class TestGit:
-    @patch("app.git.repo_path", "/path/to/archive")
+    @patch("app.git.repo_path", lambda: "/path/to/archive")
     @patch("app.git.ensure_repo_initialized")
     @patch("dulwich.porcelain.commit")
     @patch("dulwich.porcelain.add")
@@ -30,7 +30,7 @@ class TestGit:
             author="efictopub <efictopub@users.noreply.github.com>",
         )
 
-    @patch("app.git.repo_path", "/path/to/archive")
+    @patch("app.git.repo_path", lambda: "/path/to/archive")
     @patch("app.git.ensure_repo_initialized", MagicMock())
     @patch(
         "dulwich.porcelain.status",
@@ -43,7 +43,7 @@ class TestGit:
     def test_repo_is_dirty_dirty(self):
         assert git.repo_is_dirty() is True
 
-    @patch("app.git.repo_path", "/path/to/archive")
+    @patch("app.git.repo_path", lambda: "/path/to/archive")
     @patch("app.git.ensure_repo_initialized", MagicMock())
     @patch(
         "dulwich.porcelain.status",

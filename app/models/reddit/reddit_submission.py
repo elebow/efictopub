@@ -1,7 +1,7 @@
 import bs4
 import functools
 
-from app.config import config
+from app import config
 from app.models.reddit import RedditComment
 from app.models.chapter import Chapter
 
@@ -9,7 +9,7 @@ from app.models.chapter import Chapter
 class RedditSubmission:
     def __init__(self, praw_submission):
         self.author_name = praw_submission.author.name
-        if config["fetch_comments"]:
+        if config["fetch_comments"].get(bool):
             self.comments = self.fetch_all_comments(praw_submission)
         else:
             self.comments = []

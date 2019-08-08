@@ -2,7 +2,7 @@ import glob
 from pathlib import Path
 import jsonpickle
 
-from app.config import config
+from app import config
 from app.exceptions import NoArchivedStoryError, AmbiguousArchiveIdError
 
 
