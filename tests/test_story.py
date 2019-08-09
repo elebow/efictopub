@@ -7,7 +7,9 @@ from tests.fixtures.real import chapters_real
 class TestStory:
     def setup_method(self):
         chapters = chapters_real(3)
-        self.subject = Story(chapters=chapters)
+        self.subject = Story(
+            title=chapters[0].story_title, author=chapters[0].author, chapters=chapters
+        )
 
     def test_date_start(self):
         self.subject.chapters = [

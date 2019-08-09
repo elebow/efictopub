@@ -6,10 +6,10 @@ from app.cover_generator import CoverGenerator
 
 
 class Story:
-    def __init__(self, *, title=None, chapters):
-        self.manual_title = title
+    def __init__(self, *, title=None, author=None, chapters):
+        self.title = title
+        self.author = author
         self.chapters = chapters
-        self.author = chapters[0].author  # assume all the chapters have the same author
         self.date_fetched = datetime.now().timestamp()
 
     @property
@@ -33,14 +33,6 @@ class Story:
         return urllib.parse.quote_plus(
             str(self.date_start) + self.chapters[0].permalink
         )
-
-    @property
-    @functools.lru_cache()
-    def title(self):
-        if self.manual_title:
-            return self.manual_title
-
-        return self.chapters[0].story_title
 
     def as_dict(self):
         return {"title": self.title, "chapters": self.chapters}

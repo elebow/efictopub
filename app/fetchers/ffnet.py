@@ -19,7 +19,10 @@ class Fetcher(fetchers.BaseFetcher):
         self.ffnet_id = self.calculate_ffnet_id(id_or_url)
 
     def fetch_story(self):
-        return Story(chapters=self.fetch_chapters())
+        chapters = self.fetch_chapters()
+        title = chapters[0].story_title
+        author = chapters[0].author
+        return Story(title=title, author=author, chapters=chapters)
 
     def fetch_chapters(self):
         return [

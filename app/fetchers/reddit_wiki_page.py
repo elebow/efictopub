@@ -1,6 +1,7 @@
 import praw
 import re
 
+from app import config
 from app import fetchers
 from app.lib import reddit_util
 from app.html_parser import HTMLParser
@@ -18,7 +19,11 @@ class Fetcher(fetchers.BaseFetcher):
         self.reddit = reddit_util.setup_reddit()
 
     def fetch_story(self):
-        return Story(chapters=self.fetch_chapters())
+        chapters = self.fetch_chapters()
+        # It's too hard to infer the story title from a single chapter on reddit
+        title = config.get("title")
+        author = chapters[0].author
+        return Story(title=title, author=author, chapters=chapters)
 
     def fetch_chapters(self):
         subms = [
