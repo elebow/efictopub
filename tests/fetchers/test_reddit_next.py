@@ -34,13 +34,13 @@ class TestFetchersRedditNext:
 
     @patch("praw.models.Submission", find_praw_submission)
     def test_duplicate_next(self):
+        # implied asertion that no AmbiguousNextError is raised
         [
             subm
             for subm in reddit_next.Fetcher("_what").generate_next_submissions(
                 praw_submission_with_duplicate_next()
             )
         ]
-        # TODO assert something
 
     @patch("praw.models.Submission", find_praw_submission)
     def test_skip_comments(self):
