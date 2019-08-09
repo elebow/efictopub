@@ -18,14 +18,14 @@ class Fetcher(fetchers.BaseFetcher):
         self.pattern = pattern
 
     def fetch_story(self):
-        chapters = self.fetch_chapters()
-        # It's too hard to infer the story title from a single chapter on reddit
-        title = config.get("title")
-        author = chapters[0].author
-        return Story(title=title, author=author, chapters=chapters)
-
-    def fetch_chapters(self):
-        return [subm.as_chapter() for subm in self.fetch_submissions()]
+        submissions = self.fetch_submissions()
+        title = config.get("title")  # reddit story titles must be supplied manually
+        author = submissions[0].author_name
+        return Story(
+            title=title,
+            author=author,
+            chapters=[subm.as_chapter() for subm in submissions],
+        )
 
     def fetch_submissions(self):
         author = self.reddit.redditor(self.author_name)

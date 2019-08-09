@@ -27,7 +27,6 @@ class TestFFNetChapter:
     def test_as_chapter(self):
         chapter = self.subject.as_chapter()
 
-        assert chapter.author == "Great Author"
         assert chapter.comments == []
         assert chapter.date_published == 1279499410
         assert chapter.date_updated == 1290054512

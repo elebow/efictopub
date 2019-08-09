@@ -123,13 +123,11 @@ class FFNetChapter:
     @functools.lru_cache()
     def as_chapter(self):
         return Chapter(
-            author=self.author_name,
             comments=self.reviews,
             date_published=self.date_published,
             date_updated=self.date_updated,
             permalink=self.permalink,
             score=self.score,
-            story_title=self.story_title,
             text=self.text,
             title=self.chapter_title,
         )

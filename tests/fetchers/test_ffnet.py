@@ -77,7 +77,7 @@ class TestFetchersFFNet:
         ]
 
         chapters = ffnet.Fetcher("https://www.fanfiction.net/s/555/8/").fetch_chapters()
-        assert [len(chapter.comments) for chapter in chapters] == [3]
+        assert [len(chapter.reviews) for chapter in chapters] == [3]
 
     def test_skip_comments(self):
         config.config["fetch_comments"] = False
@@ -89,4 +89,4 @@ class TestFetchersFFNet:
         ]
 
         chapters = ffnet.Fetcher("https://www.fanfiction.net/s/555/8/").fetch_chapters()
-        assert [len(chapter.comments) for chapter in chapters] == [0]
+        assert [len(chapter.reviews) for chapter in chapters] == [0]

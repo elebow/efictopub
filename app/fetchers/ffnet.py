@@ -19,16 +19,17 @@ class Fetcher(fetchers.BaseFetcher):
         self.ffnet_id = self.calculate_ffnet_id(id_or_url)
 
     def fetch_story(self):
-        chapters = self.fetch_chapters()
-        title = chapters[0].story_title
-        author = chapters[0].author
-        return Story(title=title, author=author, chapters=chapters)
+        ffn_chapters = self.fetch_chapters()
+        title = ffn_chapters[0].story_title
+        author = ffn_chapters[0].author_name
+        return Story(
+            title=title,
+            author=author,
+            chapters=[ch.as_chapter() for ch in ffn_chapters],
+        )
 
     def fetch_chapters(self):
-        return [
-            ffnet_chapter.as_chapter()
-            for ffnet_chapter in self.generate_ffnet_chapters()
-        ]
+        return list(self.generate_ffnet_chapters())
 
     def generate_ffnet_chapters(self):
         for n in itertools.count(1):

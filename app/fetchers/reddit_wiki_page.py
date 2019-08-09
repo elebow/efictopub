@@ -19,18 +19,20 @@ class Fetcher(fetchers.BaseFetcher):
         self.reddit = reddit_util.setup_reddit()
 
     def fetch_story(self):
-        chapters = self.fetch_chapters()
-        # It's too hard to infer the story title from a single chapter on reddit
-        title = config.get("title")
-        author = chapters[0].author
-        return Story(title=title, author=author, chapters=chapters)
+        submissions = self.fetch_submissions()
+        title = config.get("title")  # reddit story titles must be supplied manually
+        author = submissions[0].author
+        return Story(
+            title=title,
+            author=author,
+            chapters=[subm.as_chapter() for subm in submissions],
+        )
 
-    def fetch_chapters(self):
-        subms = [
+    def fetch_submissions(self):
+        return [
             reddit.Submission(praw.models.Submission(self.reddit, url=link.href))
             for link in self.links_mentioned_in_wiki_page()
         ]
-        return [subm.as_chapter() for subm in subms]
 
     def links_mentioned_in_wiki_page(self):
         wikipage = reddit_util.parse_id_or_url(self.url, self.reddit)

@@ -22,17 +22,18 @@ class Fetcher(fetchers.BaseFetcher):
         self.start_id_or_url = start_id_or_url
 
     def fetch_story(self):
-        chapters = self.fetch_chapters()
-        # It's too hard to infer the story title from a single chapter on reddit
-        title = config.get("title")
-        author = chapters[0].author
-        return Story(title=title, author=author, chapters=chapters)
+        submissions = self.fetch_submissions()
+        title = config.get("title")  # reddit story titles must be supplied manually
+        author = submissions[0].author_name
+        return Story(
+            title=title,
+            author=author,
+            chapters=[subm.as_chapter() for subm in submissions],
+        )
 
-    def fetch_chapters(self):
+    def fetch_submissions(self):
         start_subm = reddit_util.parse_id_or_url(self.start_id_or_url, self.reddit)
-        return [
-            subm.as_chapter() for subm in self.generate_next_submissions(start_subm)
-        ]
+        return self.generate_next_submissions(start_subm)
 
     # Generate reddit.Submission objects by following "next" links, including the specified starting
     # submission. Raises exception if there's more than one link that contains the word "next"

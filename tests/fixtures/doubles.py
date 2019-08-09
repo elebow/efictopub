@@ -102,6 +102,10 @@ def praw_submission_double(
     )
 
 
+def praw_submissions_double(count):
+    return [praw_submission_double(n) for n in range(0, count)]
+
+
 def praw_submission_with_author_note_double(n=0):
     author = praw_redditor()
     comment = praw_comment_double(author=author, body_html="short author note")

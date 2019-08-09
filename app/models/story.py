@@ -35,7 +35,7 @@ class Story:
         )
 
     def as_dict(self):
-        return {"title": self.title, "chapters": self.chapters}
+        return {"title": self.title, "author": self.author, "chapters": self.chapters}
 
     @property
     @functools.lru_cache()
@@ -44,4 +44,8 @@ class Story:
 
     @classmethod
     def from_dict(cls, mapping):
-        return cls(title=mapping["title"], chapters=mapping["chapters"])
+        return cls(
+            title=mapping["title"],
+            author=mapping["author"],
+            chapters=mapping["chapters"],
+        )

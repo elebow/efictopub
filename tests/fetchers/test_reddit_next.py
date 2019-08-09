@@ -14,7 +14,7 @@ from tests.fixtures.doubles import find_praw_submission
 class TestFetchersRedditNext:
     @patch("praw.models.Submission", find_praw_submission)
     def test_submissions_following_next_links(self):
-        subms = reddit_next.Fetcher(praw_submissions[0].permalink).fetch_chapters()
+        subms = reddit_next.Fetcher(praw_submissions[0].permalink).fetch_submissions()
 
         assert [subm.permalink for subm in subms] == [
             "https://www.reddit.com/r/great_subreddit/comments/000000/great_title",
@@ -44,11 +44,15 @@ class TestFetchersRedditNext:
     @patch("praw.models.Submission", find_praw_submission)
     def test_fetch_comments(self):
         config.config["fetch_comments"] = True
-        chapters = reddit_next.Fetcher(praw_submissions[0].permalink).fetch_chapters()
+        chapters = reddit_next.Fetcher(
+            praw_submissions[0].permalink
+        ).fetch_submissions()
         assert [len(chapter.comments) for chapter in chapters] == [3, 4, 5]
 
     @patch("praw.models.Submission", find_praw_submission)
     def test_skip_comments(self):
         config.config["fetch_comments"] = False
-        chapters = reddit_next.Fetcher(praw_submissions[0].permalink).fetch_chapters()
+        chapters = reddit_next.Fetcher(
+            praw_submissions[0].permalink
+        ).fetch_submissions()
         assert [len(chapter.comments) for chapter in chapters] == [0, 0, 0]

@@ -14,6 +14,10 @@ def load_config_file():
 
 
 class TestConfig:
+    @classmethod
+    def teardown_class(_cls):
+        config.load(args={}, fetcher=None)
+
     @patch("app.config.load_config_file", load_config_file)
     def test_load_file(self):
         config.load(args={}, fetcher=None)
