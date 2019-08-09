@@ -1,8 +1,5 @@
-import argparse
-
 from doubles import allow
 from unittest.mock import call
-from unittest.mock import MagicMock
 from unittest.mock import patch
 
 from app import git

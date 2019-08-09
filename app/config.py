@@ -3,8 +3,6 @@
 import confuse
 import functools
 
-import app
-
 # Config value precedence, from lowest to highest:
 #   - The nested structure in the config file, except for `overrides`.
 #   - Any values specified under `overrides` for the chosen fetcher
