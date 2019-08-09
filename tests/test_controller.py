@@ -20,7 +20,7 @@ class TestController:
             "<p>chapter content 1</p>",
             "<p>chapter content 2</p>",
         ]
-        assert subject.story.author_name == "great author 0"
+        assert subject.story.author == "great author 0"
 
     @patch("reddit_author.Fetcher.fetch_chapters", lambda _x: chapters_double(3))
     @patch("app.archive.store")
@@ -33,7 +33,7 @@ class TestController:
             "<p>chapter content 1</p>",
             "<p>chapter content 2</p>",
         ]
-        assert subject.story.author_name == "great author 0"
+        assert subject.story.author == "great author 0"
 
     @patch("app.controller.Controller.archive_story")
     @patch("app.controller.Controller.output_story")

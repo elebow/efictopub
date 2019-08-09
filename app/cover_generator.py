@@ -15,7 +15,6 @@ class CoverGenerator:
         group.add(drawing.text(**self.permalink_line, dy=[105]))
         group.add(drawing.text(**self.date_line, dy=[130]))
 
-        # TODO complete/incomplete/dead status
         # TODO word and chapter counts
 
         drawing.add(group)
