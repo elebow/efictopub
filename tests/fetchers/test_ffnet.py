@@ -1,5 +1,6 @@
 from unittest.mock import MagicMock
 
+from app import config
 from app.fetchers import ffnet
 
 from tests.fixtures.real import ffnet_chapter_html_real
@@ -65,3 +66,27 @@ class TestFetchersFFNet:
         )
         assert ffnet.Fetcher("111").ffnet_id == "111"
         assert ffnet.Fetcher("a").ffnet_id is None
+
+    def test_fetch_comments(self):
+        config.config["fetch_comments"] = True
+        tests.fixtures.stubs.return_values = [
+            MagicMock(status_code=200, text=ffnet_single_chapter_story_html_real()),
+            MagicMock(
+                status_code=200, text=ffnet_single_chapter_story_reviews_html_real()
+            ),
+        ]
+
+        chapters = ffnet.Fetcher("https://www.fanfiction.net/s/555/8/").fetch_chapters()
+        assert [len(chapter.comments) for chapter in chapters] == [3]
+
+    def test_skip_comments(self):
+        config.config["fetch_comments"] = False
+        tests.fixtures.stubs.return_values = [
+            MagicMock(status_code=200, text=ffnet_single_chapter_story_html_real()),
+            MagicMock(
+                status_code=200, text=ffnet_single_chapter_story_reviews_html_real()
+            ),
+        ]
+
+        chapters = ffnet.Fetcher("https://www.fanfiction.net/s/555/8/").fetch_chapters()
+        assert [len(chapter.comments) for chapter in chapters] == [0]
