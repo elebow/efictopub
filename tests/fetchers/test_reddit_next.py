@@ -1,6 +1,5 @@
 import pytest
 from unittest.mock import patch
-from unittest.mock import MagicMock
 
 from app import config
 from app.fetchers import reddit_next
@@ -43,8 +42,13 @@ class TestFetchersRedditNext:
         ]
 
     @patch("praw.models.Submission", find_praw_submission)
-    def test_skip_comments(self):
-        # TODO rename this test. It's not skipping comments.
+    def test_fetch_comments(self):
         config.config["fetch_comments"] = True
         chapters = reddit_next.Fetcher(praw_submissions[0].permalink).fetch_chapters()
         assert [len(chapter.comments) for chapter in chapters] == [3, 4, 5]
+
+    @patch("praw.models.Submission", find_praw_submission)
+    def test_skip_comments(self):
+        config.config["fetch_comments"] = False
+        chapters = reddit_next.Fetcher(praw_submissions[0].permalink).fetch_chapters()
+        assert [len(chapter.comments) for chapter in chapters] == [0, 0, 0]

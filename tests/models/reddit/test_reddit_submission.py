@@ -1,3 +1,4 @@
+from app import config
 from app.models.reddit import RedditSubmission
 
 from tests.fixtures.doubles import (
@@ -9,6 +10,9 @@ from tests.fixtures.doubles import (
 
 
 class TestRedditSubmission:
+    def setup_class(self):
+        config.config["fetch_comments"] = True
+
     def setup_method(self):
         self.submissions = [RedditSubmission(s) for s in praw_submissions]
 
