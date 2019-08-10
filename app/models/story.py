@@ -6,14 +6,19 @@ from app.cover_generator import CoverGenerator
 
 
 class Story:
-    ATTRIBUTES = ["title", "author", "summary", "chapters"]
+    ATTRIBUTES = ["title", "author", "summary", "chapters", "date_fetched"]
 
-    def __init__(self, *, title=None, author=None, summary=None, chapters):
+    def __init__(
+        self, *, title=None, author=None, summary=None, chapters, date_fetched=None
+    ):
         self.title = title
         self.author = author
         self.summary = summary
         self.chapters = chapters
-        self.date_fetched = datetime.now().timestamp()
+        if date_fetched is None:
+            self.date_fetched = datetime.now().timestamp()
+        else:
+            self.date_fetched = date_fetched
 
     @property
     @functools.lru_cache()

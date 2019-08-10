@@ -1,3 +1,7 @@
+from datetime import datetime
+
+from freezegun import freeze_time
+
 from app.models.story import Story
 
 from tests.fixtures.doubles import chapter_double
@@ -32,6 +36,7 @@ class TestStory:
 
         assert subject.id == "start_date+0permalink+0"
 
+    @freeze_time("2000-01-01")
     def test_as_dict(self):
         subject = Story(
             title="My Great Story",
@@ -45,6 +50,7 @@ class TestStory:
             "author": "Great Author",
             "summary": "My Great Summary",
             "chapters": [5, 5, 5],
+            "date_fetched": datetime(2000, 1, 1).timestamp(),
         }
 
     def test_from_dict(self):
@@ -53,6 +59,7 @@ class TestStory:
             "author": "Great Author",
             "summary": "My Great Summary",
             "chapters": [5, 5, 5],
+            "date_fetched": "today!",
         }
 
         subject = Story.from_dict(input_dict)
@@ -61,3 +68,4 @@ class TestStory:
         assert subject.author == "Great Author"
         assert subject.summary == "My Great Summary"
         assert subject.chapters == [5, 5, 5]
+        assert subject.date_fetched == "today!"
