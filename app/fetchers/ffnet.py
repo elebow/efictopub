@@ -25,6 +25,7 @@ class Fetcher(fetchers.BaseFetcher):
         return Story(
             title=title,
             author=author,
+            summary=ffn_chapters[0].summary,
             chapters=[ch.as_chapter() for ch in ffn_chapters],
         )
 

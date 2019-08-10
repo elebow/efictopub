@@ -6,9 +6,10 @@ from app.cover_generator import CoverGenerator
 
 
 class Story:
-    def __init__(self, *, title=None, author=None, chapters):
+    def __init__(self, *, title=None, author=None, summary=None, chapters):
         self.title = title
         self.author = author
+        self.summary = summary
         self.chapters = chapters
         self.date_fetched = datetime.now().timestamp()
 
@@ -34,18 +35,24 @@ class Story:
             str(self.date_start) + self.chapters[0].permalink
         )
 
-    def as_dict(self):
-        return {"title": self.title, "author": self.author, "chapters": self.chapters}
-
     @property
     @functools.lru_cache()
     def cover_svg(self):
         return CoverGenerator(self).generate_cover_svg()
+
+    def as_dict(self):
+        return {
+            "title": self.title,
+            "author": self.author,
+            "summary": self.summary,
+            "chapters": self.chapters,
+        }
 
     @classmethod
     def from_dict(cls, mapping):
         return cls(
             title=mapping["title"],
             author=mapping["author"],
+            summary=mapping["summary"],
             chapters=mapping["chapters"],
         )
