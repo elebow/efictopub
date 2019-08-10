@@ -6,6 +6,8 @@ from app.cover_generator import CoverGenerator
 
 
 class Story:
+    ATTRIBUTES = ["title", "author", "summary", "chapters"]
+
     def __init__(self, *, title=None, author=None, summary=None, chapters):
         self.title = title
         self.author = author
@@ -41,18 +43,8 @@ class Story:
         return CoverGenerator(self).generate_cover_svg()
 
     def as_dict(self):
-        return {
-            "title": self.title,
-            "author": self.author,
-            "summary": self.summary,
-            "chapters": self.chapters,
-        }
+        return {attr: getattr(self, attr) for attr in self.ATTRIBUTES}
 
     @classmethod
     def from_dict(cls, mapping):
-        return cls(
-            title=mapping["title"],
-            author=mapping["author"],
-            summary=mapping["summary"],
-            chapters=mapping["chapters"],
-        )
+        return cls(**{attr: mapping[attr] for attr in cls.ATTRIBUTES})
