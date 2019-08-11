@@ -83,5 +83,5 @@ class EpubWriter:
     @functools.lru_cache()
     def output_filename(self):
         return config.get("outfile") or os.path.join(
-            config.get("epub_location"), self.story.id
+            config.get("epub_location"), self.story.filename
         )

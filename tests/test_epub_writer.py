@@ -81,4 +81,7 @@ class TestEpubWriter:
         story = story_real()
         subject = EpubWriter(story)
 
-        assert subject.output_filename() == f"$HOME/books/fic/{story.id}"
+        assert (
+            subject.output_filename()
+            == f"$HOME/books/fic/My Great Story - Great Author"
+        )

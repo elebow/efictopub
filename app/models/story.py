@@ -38,6 +38,10 @@ class Story:
         )
 
     @property
+    def filename(self):
+        return self.title + " - " + self.author
+
+    @property
     @functools.lru_cache()
     def id(self):
         return urllib.parse.quote_plus(
