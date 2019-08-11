@@ -21,7 +21,7 @@ if os.environ.get("LIVE_REQUESTS") != "true":
     def no_requests():
         requests.get = tests.fixtures.stubs.request_get
 
-    app.lib.request_delay.DELAY = 0
+    app.lib.request_delay.MIN_DELAY = 0
 
 
 def load_config_file():
