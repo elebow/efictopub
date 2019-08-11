@@ -15,7 +15,7 @@ class EpubWriter:
         self.book.set_title(self.story.title)
         self.book.set_language("en")
 
-        self.book.add_author(self.story.author_name)
+        self.book.add_author(self.story.author)
 
         # dc:date MUST be the time the EPUB file was generated
         self.book.add_metadata("DC", "date", datetime.utcnow().isoformat())
@@ -53,7 +53,7 @@ class EpubWriter:
 
     def add_info_page(self):
         page = epub.EpubHtml(uid="info_page", title="info page", file_name="info.xhtml")
-        page.content = f"{self.story.title}<br>by {self.story.author_name}"
+        page.content = f"{self.story.title}<br>by {self.story.author}"
         self.book.add_item(page)
 
     def add_toc(self):

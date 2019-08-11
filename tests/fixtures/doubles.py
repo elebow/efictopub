@@ -149,7 +149,7 @@ def praw_wikipage_double(_reddit, _subreddit, _pagename):
 def story_double():
     return InstanceDouble(
         "app.models.story.Story",
-        author_name="great author",
+        author="great author",
         chapters=chapters_double(3),
         date_start=1435000000.0,
         date_end=1438000000,

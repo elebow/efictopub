@@ -29,7 +29,7 @@ class CoverGenerator:
 
     @property
     def author_line(self):
-        return {"text": self.story.author_name}
+        return {"text": self.story.author}
 
     @property
     def permalink_line(self):
