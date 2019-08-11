@@ -23,16 +23,18 @@ class Story:
     @property
     @functools.lru_cache()
     def date_start(self):
-        return min([chapter.date_published for chapter in self.chapters])
+        return int(min([chapter.date_published for chapter in self.chapters]))
 
     @property
     @functools.lru_cache()
     def date_end(self):
-        return max(
-            [
-                max(chapter.date_published, chapter.date_updated)
-                for chapter in self.chapters
-            ]
+        return int(
+            max(
+                [
+                    max(chapter.date_published, chapter.date_updated)
+                    for chapter in self.chapters
+                ]
+            )
         )
 
     @property

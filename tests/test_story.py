@@ -34,7 +34,7 @@ class TestStory:
     def test_id(self):
         subject = Story(chapters=chapters_real(3))
 
-        assert subject.id == "start_date+0permalink+0"
+        assert subject.id == "0permalink+0"
 
     @freeze_time("2000-01-01")
     def test_as_dict(self):

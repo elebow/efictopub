@@ -2,13 +2,14 @@ from datetime import datetime
 from ebooklib import epub
 
 from doubles import allow
+from freezegun import freeze_time
 from unittest import mock
 from unittest.mock import patch
 
 from app import config
 from app.epub_writer import EpubWriter
 
-from tests.fixtures.doubles import story_double
+from tests.fixtures.real import story_real
 
 
 class TestEpubWriter:
@@ -16,29 +17,29 @@ class TestEpubWriter:
     @patch("ebooklib.epub.write_epub")
     def test_write_epub(self, write_epub_mock, add_chapters_mock):
         config.config["outfile"] = "outfile.epub"
-        subject = EpubWriter(story_double())
+        subject = EpubWriter(story_real())
         subject.write_epub()
 
-        assert subject.book.title == "great title"
+        assert subject.book.title == "My Great Story"
         assert subject.book.language == "en"
         assert (
             subject.book.metadata["http://purl.org/dc/elements/1.1/"]["creator"][0][0]
-            == "great author"
+            == "Great Author"
         )
         write_epub_mock.assert_called_once_with(
-            "outfile.epub", mock.ANY, {"mtime": datetime(2015, 7, 27, 12, 26, 40)}
+            "outfile.epub", mock.ANY, {"mtime": datetime(1970, 1, 1, 0, 0, 21)}
         )
 
     def test_add_info_page(self):
         allow(epub).write_epub
 
-        subject = EpubWriter(story_double())
+        subject = EpubWriter(story_real())
         subject.write_epub()
 
-        assert subject.book.items[2].content == "great title<br>by great author"
+        assert subject.book.items[2].content == "My Great Story<br>by Great Author"
 
     def test_add_chapters(self):
-        subject = EpubWriter(story_double())
+        subject = EpubWriter(story_real())
         subject.add_chapters()
 
         assert [chap.file_name for chap in subject.book.items] == [
@@ -58,7 +59,7 @@ class TestEpubWriter:
         ]
 
     def test_add_toc(self):
-        subject = EpubWriter(story_double())
+        subject = EpubWriter(story_real())
         subject.add_toc()
 
         assert isinstance(subject.book.toc, tuple)
@@ -71,13 +72,13 @@ class TestEpubWriter:
 
     def test_output_filename_config(self):
         config.config["outfile"] = "great-outfile.epub"
-        subject = EpubWriter(story_double())
+        subject = EpubWriter(story_real())
 
         assert subject.output_filename() == "great-outfile.epub"
 
     def test_output_filename_auto(self):
         config.config["outfile"] = ""
-        story = story_double()
+        story = story_real()
         subject = EpubWriter(story)
 
         assert subject.output_filename() == f"$HOME/books/fic/{story.id}"
