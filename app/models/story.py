@@ -39,7 +39,7 @@ class Story:
 
     @property
     def filename(self):
-        return self.title + " - " + self.author
+        return self.title + " - " + self.author + ".epub"
 
     @property
     @functools.lru_cache()

@@ -83,5 +83,5 @@ class TestEpubWriter:
 
         assert (
             subject.output_filename()
-            == f"$HOME/books/fic/My Great Story - Great Author"
+            == f"$HOME/books/fic/My Great Story - Great Author.epub"
         )
