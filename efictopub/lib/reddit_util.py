@@ -1,9 +1,9 @@
 import praw
 import re
 
-from app import config
-from app.exceptions import AmbiguousIdError
-from app.models.reddit import RedditSubmission, RedditComment, RedditWikiPage
+from efictopub import config
+from efictopub.exceptions import AmbiguousIdError
+from efictopub.models.reddit import RedditSubmission, RedditComment, RedditWikiPage
 
 
 def redditor_name_from_url(url):
@@ -42,7 +42,7 @@ def parse_url(url, praw_reddit):
 
 def setup_reddit():
     return praw.Reddit(
-        client_id=config.get(["reddit", "app"]),
+        client_id=config.get(["reddit", "efictopub"]),
         client_secret=config.get(["reddit", "secret"]),
         user_agent=config.get(["reddit", "user_agent"]),
     )

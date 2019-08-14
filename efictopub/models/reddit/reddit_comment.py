@@ -1,8 +1,8 @@
 import bs4
 import functools
 
-from app.html_parser import HTMLParser
-import app.models
+from efictopub.html_parser import HTMLParser
+import efictopub.models
 
 
 class RedditComment:
@@ -48,7 +48,7 @@ class RedditComment:
 
     @functools.lru_cache()
     def as_comment(self):
-        return app.models.comment.Comment(
+        return efictopub.models.comment.Comment(
             author=self.formatted_author_name,
             date_published=self.created_utc,
             date_updated=self.edited,

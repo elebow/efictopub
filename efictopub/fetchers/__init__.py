@@ -2,7 +2,7 @@ from collections import namedtuple
 import pkgutil
 
 from .base_fetcher import BaseFetcher
-from app.exceptions import NoFetcherForUrlError, UnknownFetcherError
+from efictopub.exceptions import NoFetcherForUrlError, UnknownFetcherError
 
 fetchers = []
 Fetcher = namedtuple("Fetcher", ["fetcher_module", "can_handle_url"])

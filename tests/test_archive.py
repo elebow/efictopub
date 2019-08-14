@@ -4,15 +4,15 @@ from unittest.mock import mock_open
 from unittest.mock import patch
 
 
-from app import archive
-from app.exceptions import NoArchivedStoryError, AmbiguousArchiveIdError
+from efictopub import archive
+from efictopub.exceptions import NoArchivedStoryError, AmbiguousArchiveIdError
 
 
 class TestArchive:
     def setup_class(self):
         self.id = "55555-my-great-story-id"
 
-    @patch("app.archive.id_or_path_to_path", lambda x: "my-great-path")
+    @patch("efictopub.archive.id_or_path_to_path", lambda x: "my-great-path")
     @patch("jsonpickle.decode")
     @patch("builtins.open", new_callable=mock_open)
     def test_get(self, file_open, jsonpickle_decode):

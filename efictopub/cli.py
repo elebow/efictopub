@@ -1,6 +1,6 @@
 import argparse
 
-from app import fetchers
+from efictopub import fetchers
 
 parser = argparse.ArgumentParser(
     prog="efictopub",

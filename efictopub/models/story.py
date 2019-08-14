@@ -2,7 +2,7 @@ from datetime import datetime
 import functools
 import urllib.parse
 
-from app.cover_generator import CoverGenerator
+from efictopub.cover_generator import CoverGenerator
 
 
 class Story:

@@ -2,9 +2,9 @@ import bs4
 import functools
 import re
 
-from app import config
-from app.models.chapter import Chapter
-from app.models.ffnet.ffnet_reviews import FFNetReviews
+from efictopub import config
+from efictopub.models.chapter import Chapter
+from efictopub.models.ffnet.ffnet_reviews import FFNetReviews
 
 
 class FFNetChapter:

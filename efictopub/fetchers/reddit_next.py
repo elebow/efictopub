@@ -1,13 +1,13 @@
 import praw
 import re
 
-from app import config
-from app import fetchers
-from app.lib import reddit_util
-from app.html_parser import HTMLParser
-from app.models.reddit import RedditSubmission
-from app.models.story import Story
-from app.exceptions import AmbiguousNextError
+from efictopub import config
+from efictopub import fetchers
+from efictopub.lib import reddit_util
+from efictopub.html_parser import HTMLParser
+from efictopub.models.reddit import RedditSubmission
+from efictopub.models.story import Story
+from efictopub.exceptions import AmbiguousNextError
 
 
 def can_handle_url(url):

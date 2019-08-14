@@ -1,10 +1,10 @@
 import functools
 
-from app import config
-from app import archive
-from app import fetchers
-from app import git
-from app.epub_writer import EpubWriter
+from efictopub import config
+from efictopub import archive
+from efictopub import fetchers
+from efictopub import git
+from efictopub.epub_writer import EpubWriter
 
 
 class Controller:

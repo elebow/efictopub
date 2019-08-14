@@ -1,7 +1,7 @@
 import bs4
 import functools
 
-from app.models.ffnet.ffnet_review import FFNetReview
+from efictopub.models.ffnet.ffnet_review import FFNetReview
 
 
 class FFNetReviews:

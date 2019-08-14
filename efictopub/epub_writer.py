@@ -3,7 +3,7 @@ from ebooklib import epub
 import functools
 import os
 
-from app import config
+from efictopub import config
 
 
 class EpubWriter:

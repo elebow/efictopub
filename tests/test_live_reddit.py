@@ -1,6 +1,6 @@
 import os
 
-from app import fetchers
+from efictopub import fetchers
 
 if os.environ.get("LIVE_REDDIT") == "true":
 

@@ -1,6 +1,6 @@
 import re
 
-from app.cover_generator import CoverGenerator
+from efictopub.cover_generator import CoverGenerator
 
 from tests.fixtures.doubles import story_double
 

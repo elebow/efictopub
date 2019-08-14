@@ -1,4 +1,4 @@
-from app.models.ffnet.ffnet_chapter import FFNetChapter
+from efictopub.models.ffnet.ffnet_chapter import FFNetChapter
 
 from tests.fixtures.real import ffnet_chapter_html_real
 

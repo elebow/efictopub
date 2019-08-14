@@ -1,6 +1,6 @@
 from doubles import allow
 
-from app.fetchers import reddit_author
+from efictopub.fetchers import reddit_author
 
 from tests.fixtures.doubles import praw_redditor_with_submissions_double
 

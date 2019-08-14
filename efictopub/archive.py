@@ -2,8 +2,8 @@ import glob
 from pathlib import Path
 import jsonpickle
 
-from app import config
-from app.exceptions import NoArchivedStoryError, AmbiguousArchiveIdError
+from efictopub import config
+from efictopub.exceptions import NoArchivedStoryError, AmbiguousArchiveIdError
 
 
 """Saves and retrieves copies of stories on disk."""

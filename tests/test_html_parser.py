@@ -1,4 +1,4 @@
-from app.html_parser import HTMLParser
+from efictopub.html_parser import HTMLParser
 
 
 class TestHTMLParser:

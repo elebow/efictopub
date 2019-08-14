@@ -1,12 +1,12 @@
 import praw
 import re
 
-from app import config
-from app import fetchers
-from app.lib import reddit_util
-from app.html_parser import HTMLParser
-from app.models import reddit
-from app.models.story import Story
+from efictopub import config
+from efictopub import fetchers
+from efictopub.lib import reddit_util
+from efictopub.html_parser import HTMLParser
+from efictopub.models import reddit
+from efictopub.models.story import Story
 
 
 def can_handle_url(url):

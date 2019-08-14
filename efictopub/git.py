@@ -2,8 +2,8 @@ import dulwich
 import dulwich.porcelain
 import os
 
-from app import archive
-from app import config
+from efictopub import archive
+from efictopub import config
 
 """Commits archived files to local git repo."""
 

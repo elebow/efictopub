@@ -2,7 +2,7 @@ from datetime import datetime
 
 from freezegun import freeze_time
 
-from app.models.story import Story
+from efictopub.models.story import Story
 
 from tests.fixtures.doubles import chapter_double
 from tests.fixtures.real import chapters_real

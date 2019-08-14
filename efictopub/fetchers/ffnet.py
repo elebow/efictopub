@@ -2,10 +2,10 @@ import itertools
 import functools
 import re
 
-from app import fetchers
-from app.lib import request_delay
-from app.models.ffnet.ffnet_chapter import FFNetChapter
-from app.models.story import Story
+from efictopub import fetchers
+from efictopub.lib import request_delay
+from efictopub.models.ffnet.ffnet_chapter import FFNetChapter
+from efictopub.models.story import Story
 
 
 def can_handle_url(url):

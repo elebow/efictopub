@@ -1,7 +1,7 @@
 import functools
 
-import app.archive
-from app import fetchers
+import efictopub.archive
+from efictopub import fetchers
 
 
 def can_handle_url(url):
@@ -19,7 +19,7 @@ class Fetcher(fetchers.BaseFetcher):
 
     @functools.lru_cache()
     def fetch_story(self):
-        return app.archive.get(self.id_or_path)
+        return efictopub.archive.get(self.id_or_path)
 
     @functools.lru_cache()
     def fetch_chapters(self):

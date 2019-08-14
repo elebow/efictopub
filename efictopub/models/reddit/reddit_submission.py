@@ -1,9 +1,9 @@
 import bs4
 import functools
 
-from app import config
-from app.models.reddit import RedditComment
-from app.models.chapter import Chapter
+from efictopub import config
+from efictopub.models.reddit import RedditComment
+from efictopub.models.chapter import Chapter
 
 
 class RedditSubmission:

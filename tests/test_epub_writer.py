@@ -6,14 +6,14 @@ from freezegun import freeze_time
 from unittest import mock
 from unittest.mock import patch
 
-from app import config
-from app.epub_writer import EpubWriter
+from efictopub import config
+from efictopub.epub_writer import EpubWriter
 
 from tests.fixtures.real import story_real
 
 
 class TestEpubWriter:
-    @patch("app.epub_writer.EpubWriter.add_chapters")
+    @patch("efictopub.epub_writer.EpubWriter.add_chapters")
     @patch("ebooklib.epub.write_epub")
     def test_write_epub(self, write_epub_mock, add_chapters_mock):
         config.config["outfile"] = "outfile.epub"

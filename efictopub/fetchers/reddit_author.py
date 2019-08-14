@@ -1,10 +1,10 @@
 import re
 
-from app import config
-from app import fetchers
-from app.lib import reddit_util
-from app.models.reddit import RedditSubmission
-from app.models.story import Story
+from efictopub import config
+from efictopub import fetchers
+from efictopub.lib import reddit_util
+from efictopub.models.reddit import RedditSubmission
+from efictopub.models.story import Story
 
 
 def can_handle_url(url):

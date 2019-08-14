@@ -5,7 +5,7 @@ from doubles import InstanceDouble
 
 def chapter_double(n=0, date_published=f"start date", date_updated=f"end date"):
     return InstanceDouble(
-        "app.models.chapter.Chapter",
+        "efictopub.models.chapter.Chapter",
         comments=comments_double(3),
         date_published=date_published,
         date_updated=date_updated,
@@ -24,7 +24,7 @@ def chapters_double(count):
 
 def comment_double(n=0):
     return InstanceDouble(
-        "app.models.comment.Comment",
+        "efictopub.models.comment.Comment",
         author=f"author {n}",
         date_published=f"published date {n}",
         date_updated=f"updated date {n}",
@@ -148,7 +148,7 @@ def praw_wikipage_double(_reddit, _subreddit, _pagename):
 
 def story_double():
     return InstanceDouble(
-        "app.models.story.Story",
+        "efictopub.models.story.Story",
         author="great author",
         chapters=chapters_double(3),
         date_start=1435000000.0,

@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from app.fetchers import reddit_wiki_page
+from efictopub.fetchers import reddit_wiki_page
 
 from tests.fixtures.doubles import praw_wikipage_double
 

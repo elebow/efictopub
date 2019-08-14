@@ -1,4 +1,4 @@
-from app.models.reddit import RedditComment
+from efictopub.models.reddit import RedditComment
 
 from tests.fixtures.doubles import praw_submissions
 

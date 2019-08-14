@@ -1,7 +1,7 @@
 from datetime import datetime
 import functools
 
-import app.models.comment
+import efictopub.models.comment
 
 
 class FFNetReview:
@@ -39,7 +39,7 @@ class FFNetReview:
 
     @functools.lru_cache()
     def as_comment(self):
-        return app.models.comment.Comment(
+        return efictopub.models.comment.Comment(
             author=self.author_name,
             date_published=self.date_published,
             date_updated=None,

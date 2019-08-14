@@ -1,5 +1,5 @@
-from app import config
-from app.models.reddit import RedditSubmission
+from efictopub import config
+from efictopub.models.reddit import RedditSubmission
 
 from tests.fixtures.doubles import (
     praw_submission_double,

@@ -2,9 +2,9 @@ import pytest
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
-from app.lib import reddit_util
-from app.models.reddit import RedditSubmission, RedditComment, RedditWikiPage
-from app import exceptions
+from efictopub.lib import reddit_util
+from efictopub.models.reddit import RedditSubmission, RedditComment, RedditWikiPage
+from efictopub import exceptions
 
 from tests.fixtures.doubles import praw_submissions
 
@@ -35,25 +35,25 @@ class TestRedditUtil:
             == "redditor1"
         )
 
-    @patch("app.lib.reddit_util.parse_url")
+    @patch("efictopub.lib.reddit_util.parse_url")
     def test_parse_id_or_url_submission(self, parse_url):
         submission_url = praw_submissions[0].permalink
         self.subject.parse_id_or_url(submission_url, self.praw_reddit)
         self.subject.parse_url.assert_called_once_with(submission_url, self.praw_reddit)
 
-    @patch("app.lib.reddit_util.parse_url")
+    @patch("efictopub.lib.reddit_util.parse_url")
     def test_parse_id_or_url_comment(self, parse_url):
         comment_url = praw_submissions[0].comments[0].permalink
         self.subject.parse_id_or_url(comment_url, self.praw_reddit)
         self.subject.parse_url.assert_called_once_with(comment_url, self.praw_reddit)
 
-    @patch("app.lib.reddit_util.parse_url")
+    @patch("efictopub.lib.reddit_util.parse_url")
     def test_parse_id_or_url_wikipage(self, parse_url):
         wikipage_url = "reddit.com/r/whatever/wiki/pagename"
         self.subject.parse_id_or_url(wikipage_url, self.praw_reddit)
         self.subject.parse_url.assert_called_once_with(wikipage_url, self.praw_reddit)
 
-    @patch("app.lib.reddit_util.parse_url")
+    @patch("efictopub.lib.reddit_util.parse_url")
     def test_parse_id_or_url_ambiguous(self, parse_url):
         # ambiguous id
         with pytest.raises(exceptions.AmbiguousIdError):

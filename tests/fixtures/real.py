@@ -1,6 +1,6 @@
-from app.models.chapter import Chapter
-from app.models.comment import Comment
-from app.models.story import Story
+from efictopub.models.chapter import Chapter
+from efictopub.models.comment import Comment
+from efictopub.models.story import Story
 
 
 def chapter_real(n=0):

@@ -7,8 +7,8 @@ esac
 if [ "$partial_test" = 1 ]; then
 	coverage_arg=''
 else
-	#show code coverage for the dir `app`
-  coverage_arg='--cov=app'
+	#show code coverage for the dir `efictopub`
+  coverage_arg='--cov=efictopub'
 fi
 
 # -s         do not capture output. This is needed for ipdb.set_trace()

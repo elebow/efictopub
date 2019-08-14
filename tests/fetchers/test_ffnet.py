@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
 
-from app import config
-from app.fetchers import ffnet
+from efictopub import config
+from efictopub.fetchers import ffnet
 
 from tests.fixtures.real import ffnet_chapter_html_real
 from tests.fixtures.real import ffnet_chapter_2_html_real

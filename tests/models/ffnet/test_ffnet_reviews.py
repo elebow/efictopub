@@ -1,4 +1,4 @@
-from app.models.ffnet.ffnet_reviews import FFNetReviews
+from efictopub.models.ffnet.ffnet_reviews import FFNetReviews
 
 from tests.fixtures.real import ffnet_chapter_reviews_html_real
 
