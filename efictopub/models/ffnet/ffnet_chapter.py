@@ -2,7 +2,6 @@ import bs4
 import functools
 import re
 
-from efictopub import config
 from efictopub.models.chapter import Chapter
 from efictopub.models.ffnet.ffnet_reviews import FFNetReviews
 
@@ -88,10 +87,7 @@ class FFNetChapter:
     @property
     @functools.lru_cache()
     def reviews(self):
-        if not config.get("fetch_comments", bool):
-            return []
-
-        if len(self.reviews_html) == 0:
+        if self.reviews_html is None or len(self.reviews_html) == 0:
             return []
 
         return FFNetReviews(self.reviews_html).reviews

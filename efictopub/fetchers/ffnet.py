@@ -2,6 +2,7 @@ import itertools
 import functools
 import re
 
+from efictopub import config
 from efictopub import fetchers
 from efictopub.lib import request_delay
 from efictopub.models.ffnet.ffnet_chapter import FFNetChapter
@@ -35,14 +36,18 @@ class Fetcher(fetchers.BaseFetcher):
     def generate_ffnet_chapters(self):
         for n in itertools.count(1):
             chapter_url = self.generate_chapter_url(n)
-            reviews_url = self.generate_chapter_reviews_url(n)
-            print(f"Fetching chapter {n} ({chapter_url}, {reviews_url})")
 
-            chapter_response = request_delay.get(chapter_url)
-            reviews_response = request_delay.get(reviews_url)
-            ffnet_chapter = FFNetChapter(
-                str(chapter_response.text), str(reviews_response.text)
-            )
+            print(f"Fetching chapter {n} ({chapter_url})")
+            chapter_html = request_delay.get(chapter_url).text
+
+            if config.get("fetch_comments", bool):
+                reviews_url = self.generate_chapter_reviews_url(n)
+                print(f"Fetching chapter {n} reviews ({reviews_url})")
+                reviews_html = request_delay.get(reviews_url).text
+            else:
+                reviews_html = ""
+
+            ffnet_chapter = FFNetChapter(str(chapter_html), str(reviews_html))
 
             print("OK")
             yield ffnet_chapter
