@@ -3,7 +3,7 @@ import functools
 import re
 
 from efictopub import config
-from efictopub import fetchers
+from efictopub.fetchers import BaseFetcher
 from efictopub.lib import request_delay
 from efictopub.models.ffnet.ffnet_chapter import FFNetChapter
 from efictopub.models.story import Story
@@ -13,7 +13,7 @@ def can_handle_url(url):
     return re.search(r"(?:\w+:\/\/)?www.fanfiction.net/", url)
 
 
-class Fetcher(fetchers.BaseFetcher):
+class Fetcher(BaseFetcher):
     """Fetch story from fanfiction.net"""
 
     def __init__(self, id_or_url):

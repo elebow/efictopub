@@ -1,14 +1,14 @@
 import functools
 
 import efictopub.archive
-from efictopub import fetchers
+from efictopub.fetchers import BaseFetcher
 
 
 def can_handle_url(url):
     return False
 
 
-class Fetcher(fetchers.BaseFetcher):
+class Fetcher(BaseFetcher):
     """
     Fetch a story from the archive.
     Note that ID can be partial, as long as it is unique.

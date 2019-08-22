@@ -2,7 +2,7 @@ import praw
 import re
 
 from efictopub import config
-from efictopub import fetchers
+from efictopub.fetchers import BaseFetcher
 from efictopub.lib import reddit_util
 from efictopub.html_parser import HTMLParser
 from efictopub.models.reddit import RedditSubmission
@@ -14,7 +14,7 @@ def can_handle_url(url):
     return re.search(r"(?:\w+:\/\/)?(?:\w+)?reddit.com\/r\/\w+\/comments\/\w+.*", url)
 
 
-class Fetcher(fetchers.BaseFetcher):
+class Fetcher(BaseFetcher):
     """Fetch Reddit submissions by following "next" links in the body"""
 
     def __init__(self, start_id_or_url):

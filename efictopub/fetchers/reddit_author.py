@@ -1,7 +1,7 @@
 import re
 
 from efictopub import config
-from efictopub import fetchers
+from efictopub.fetchers import BaseFetcher
 from efictopub.lib import reddit_util
 from efictopub.models.reddit import RedditSubmission
 from efictopub.models.story import Story
@@ -11,7 +11,7 @@ def can_handle_url(url):
     return re.search(r"(?:\w+:\/\/)?(?:\w+)?reddit.com\/u\/\w+.*", url)
 
 
-class Fetcher(fetchers.BaseFetcher):
+class Fetcher(BaseFetcher):
     def __init__(self, url, *, pattern=r""):
         self.reddit = reddit_util.setup_reddit()
         self.author_name = reddit_util.redditor_name_from_url(url)

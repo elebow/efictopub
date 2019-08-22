@@ -2,7 +2,7 @@ import praw
 import re
 
 from efictopub import config
-from efictopub import fetchers
+from efictopub.fetchers import BaseFetcher
 from efictopub.lib import reddit_util
 from efictopub.html_parser import HTMLParser
 from efictopub.models import reddit
@@ -13,7 +13,7 @@ def can_handle_url(url):
     return re.search(r"(?:\w+:\/\/)?(?:\w+)?reddit.com\/r\/\w+\/wiki\/\w+.*", url)
 
 
-class Fetcher(fetchers.BaseFetcher):
+class Fetcher(BaseFetcher):
     def __init__(self, url):
         self.url = url
         self.reddit = reddit_util.setup_reddit()
