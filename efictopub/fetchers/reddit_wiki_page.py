@@ -18,6 +18,11 @@ class Fetcher(fetchers.BaseFetcher):
         self.url = url
         self.reddit = reddit_util.setup_reddit()
 
+        if not config.get("fetch_comments", bool):
+            print(
+                "WARNING: fetch_comments is disabled. Chapter bodies sometimes continue in comments. You might be missing chapter content!"
+            )
+
     def fetch_story(self):
         submissions = self.fetch_submissions()
         title = config.get("title")  # reddit story titles must be supplied manually

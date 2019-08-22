@@ -9,5 +9,4 @@ general --options arg that gets passed to the fetcher class?
 Edit story script. Reads archive, opens vim with each chapter in its own buffer, writes back to archive file. option for no comments.
 "update" operation. Fetch new chapters.
 compress JSON blobs on disk
-Reddit fetchers warn when comments are omitted—comments often contain extensions of the body content
 verbose mode (or dry-run mode?) that prints all the config settings at the beginning of execution (and then exits?)
