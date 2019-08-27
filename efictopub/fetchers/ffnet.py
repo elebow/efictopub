@@ -4,7 +4,7 @@ import re
 
 from efictopub import config
 from efictopub.fetchers import BaseFetcher
-from efictopub.lib import request_delay
+from efictopub.lib import request_dispatcher
 from efictopub.models.ffnet.ffnet_chapter import FFNetChapter
 from efictopub.models.story import Story
 
@@ -38,12 +38,12 @@ class Fetcher(BaseFetcher):
             chapter_url = self.generate_chapter_url(n)
 
             print(f"Fetching chapter {n} ({chapter_url})")
-            chapter_html = request_delay.get(chapter_url).text
+            chapter_html = request_dispatcher.get(chapter_url).text
 
             if config.get("fetch_comments", bool):
                 reviews_url = self.generate_chapter_reviews_url(n)
                 print(f"Fetching chapter {n} reviews ({reviews_url})")
-                reviews_html = request_delay.get(reviews_url).text
+                reviews_html = request_dispatcher.get(reviews_url).text
             else:
                 reviews_html = ""
 

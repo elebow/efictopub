@@ -2,13 +2,13 @@
 reddit:
   app: app-id
   secret: app-secret
-  user_agent: efictopub
 archive_location: ${XDG_DATA_HOME}/efictopub/archive
 epub_location: $HOME/books/fic/
 fetch_comments: true
 write_archive: true
 write_epub: true
 clobber: false
+user_agent: efictopub
 overrides:
   reddit_next:
     epub_location: $HOME/doc/books/reddit_fics

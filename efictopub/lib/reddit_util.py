@@ -44,5 +44,5 @@ def setup_reddit():
     return praw.Reddit(
         client_id=config.get(["reddit", "efictopub"]),
         client_secret=config.get(["reddit", "secret"]),
-        user_agent=config.get(["reddit", "user_agent"]),
+        user_agent=config.get("user_agent"),
     )

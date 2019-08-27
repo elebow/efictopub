@@ -2,7 +2,6 @@
 reddit:
   app: app-id
   secret: app-secret
-  user_agent: efictopub
 archive_location: /path/to/archive
 epub_location: $HOME/books/fic/
 fetch_comments: true

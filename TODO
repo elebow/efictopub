@@ -6,3 +6,4 @@ general --options arg that gets passed to the fetcher class?
 	some are required, like `title` for reddit fetchers
 "update" operation. Fetch new chapters.
 verbose mode (or dry-run mode?) that prints all the config settings at the beginning of execution (and then exits?)
+require --clobber if the output epub already exists

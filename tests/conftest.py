@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 from efictopub import config
 
 import efictopub.lib.reddit_util
-import efictopub.lib.request_delay
+import efictopub.lib.request_dispatcher
 import tests.fixtures.stubs
 
 
@@ -21,7 +21,7 @@ if os.environ.get("LIVE_REQUESTS") != "true":
     def no_requests():
         requests.get = tests.fixtures.stubs.request_get
 
-    efictopub.lib.request_delay.MIN_DELAY = 0
+    efictopub.lib.request_dispatcher.MIN_DELAY = 0
 
 
 def load_config_file():
