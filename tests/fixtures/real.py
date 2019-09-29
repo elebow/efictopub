@@ -72,3 +72,8 @@ def ffnet_single_chapter_story_html_real():
 def ffnet_single_chapter_story_reviews_html_real():
     with open("tests/fixtures/www.fanfiction.net_single_reviews.html", "r") as file:
         return file.read()
+
+
+def wordpress_chapter_html_real():
+    with open("tests/fixtures/wordpress_1.html", "r") as file:
+        return file.read()
