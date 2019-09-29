@@ -1,7 +1,6 @@
 import bs4
 import functools
 
-from efictopub.html_parser import HTMLParser
 import efictopub.models
 
 
@@ -33,10 +32,6 @@ class RedditComment:
     @functools.lru_cache()
     def replies(self):
         return [RedditComment(c) for c in self.praw_comment.replies]
-
-    @functools.lru_cache()
-    def all_links_in_text(self):
-        return HTMLParser(self.body_html).links
 
     @property
     @functools.lru_cache()

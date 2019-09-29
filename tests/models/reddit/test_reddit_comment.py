@@ -7,10 +7,6 @@ class TestRedditComment:
     def setup_method(self):
         self.reddit_comments = [RedditComment(c) for c in praw_submissions[0].comments]
 
-    def test_all_links_mentioned_in_comment(self):
-        links = self.reddit_comments[2].all_links_in_text()
-        assert links[0].text == "some link"
-
     def test_as_comment(self):
         comments = [
             reddit_comment.as_comment() for reddit_comment in self.reddit_comments
