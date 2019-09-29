@@ -41,7 +41,7 @@ class Fetcher(BaseFetcher):
 
     def links_mentioned_in_wiki_page(self):
         wikipage = reddit_util.parse_id_or_url(self.url, self.reddit)
-        links = HTMLParser(wikipage.html).links
+        links = HTMLParser(wikipage.html).links_containing_text("")
         return [link for link in links if "/wiki/" not in link.href]
 
     def generate_parents(self, start_comm):

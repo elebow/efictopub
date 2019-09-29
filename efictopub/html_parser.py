@@ -1,22 +1,22 @@
 import bs4
 import functools
-from collections import namedtuple
 import re
 
 
 class HTMLParser:
-    Link = namedtuple("Link", ["href", "text", "title"])
+    class Link:
+        def __init__(self, a):
+            self.href = a.attrs.get("href")
+            self.text = a.text
+            self.title = a.attrs.get("title")
 
     def __init__(self, src):
         self.dom = bs4.BeautifulSoup(src, "lxml")
 
     @property
     @functools.lru_cache()
-    def links(self):
-        return [
-            self.Link(href=a.attrs.get("href"), text=a.text, title=a.attrs.get("title"))
-            for a in self.dom.select("a")
-        ]
+    def a_elements(self):
+        return self.dom.select("a")
 
     def as_html(self):
         self.dom.encode()
@@ -26,4 +26,11 @@ class HTMLParser:
         This is useful for finding prev/next links in a post that is part of a series.
         """
         regexp_to_find = re.compile(r"\b%s\b" % text_to_find, re.IGNORECASE)
-        return [link for link in self.links if regexp_to_find.search(link.text)]
+        return [self.Link(a) for a in self.a_elements if regexp_to_find.search(a.text)]
+
+    def links_with_rel_value(self, value):
+        return [
+            self.Link(a)
+            for a in self.a_elements
+            if "rel" in a.attrs and a.attrs["rel"] == [value]
+        ]

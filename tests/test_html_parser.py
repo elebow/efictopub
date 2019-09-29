@@ -9,21 +9,22 @@ here is some html
 <a href="example.com/second" title="title goes here">click here for next, with a title</a>
 <a href="example.com/third">link with <em>formatting</em> in it</a>
 <a href="example.com/not_next">snexto</a>
+<a href="example.com/second" rel="next">Forward</a>
 
 """
         self.parser = HTMLParser(self.src)
 
     def test_parse_links(self):
-        assert len(self.parser.links) == 4
+        assert len(self.parser.a_elements) == 5
 
-        assert self.parser.links[0].href == "example.com/first"
-        assert self.parser.links[0].text == "Prev"
+        assert self.parser.a_elements[0].attrs["href"] == "example.com/first"
+        assert self.parser.a_elements[0].text == "Prev"
 
-        assert self.parser.links[1].href == "example.com/second"
-        assert self.parser.links[1].text == "click here for next, with a title"
-        assert self.parser.links[1].title == "title goes here"
+        assert self.parser.a_elements[1].attrs["href"] == "example.com/second"
+        assert self.parser.a_elements[1].text == "click here for next, with a title"
+        assert self.parser.a_elements[1].attrs["title"] == "title goes here"
 
-        assert self.parser.links[2].text == "link with formatting in it"
+        assert self.parser.a_elements[2].text == "link with formatting in it"
 
     def test_links_containing_text(self):
         next_links = self.parser.links_containing_text("next")
@@ -33,3 +34,8 @@ here is some html
         prev_links = self.parser.links_containing_text("prev")
         assert len(prev_links) == 1
         assert prev_links[0].text == "Prev"
+
+    def test_links_with_rel_value(self):
+        links = self.parser.links_with_rel_value("next")
+        assert len(links) == 1
+        assert links[0].text == "Forward"

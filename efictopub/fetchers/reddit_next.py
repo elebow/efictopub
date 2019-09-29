@@ -40,9 +40,11 @@ class Fetcher(BaseFetcher):
         start_subm = reddit_util.parse_id_or_url(self.start_id_or_url, self.reddit)
         return self.generate_next_submissions(start_subm)
 
-    # Generate reddit.Submission objects by following "next" links, including the specified starting
-    # submission. Raises exception if there's more than one link that contains the word "next"
     def generate_next_submissions(self, start_subm):
+        """
+        Generate reddit.Submission objects by following "next" links, including the specified starting
+        submission. Raises exception if there's more than one link that contains the word "next"
+        """
         subm = start_subm
         while True:
             yield subm
