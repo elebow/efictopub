@@ -16,11 +16,15 @@ class WordpressEntry:
 
     @property
     def date_published(self):
-        pass
+        meta_tag = self.dom.select("meta[property='article:published_time']")[0]
+        return meta_tag.attrs["content"]
 
     @property
     def date_updated(self):
-        pass
+        meta_tag = self.dom.select("meta[property='article:modified_time']")[0]
+        modified_time = meta_tag.attrs["content"]
+        if modified_time != self.date_published:
+            return modified_time
 
     @property
     def permalink(self):
