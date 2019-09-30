@@ -27,10 +27,3 @@ class HTMLParser:
         """
         regexp_to_find = re.compile(r"\b%s\b" % text_to_find, re.IGNORECASE)
         return [self.Link(a) for a in self.a_elements if regexp_to_find.search(a.text)]
-
-    def links_with_rel_value(self, value):
-        return [
-            self.Link(a)
-            for a in self.a_elements
-            if "rel" in a.attrs and a.attrs["rel"] == [value]
-        ]

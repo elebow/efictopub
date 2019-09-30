@@ -48,10 +48,7 @@ class Fetcher(BaseFetcher):
                 print("Done. Matched last_chapter pattern.")
                 return
 
-            next_links = HTMLParser(entry.text).links_with_rel_value("next")
-            next_urls = list(set([link.href for link in next_links]))
-            if len(next_urls) > 1:
-                raise AmbiguousNextError
-            elif len(next_urls) == 0:
+            chapter_url = entry.next_url
+            if not chapter_url:
                 print("Done. Could not find a `next` link.")
                 return

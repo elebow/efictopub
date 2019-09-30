@@ -24,7 +24,14 @@ class WordpressEntry:
 
     @property
     def permalink(self):
-        pass
+        return self.dom.select("link[rel='canonical']")[0].attrs["href"]
+
+    @property
+    def next_url(self):
+        links = self.dom.select("link[rel='next']")
+        if links:
+            return links[0].attrs["href"]
+        return None
 
     @property
     def text(self):

@@ -74,6 +74,6 @@ def ffnet_single_chapter_story_reviews_html_real():
         return file.read()
 
 
-def wordpress_chapter_html_real():
-    with open("tests/fixtures/wordpress_1.html", "r") as file:
+def wordpress_chapter_html_real(n):
+    with open(f"tests/fixtures/wordpress_{n}.html", "r") as file:
         return file.read()

@@ -34,8 +34,3 @@ here is some html
         prev_links = self.parser.links_containing_text("prev")
         assert len(prev_links) == 1
         assert prev_links[0].text == "Prev"
-
-    def test_links_with_rel_value(self):
-        links = self.parser.links_with_rel_value("next")
-        assert len(links) == 1
-        assert links[0].text == "Forward"
