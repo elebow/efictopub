@@ -11,8 +11,8 @@ class WordpressEntry:
 
     @property
     def comments(self):
+        # TODO
         return []
-        return self.dom.select("#storytext")[0].encode_contents().decode().strip()
 
     @property
     def date_published(self):
