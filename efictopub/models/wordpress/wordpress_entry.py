@@ -38,6 +38,7 @@ class WordpressEntry:
         return None
 
     @property
+    @functools.lru_cache()
     def text(self):
         article = self.dom.select(".entry-content")[0]
 
