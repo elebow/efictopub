@@ -1,11 +1,10 @@
 import re
 
+from efictopub import config
 from efictopub.fetchers import BaseFetcher
-from efictopub.html_parser import HTMLParser
 from efictopub.lib import request_dispatcher
 from efictopub.models.story import Story
 from efictopub.models.wordpress.wordpress_entry import WordpressEntry
-from efictopub.exceptions import AmbiguousNextError
 
 
 def can_handle_url(url):
@@ -17,8 +16,7 @@ class Fetcher(BaseFetcher):
 
     def __init__(self, url):
         self.first_chapter_url = url
-        self.last_chapter_pattern = "TODO"
-        # CLI arg that passes through to the fetcher. Get via config?
+        self.last_chapter_pattern = config.get_fetcher_opt("last_chapter_pattern")
 
     def fetch_story(self):
         title = ""
@@ -44,7 +42,9 @@ class Fetcher(BaseFetcher):
 
             yield entry
 
-            if re.search(self.last_chapter_pattern, chapter_url):
+            if self.last_chapter_pattern and re.search(
+                self.last_chapter_pattern, chapter_url
+            ):
                 print("Done. Matched last_chapter pattern.")
                 return
 
