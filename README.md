@@ -16,6 +16,12 @@ files.
 Many written works are protected by copyright law. It is your responsibility when
 using this tool to ensure that your usage is permissible in all applicable jurisdictions.
 
+## A note about courtesy
+
+Even in cases where use of this tool is legally permitted, some authors may prefer
+that you not use it under certain circumstances, or at all. For example, an author
+may be in the process of seeking a book deal. Please respect the wishes of authors.
+
 ## Implementing a new fetcher
 
 A fetcher is a Python module located in `efictopub/fetchers/` that has the following
