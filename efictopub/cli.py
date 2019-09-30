@@ -68,6 +68,13 @@ parser.add_argument(
     help="do not write an EPUB file",
 )
 
+parser.add_argument(
+    "--fetcher-opt",
+    dest="fetcher_opts",
+    action="append",
+    help="extra options passed through to fetchers",
+)
+
 
 def args():
     return vars(parser.parse_args())

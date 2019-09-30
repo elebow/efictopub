@@ -55,3 +55,12 @@ def get(key, template=str):
         return functools.reduce(confuse.Configuration.__getitem__, key, config).get(
             template
         )
+
+
+def get_fetcher_opt(key):
+    fetcher_opts = get("fetcher_opts", list)
+    if fetcher_opts:
+        specific_opt = [opt for opt in fetcher_opts if opt.startswith(f"{key}=")][-1]
+
+        if specific_opt:
+            return specific_opt.split("=")[-1]

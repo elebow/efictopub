@@ -57,3 +57,12 @@ class TestConfig:
         config.load(args=args, fetcher=MagicMock(__module__="ffnet"))
 
         assert config.get("fetch_comments") == "5"
+
+    def test_get_fetcher_opt(self):
+        arg_parser = argparse.ArgumentParser()
+        arg_parser.add_argument("--fetcher-opt", dest="fetcher_opts", action="append")
+        args = arg_parser.parse_args(["--fetcher-opt=a=5", "--fetcher-opt=ab=6"])
+
+        config.load(args=args, fetcher=MagicMock(__module__="ffnet"))
+        assert config.get_fetcher_opt("a") == "5"
+        assert config.get_fetcher_opt("ab") == "6"
