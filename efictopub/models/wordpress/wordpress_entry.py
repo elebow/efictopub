@@ -14,7 +14,8 @@ class WordpressEntry:
     @property
     def comments(self):
         return [
-            WordpressComment(element) for element in self.dom.select(".comment.depth-1")
+            WordpressComment(element).as_comment()
+            for element in self.dom.select(".comment.depth-1")
         ]
 
     @property
