@@ -8,6 +8,9 @@ import tests.fixtures.stubs
 
 
 class TestFetchersWordpress:
+    def setup_method(self):
+        config.config["fetcher_opts"] = ["title='Great Story'", "author='Great Author'"]
+
     def test_fetch_blog_entries(self):
         tests.fixtures.stubs.return_values = [
             MagicMock(status_code=200, text=wordpress_chapter_html_real(1)),
@@ -39,7 +42,11 @@ class TestFetchersWordpress:
         )
 
     def test_last_chapter_pattern(self):
-        config.config["fetcher_opts"] = ["last_chapter_pattern=2011/06/11"]
+        config.config["fetcher_opts"] = [
+            "title='Great Story'",
+            "author='Great Author'",
+            "last_chapter_pattern=2011/06/11",
+        ]
         tests.fixtures.stubs.return_values = [
             MagicMock(status_code=200, text=wordpress_chapter_html_real(1)),
             MagicMock(status_code=200, text=wordpress_chapter_html_real(2)),
@@ -54,6 +61,11 @@ class TestFetchersWordpress:
         ]
 
     def test_comments(self):
+        config.config["fetcher_opts"] = [
+            "title='Great Story'",
+            "author='Great Author'",
+            "last_chapter_pattern=2011/06/11",
+        ]
         tests.fixtures.stubs.return_values = [
             MagicMock(status_code=200, text=wordpress_chapter_html_real(1))
         ]

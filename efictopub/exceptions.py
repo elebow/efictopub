@@ -34,3 +34,9 @@ class UnknownFetcherError(Exception):
     """The user specified an unrecognized fetcher"""
 
     pass
+
+
+class MissingRequiredFetcherOptError(Exception):
+    """The fetcher requires a certain --fetcher-opt that was not found"""
+
+    pass

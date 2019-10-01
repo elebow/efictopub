@@ -18,8 +18,8 @@ class Fetcher(BaseFetcher):
         self.first_chapter_url = url
 
     def fetch_story(self):
-        title = ""
-        author = ""
+        title = config.get_fetcher_opt("title", required=True)
+        author = config.get_fetcher_opt("author", required=True)
         return Story(
             title=title,
             author=author,

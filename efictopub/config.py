@@ -3,6 +3,8 @@
 import confuse
 import functools
 
+from efictopub.exceptions import MissingRequiredFetcherOptError
+
 # Config value precedence, from lowest to highest:
 #   - The nested structure in the config file, except for `overrides`.
 #   - Any values specified under `overrides` for the chosen fetcher
@@ -57,10 +59,14 @@ def get(key, template=str):
         )
 
 
-def get_fetcher_opt(key):
+def get_fetcher_opt(key, required=False):
     fetcher_opts = get("fetcher_opts", list)
     if fetcher_opts:
-        specific_opt = [opt for opt in fetcher_opts if opt.startswith(f"{key}=")][-1]
+        matching_opts = [opt for opt in fetcher_opts if opt.startswith(f"{key}=")]
 
-        if specific_opt:
-            return specific_opt.split("=")[-1]
+        if matching_opts:
+            # the last one "wins"
+            return matching_opts[-1].split("=")[-1]
+
+    if required:
+        raise MissingRequiredFetcherOptError(key)
