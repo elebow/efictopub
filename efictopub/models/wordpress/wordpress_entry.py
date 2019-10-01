@@ -3,6 +3,7 @@ import functools
 import re
 
 from efictopub.models.chapter import Chapter
+from efictopub.models.wordpress.wordpress_comment import WordpressComment
 
 
 class WordpressEntry:
@@ -11,8 +12,9 @@ class WordpressEntry:
 
     @property
     def comments(self):
-        # TODO
-        return []
+        return [
+            WordpressComment(element) for element in self.dom.select(".comment.depth-1")
+        ]
 
     @property
     def date_published(self):

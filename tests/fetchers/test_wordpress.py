@@ -58,3 +58,22 @@ class TestFetchersWordpress:
         assert [entry.text for entry in entries] == [
             '<p dir="ltr">Chapter 1 content here\n</p>'
         ]
+
+    def test_comments(self):
+        tests.fixtures.stubs.return_values = [
+            MagicMock(status_code=200, text=wordpress_chapter_html_real(1))
+        ]
+        fetcher = wordpress.Fetcher("https://blog-name.wordpress.com/2011/06/11/1-1/")
+        entry = fetcher.fetch_blog_entries()[0]
+
+        assert entry.comments[0].author == "commenter 1"
+        assert entry.comments[0].text == "<p>comment 1 text</p>"
+
+        assert entry.comments[0].replies[0].author == "commenter 2"
+        assert entry.comments[0].replies[0].text == "<p>comment 2 text</p>"
+
+        assert entry.comments[0].replies[0].replies[0].author == "commenter 3"
+        assert entry.comments[0].replies[0].replies[0].text == "<p>comment 3 text</p>"
+
+        assert entry.comments[1].author == "commenter 4"
+        assert entry.comments[1].text == "<p>comment 4 text</p>"
