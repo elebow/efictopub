@@ -12,6 +12,10 @@ class WordpressEntry:
         self.dom = bs4.BeautifulSoup(chapter_html, "lxml")
 
     @property
+    def author(self):
+        return self.dom.select(".author")[0].text
+
+    @property
     def comments(self):
         return [
             WordpressComment(element).as_comment()

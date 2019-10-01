@@ -19,12 +19,13 @@ class Fetcher(BaseFetcher):
 
     def fetch_story(self):
         title = config.get_fetcher_opt("title", required=True)
-        author = config.get_fetcher_opt("author", required=True)
+        entries = list(self.fetch_blog_entries())
+        author = entries[0].author
         return Story(
             title=title,
             author=author,
             summary="",
-            chapters=[ch.as_chapter() for ch in self.fetch_blog_entries()],
+            chapters=[entry.as_chapter() for entry in entries],
         )
 
     def fetch_blog_entries(self):

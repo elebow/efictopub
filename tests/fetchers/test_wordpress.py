@@ -40,6 +40,7 @@ class TestFetchersWordpress:
             story.chapters[0].permalink
             == "https://blog-name.wordpress.com/2011/06/11/1-1/"
         )
+        assert story.author == "author-name"
 
     def test_last_chapter_pattern(self):
         config.config["fetcher_opts"] = [
