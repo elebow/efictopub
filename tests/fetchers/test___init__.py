@@ -30,3 +30,10 @@ class TestFetchers__init__:
             ).__module__
             == "reddit_wiki_page"
         )
+
+        assert (
+            efictopub.fetchers.fetcher_for_url(
+                "https://blog-name.wordpress.com/2011/06/11/1-1/"
+            ).__module__
+            == "wordpress"
+        )
