@@ -8,7 +8,7 @@ from efictopub.models.wordpress.wordpress_entry import WordpressEntry
 
 
 def can_handle_url(url):
-    return re.search(r"(?:\w+:\/\/).+\.wordpress.com", url)
+    return re.search(r"^(?:\w+:\/\/).+\.wordpress.com", url)
 
 
 class Fetcher(BaseFetcher):

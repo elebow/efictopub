@@ -10,7 +10,7 @@ from efictopub.models.story import Story
 
 
 def can_handle_url(url):
-    return re.search(r"(?:\w+:\/\/)?www.fanfiction.net/", url)
+    return re.search(r"^(?:\w+:\/\/)?www.fanfiction.net/", url)
 
 
 class Fetcher(BaseFetcher):

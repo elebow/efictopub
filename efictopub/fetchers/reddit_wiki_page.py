@@ -10,7 +10,7 @@ from efictopub.models.story import Story
 
 
 def can_handle_url(url):
-    return re.search(r"(?:\w+:\/\/)?(?:\w+)?reddit.com\/r\/\w+\/wiki\/\w+.*", url)
+    return re.search(r"^(?:\w+:\/\/)?(?:\w+\.)?reddit.com\/r\/\w+\/wiki\/\w+.*", url)
 
 
 class Fetcher(BaseFetcher):

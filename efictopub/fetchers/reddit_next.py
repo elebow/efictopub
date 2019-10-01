@@ -11,7 +11,9 @@ from efictopub.exceptions import AmbiguousNextError
 
 
 def can_handle_url(url):
-    return re.search(r"(?:\w+:\/\/)?(?:\w+)?reddit.com\/r\/\w+\/comments\/\w+.*", url)
+    return re.search(
+        r"^(?:\w+:\/\/)?(?:\w+\.)?reddit.com\/r\/\w+\/comments\/\w+.*", url
+    )
 
 
 class Fetcher(BaseFetcher):
