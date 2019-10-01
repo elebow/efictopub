@@ -1,4 +1,5 @@
 import bs4
+from datetime import datetime
 import functools
 import re
 
@@ -19,12 +20,16 @@ class WordpressEntry:
     @property
     def date_published(self):
         meta_tag = self.dom.select("meta[property='article:published_time']")[0]
-        return meta_tag.attrs["content"]
+        return datetime.strptime(
+            meta_tag.attrs["content"], "%Y-%m-%dT%H:%M:%S%z"
+        ).timestamp()
 
     @property
     def date_updated(self):
         meta_tag = self.dom.select("meta[property='article:modified_time']")[0]
-        modified_time = meta_tag.attrs["content"]
+        modified_time = datetime.strptime(
+            meta_tag.attrs["content"], "%Y-%m-%dT%H:%M:%S%z"
+        ).timestamp()
         if modified_time != self.date_published:
             return modified_time
 

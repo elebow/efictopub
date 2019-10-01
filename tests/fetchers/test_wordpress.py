@@ -22,14 +22,8 @@ class TestFetchersWordpress:
             '<p dir="ltr">Chapter 1 content here\n</p>',
             '<p dir="ltr">Chapter 2 <b>content</b> here\n</p>',
         ]
-        assert [entry.date_published for entry in entries] == [
-            "2011-06-11T05:01:19+00:00",
-            "2011-06-11T05:01:19+00:00",
-        ]
-        assert [entry.date_updated for entry in entries] == [
-            "2014-09-30T22:10:14+00:00",
-            None,
-        ]
+        assert [entry.date_published for entry in entries] == [1307768479, 1307768479]
+        assert [entry.date_updated for entry in entries] == [1412115014, None]
 
     def test_fetch_story(self):
         tests.fixtures.stubs.return_values = [
