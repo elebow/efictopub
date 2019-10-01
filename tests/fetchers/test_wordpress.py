@@ -20,7 +20,7 @@ class TestFetchersWordpress:
         assert entries[0].entry_title == "Chapter 1.1"
         assert [entry.text for entry in entries] == [
             '<p dir="ltr">Chapter 1 content here\n</p>',
-            '<p dir="ltr">Chapter 2 content here\n</p>',
+            '<p dir="ltr">Chapter 2 <b>content</b> here\n</p>',
         ]
         assert [entry.date_published for entry in entries] == [
             "2011-06-11T05:01:19+00:00",

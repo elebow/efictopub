@@ -72,4 +72,8 @@ class WordpressEntry:
         )
 
     def _element_is_whitespace_or_link(self, elem):
-        return elem.name == "a" or re.match(r"^\s*$", elem)
+        if not isinstance(elem, bs4.element.NavigableString):
+            elem_text = elem.text
+        else:
+            elem_text = elem
+        return elem.name == "a" or re.match(r"^\s*$", elem_text)
