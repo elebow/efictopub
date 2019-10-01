@@ -12,10 +12,15 @@ def can_handle_url(url):
 
 
 class Fetcher(BaseFetcher):
-    def __init__(self, url, *, pattern=r""):
+    def __init__(self, url):
         self.reddit = reddit_util.setup_reddit()
         self.author_name = reddit_util.redditor_name_from_url(url)
-        self.pattern = pattern
+
+        title_pattern_opt = config.get_fetcher_opt("title_pattern")
+        if title_pattern_opt:
+            self.title_pattern = re.compile(title_pattern_opt)
+        else:
+            self.title_pattern = None
 
         if not config.get("fetch_comments", bool):
             print(
@@ -34,9 +39,8 @@ class Fetcher(BaseFetcher):
 
     def fetch_submissions(self):
         author = self.reddit.redditor(self.author_name)
-        regex = re.compile(self.pattern)
         return [
             RedditSubmission(subm)
             for subm in author.submissions.new()
-            if regex.search(subm.title)
+            if self.title_pattern is None or self.title_pattern.search(subm.title)
         ]
