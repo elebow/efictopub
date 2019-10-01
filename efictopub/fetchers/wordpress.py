@@ -16,7 +16,6 @@ class Fetcher(BaseFetcher):
 
     def __init__(self, url):
         self.first_chapter_url = url
-        self.last_chapter_pattern = config.get_fetcher_opt("last_chapter_pattern")
 
     def fetch_story(self):
         title = ""
@@ -42,9 +41,7 @@ class Fetcher(BaseFetcher):
 
             yield entry
 
-            if self.last_chapter_pattern and re.search(
-                self.last_chapter_pattern, chapter_url
-            ):
+            if self.is_last_chapter_url(chapter_url):
                 print("Done. Matched last_chapter pattern.")
                 return
 
@@ -52,3 +49,7 @@ class Fetcher(BaseFetcher):
             if not chapter_url:
                 print("Done. Could not find a `next` link.")
                 return
+
+    def is_last_chapter_url(self, url):
+        last_chapter_pattern = config.get_fetcher_opt("last_chapter_pattern")
+        return last_chapter_pattern and re.search(last_chapter_pattern, url)
