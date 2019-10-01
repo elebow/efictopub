@@ -1,6 +1,6 @@
 ebooklib MR: stop automatically setting dcterms:modified if it's being set manually
 ffnet category and property. Append in brackets to title?
-fetcher_args: minimum length of forum post to consider a chapter, reddit author pattern, title for reddit fetchers
+fetcher_args: minimum length of forum post to consider a chapter, reddit author pattern
 "update" operation. Fetch new chapters.
 verbose mode (or dry-run mode?) that prints all the config settings at the beginning of execution (and then exits?)
 require --clobber if the output epub already exists

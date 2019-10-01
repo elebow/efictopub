@@ -24,7 +24,7 @@ class Fetcher(BaseFetcher):
 
     def fetch_story(self):
         submissions = self.fetch_submissions()
-        title = config.get("title")  # reddit story titles must be supplied manually
+        title = config.get_fetcher_opt("title", required=True)
         author = submissions[0].author_name
         return Story(
             title=title,
