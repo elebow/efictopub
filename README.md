@@ -54,8 +54,8 @@ properties:
 1. Contains a function named `can_handle_url()`, which takes a string URL and returns
    true if the fetcher is capable of handling the URL.
 1. Contains a class named `Fetcher`.
-      a. `Fetcher` inherits from the abstract base class `efictopub.fetchers.BaseFetcher`
-      a. `Fetcher.fetch_story()` returns a `Story` object.
+      - `Fetcher` inherits from the abstract base class `efictopub.fetchers.BaseFetcher`
+      - `Fetcher.fetch_story()` returns a `Story` object.
 
 See `efictopub/fetchers/reddit_author.py` for an almost-minimal example of a fetcher.
 
