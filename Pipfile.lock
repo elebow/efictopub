@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e510e3dc026eab0a9f43dc303af8bbc7c3e3a95f654a04f828e644a7e0fef27f"
+            "sha256": "c9b08d4ee253405ec374444deb03e5cf7f64ea5a07cf8ef2ddcdee7877e46dec"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -116,14 +116,6 @@
             ],
             "version": "==4.4.1"
         },
-        "mistletoe": {
-            "hashes": [
-                "sha256:24d0f18cc5f0381c2cfb8a24ef3de83eb9f7929cb7d0e71ecb164b671d86e6a3",
-                "sha256:3e2d31b2fa6231ea2ee46981274ebac8d5e5736e3aad2d1cd449e2c053b7023b"
-            ],
-            "index": "pypi",
-            "version": "==0.7.2"
-        },
         "praw": {
             "hashes": [
                 "sha256:2e5c98e49fe60e5308255ed147b670d350f98281f84f582df30f87de727b6de2",
@@ -162,7 +154,6 @@
                 "sha256:bf47c0607522fdbca6c9e817a6e81b08491de50f3766a7a0e6a5be7905961b41",
                 "sha256:f81025eddd0327c7d4cfe9b62cf33190e1e736cc6e97502b3ec425f574b3e7a8"
             ],
-            "index": "pypi",
             "version": "==5.1.2"
         },
         "requests": {

@@ -6,8 +6,6 @@ setuptools.setup(
     install_requires=[
         "praw",
         "ebooklib",
-        "pyyaml",
-        "mistletoe",
         "bs4",
         "requests",
         "dulwich",
