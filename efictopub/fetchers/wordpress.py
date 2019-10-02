@@ -32,7 +32,7 @@ class Fetcher(BaseFetcher):
         return list(self.generate_next_entries(self.first_chapter_url))
 
     def generate_next_entries(self, start_url):
-        """Generate wordpress.Entry objects by following "next" links."""
+        """Generate WordpressEntry objects by following "next" links."""
         chapter_url = start_url
         while True:
             print(f"Fetching chapter {chapter_url}")
