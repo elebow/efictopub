@@ -11,6 +11,30 @@ files.
 * Maintains a local archive in JSON format for integration with other tools
 * Uses git to manage local archive history
 
+## Show me some usage examples
+
+```sh
+# Reddit submissions containing "next" links
+efictopub https://www.reddit.com/r/some_subreddit/comments/4t39sa/some_submission_title/ --fetcher-opt title="My Great Story"
+
+# Reddit submissions by author name and title pattern
+efictopub https://www.reddit.com/u/some_redditor --fetcher-opt title_pattern="My Great Story" --fetcher-opt title="My Great Story"
+
+# Reddit submissions by reddit wiki page containing a list of links to chapters
+efictopub https://www.reddit.com/r/some_subreddit/wiki/some_page --fetcher-opt title="My Great Story"
+
+# Fanfiction.net
+efictopub https://www.fanfiction.net/s/8601250555/1/My-Great-Story
+
+# Sequential WordPress chapters by start URL and end pattern
+efictopub https://some-blog.wordpress.com/2011/06/11/1-1/ --fetcher-opt last_chapter_pattern="2013/11/19/interlude-end" --fetcher-opt title="My Great Story"
+
+# Re-render a story from the local efictopub archive
+efictopub /path/to/archived/file.json --fetcher archive
+```
+
+See the built-in help text (`efictopub --help`) for more options.
+
 ## A note about copyrights
 
 Many written works are protected by copyright law. It is your responsibility when
