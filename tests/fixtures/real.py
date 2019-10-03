@@ -74,6 +74,10 @@ def ffnet_single_chapter_story_reviews_html_real():
         return file.read()
 
 
+with open("tests/fixtures/spacebattles_threadmarks_index.html", "r") as file:
+    spacebattles_threadmarks_index_html_real = file.read()
+
+
 def wordpress_chapter_html_real(n):
     with open(f"tests/fixtures/wordpress_{n}.html", "r") as file:
         return file.read()
