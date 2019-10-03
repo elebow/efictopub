@@ -5,7 +5,7 @@ from tests.fixtures.real import ffnet_chapter_reviews_html_real
 
 class TestFFNetReviews:
     def setup_method(self):
-        self.reviews = FFNetReviews(ffnet_chapter_reviews_html_real()).reviews
+        self.reviews = FFNetReviews(ffnet_chapter_reviews_html_real).reviews
 
     def test_as_comment(self):
         assert [r.author for r in self.reviews] == [

@@ -3,6 +3,11 @@ from efictopub.models.comment import Comment
 from efictopub.models.story import Story
 
 
+def read_fixture(fname):
+    with open(f"tests/fixtures/{fname}", "r") as file:
+        return file.read()
+
+
 def chapter_real(n=0):
     return Chapter(
         comments=comments_real(3),
@@ -44,40 +49,18 @@ def story_real():
     )
 
 
-def ffnet_chapter_html_real():
-    with open("tests/fixtures/www.fanfiction.net_1.html", "r") as file:
-        return file.read()
+ffnet_chapter_html_real = read_fixture("www.fanfiction.net_1.html")
+ffnet_chapter_2_html_real = read_fixture("www.fanfiction.net_2.html")
+ffnet_chapter_3_html_real = read_fixture("www.fanfiction.net_3.html")
+ffnet_chapter_reviews_html_real = read_fixture("www.fanfiction.net_reviews.html")
+ffnet_single_chapter_story_html_real = read_fixture("www.fanfiction.net_single.html")
+ffnet_single_chapter_story_reviews_html_real = read_fixture(
+    "www.fanfiction.net_single_reviews.html"
+)
 
+spacebattles_threadmarks_index_html_real = read_fixture(
+    "spacebattles_threadmarks_index.html"
+)
 
-def ffnet_chapter_2_html_real():
-    with open("tests/fixtures/www.fanfiction.net_2.html", "r") as file:
-        return file.read()
-
-
-def ffnet_chapter_3_html_real():
-    with open("tests/fixtures/www.fanfiction.net_3.html", "r") as file:
-        return file.read()
-
-
-def ffnet_chapter_reviews_html_real():
-    with open("tests/fixtures/www.fanfiction.net_reviews.html", "r") as file:
-        return file.read()
-
-
-def ffnet_single_chapter_story_html_real():
-    with open("tests/fixtures/www.fanfiction.net_single.html", "r") as file:
-        return file.read()
-
-
-def ffnet_single_chapter_story_reviews_html_real():
-    with open("tests/fixtures/www.fanfiction.net_single_reviews.html", "r") as file:
-        return file.read()
-
-
-with open("tests/fixtures/spacebattles_threadmarks_index.html", "r") as file:
-    spacebattles_threadmarks_index_html_real = file.read()
-
-
-def wordpress_chapter_html_real(n):
-    with open(f"tests/fixtures/wordpress_{n}.html", "r") as file:
-        return file.read()
+wordpress_chapter_html_real_1 = read_fixture("wordpress_1.html")
+wordpress_chapter_html_real_2 = read_fixture("wordpress_2.html")

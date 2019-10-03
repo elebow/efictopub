@@ -13,15 +13,15 @@ from tests.fixtures.stubs import stub_response
 
 class TestFetchersFFNet:
     def test_fetch_story(self):
-        stub_response(ffnet_chapter_html_real())
+        stub_response(ffnet_chapter_html_real)
         stub_response(
             "<div id='content_wrapper_inner'><td><div>ch 1 review</div></td></div>"
         )
-        stub_response(ffnet_chapter_2_html_real())
+        stub_response(ffnet_chapter_2_html_real)
         stub_response(
             "<div id='content_wrapper_inner'><td><div>ch 2 review</div></td></div>"
         )
-        stub_response(ffnet_chapter_3_html_real())
+        stub_response(ffnet_chapter_3_html_real)
         stub_response(
             "<div id='content_wrapper_inner'><td><div>ch 3 review</div></td></div>"
         )
@@ -40,8 +40,8 @@ class TestFetchersFFNet:
         ] == ["ch 1 review", "ch 2 review", "ch 3 review"]
 
     def test_generate_chapters_for_single_chapter_story(self):
-        stub_response(ffnet_single_chapter_story_html_real())
-        stub_response(ffnet_single_chapter_story_reviews_html_real())
+        stub_response(ffnet_single_chapter_story_html_real)
+        stub_response(ffnet_single_chapter_story_reviews_html_real)
 
         fetcher = ffnet.Fetcher("https://www.fanfiction.net/s/555/8/")
         htmls = [x for x in fetcher.generate_ffnet_chapters()]
@@ -63,8 +63,8 @@ class TestFetchersFFNet:
     def test_fetch_comments(self):
         config.config["fetch_comments"] = True
 
-        stub_response(ffnet_single_chapter_story_html_real())
-        stub_response(ffnet_single_chapter_story_reviews_html_real())
+        stub_response(ffnet_single_chapter_story_html_real)
+        stub_response(ffnet_single_chapter_story_reviews_html_real)
 
         chapters = ffnet.Fetcher("https://www.fanfiction.net/s/555/8/").fetch_chapters()
         assert [len(chapter.reviews) for chapter in chapters] == [3]
@@ -72,7 +72,7 @@ class TestFetchersFFNet:
     def test_skip_comments(self):
         config.config["fetch_comments"] = False
 
-        stub_response(ffnet_single_chapter_story_html_real())
+        stub_response(ffnet_single_chapter_story_html_real)
 
         chapters = ffnet.Fetcher("https://www.fanfiction.net/s/555/8/").fetch_chapters()
         assert [len(chapter.reviews) for chapter in chapters] == [0]
