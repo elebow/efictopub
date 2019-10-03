@@ -13,6 +13,22 @@ def can_handle_url(url):
     return re.search(r"^(?:\w+:\/\/)forums\.spacebattles.com", url)
 
 
+class SpacebattlesPage:
+    def __init__(self, dom):
+        self.dom = dom
+
+    @property
+    def messages(self):
+        return self.dom.select(".message")
+
+    @property
+    def next_page_url(self):
+        links = self.dom.select("link[rel='next']")
+        if links:
+            return links[0].attrs["href"]
+        return None
+
+
 class Fetcher(BaseFetcher):
     """Fetch story from Spacebattles.com thread(s)"""
 
@@ -21,33 +37,30 @@ class Fetcher(BaseFetcher):
 
     def fetch_story(self):
         title = config.get_fetcher_opt("title", required=True)
-        entries = list(self.fetch_blog_entries())
-        author = entries[0].author
+        posts = list(self.fetch_posts())
+        author = posts[0].author
         return Story(
             title=title,
             author=author,
             summary="",
-            chapters=[entry.as_chapter() for entry in entries],
+            chapters=[entry.as_chapter() for entry in posts],
         )
 
     def fetch_posts(self):
-        return list(self.generate_next_entries(self.first_chapter_url))
+        return list(self.generate_threadmarked_posts())
 
-    @property
-    def generate_threadmarked_posts(self, category):
+    def generate_threadmarked_posts(self, category=1):
         url = self.threadmarks_reader_url
         while True:
             print(f"Fetching posts from page")
             html = request_dispatcher.get(url).text
-            dom = bs4.BeautifulSoup(html, "lxml")
+            page = SpacebattlesPage(bs4.BeautifulSoup(html, "lxml"))
 
-            for message in dom.select(".message"):
+            for message in page.messages:
                 yield SpacebattlesPost(message)
 
-            if dom.has_next_page():
-                url = "next url"
-                pass
-            else:
+            url = page.next_page_url
+            if not url:
                 print("Done. Reached end of last page")
                 return
 

@@ -58,9 +58,11 @@ ffnet_single_chapter_story_reviews_html_real = read_fixture(
     "www.fanfiction.net_single_reviews.html"
 )
 
-spacebattles_threadmarks_index_html_real = read_fixture(
+spacebattles_threadmarks_index_html = read_fixture(
     "spacebattles_threadmarks_index.html"
 )
+spacebattles_thread_reader_1_html = read_fixture("spacebattles_thread_reader_1.html")
+spacebattles_thread_reader_2_html = read_fixture("spacebattles_thread_reader_2.html")
 
 wordpress_chapter_html_real_1 = read_fixture("wordpress_1.html")
 wordpress_chapter_html_real_2 = read_fixture("wordpress_2.html")
