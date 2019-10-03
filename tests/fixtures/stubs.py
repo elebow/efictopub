@@ -8,5 +8,10 @@ def stub_response(html, *, status=200):
 
 
 def request_get(url, headers):
-    # return_values must be populated by the consumer
+    """Return a stubbed response that was previously set up by the consumer"""
+    if len(responses) == 0:
+        raise Exception(
+            f"Tried to return stubbed response for {url}, but no stubbed responses left (or set up)."
+        )
+
     return responses.pop(0)
