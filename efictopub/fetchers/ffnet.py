@@ -60,7 +60,7 @@ class Fetcher(BaseFetcher):
                 return
 
     def calculate_ffnet_id(self, id_or_url):
-        if re.match(r"\d+$", id_or_url):
+        if re.match(r"^\d+$", id_or_url):
             return id_or_url
 
         matches = re.findall(r".*//www.fanfiction.net/s/(\d+)/\d+/.*", id_or_url)
