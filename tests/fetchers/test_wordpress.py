@@ -4,7 +4,7 @@ from efictopub import config
 from efictopub.fetchers import wordpress
 
 from tests.fixtures.real import wordpress_chapter_html_real
-import tests.fixtures.stubs
+from tests.fixtures.stubs import stub_response
 
 
 class TestFetchersWordpress:
@@ -12,10 +12,9 @@ class TestFetchersWordpress:
         config.config["fetcher_opts"] = ["title='Great Story'", "author='Great Author'"]
 
     def test_fetch_blog_entries(self):
-        tests.fixtures.stubs.return_values = [
-            MagicMock(status_code=200, text=wordpress_chapter_html_real(1)),
-            MagicMock(status_code=200, text=wordpress_chapter_html_real(2)),
-        ]
+        stub_response(wordpress_chapter_html_real(1))
+        stub_response(wordpress_chapter_html_real(2))
+
         fetcher = wordpress.Fetcher("https://blog-name.wordpress.com/2011/06/11/1-1/")
         entries = fetcher.fetch_blog_entries()
 
@@ -29,10 +28,9 @@ class TestFetchersWordpress:
         assert [entry.date_updated for entry in entries] == [1412115014, None]
 
     def test_fetch_story(self):
-        tests.fixtures.stubs.return_values = [
-            MagicMock(status_code=200, text=wordpress_chapter_html_real(1)),
-            MagicMock(status_code=200, text=wordpress_chapter_html_real(2)),
-        ]
+        stub_response(wordpress_chapter_html_real(1))
+        stub_response(wordpress_chapter_html_real(2))
+
         fetcher = wordpress.Fetcher("https://blog-name.wordpress.com/2011/06/11/1-1/")
         story = fetcher.fetch_story()
 
@@ -48,10 +46,9 @@ class TestFetchersWordpress:
             "author='Great Author'",
             "last_chapter_pattern=2011/06/11",
         ]
-        tests.fixtures.stubs.return_values = [
-            MagicMock(status_code=200, text=wordpress_chapter_html_real(1)),
-            MagicMock(status_code=200, text=wordpress_chapter_html_real(2)),
-        ]
+
+        stub_response(wordpress_chapter_html_real(1))
+
         fetcher = wordpress.Fetcher("https://blog-name.wordpress.com/2011/06/11/1-1/")
         entries = fetcher.fetch_blog_entries()
 
@@ -67,9 +64,9 @@ class TestFetchersWordpress:
             "author='Great Author'",
             "last_chapter_pattern=2011/06/11",
         ]
-        tests.fixtures.stubs.return_values = [
-            MagicMock(status_code=200, text=wordpress_chapter_html_real(1))
-        ]
+
+        stub_response(wordpress_chapter_html_real(1))
+
         fetcher = wordpress.Fetcher("https://blog-name.wordpress.com/2011/06/11/1-1/")
         entry = fetcher.fetch_blog_entries()[0]
 

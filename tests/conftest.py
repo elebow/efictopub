@@ -24,6 +24,19 @@ if os.environ.get("LIVE_REQUESTS") != "true":
     efictopub.lib.request_dispatcher.MIN_DELAY = 0
 
 
+@pytest.fixture(autouse=True, scope="function")
+def empty_stubbed_responses():
+    yield
+
+    num_leftover_stubbed_responses = len(tests.fixtures.stubs.responses)
+
+    # reset the responses so later functions can still pass, if the follower assertion fails
+    tests.fixtures.stubs.responses = []
+
+    # ensure stubbed http responses are all used up at the end of every case
+    assert num_leftover_stubbed_responses == 0
+
+
 def load_config_file():
     import confuse
 
