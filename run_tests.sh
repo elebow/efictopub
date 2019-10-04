@@ -4,6 +4,8 @@ case "$@" in
 	*-k*) partial_test=1 ;;
 esac
 
+export PYTHONBREAKPOINT="trepan.api.debug"
+
 if [ "$partial_test" = 1 ]; then
 	coverage_arg=''
 else
