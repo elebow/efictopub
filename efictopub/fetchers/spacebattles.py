@@ -13,6 +13,9 @@ def can_handle_url(url):
     return re.search(r"^(?:\w+:\/\/)forums\.spacebattles.com", url)
 
 
+DOMAIN = "forums.spacebattles.com"
+
+
 class SpacebattlesPage:
     def __init__(self, dom):
         self.dom = dom
@@ -25,7 +28,7 @@ class SpacebattlesPage:
     def next_page_url(self):
         links = self.dom.select("link[rel='next']")
         if links:
-            return links[0].attrs["href"]
+            return f"http://{DOMAIN}/{links[0].attrs['href']}"
         return None
 
 
@@ -67,7 +70,7 @@ class Fetcher(BaseFetcher):
         category_id = self.threadmarks_categories[category]
         url = self.threadmarks_reader_url(category_id)
         while True:
-            print(f"Fetching posts from page")
+            print(f"Fetching posts from page {url}")
             html = request_dispatcher.get(url).text
             page = SpacebattlesPage(bs4.BeautifulSoup(html, "lxml"))
 
@@ -108,9 +111,7 @@ class Fetcher(BaseFetcher):
         if re.match(r"^\d+$", id_or_url):
             return id_or_url
 
-        matches = re.findall(
-            r".*://forums.spacebattles.com/threads/(?:[^/]*\.)?(\d+)", id_or_url
-        )
+        matches = re.findall(fr".*://{DOMAIN}/threads/(?:[^/]*\.)?(\d+)", id_or_url)
         if matches:
             return matches[0]
 
@@ -121,7 +122,9 @@ class Fetcher(BaseFetcher):
     def threadmarks_categories(self):
         # We can get the threadmarks categories from any thread page, but there is no page that is guaranteed to be included in all fetcher modes.
         # So, just get them from the threadmarks index page for the default category
-        html = request_dispatcher.get(self.threadmarks_index_url).text
+        url = self.threadmarks_index_url()
+        print(f"Getting threadmarks categories from {url}")
+        html = request_dispatcher.get(url).text
         dom = bs4.BeautifulSoup(html, "lxml")
         tabs = dom.select(".threadmarks .tabs li")
         return {
@@ -131,7 +134,7 @@ class Fetcher(BaseFetcher):
 
     @property
     def thread_base_url(self):
-        return f"https://forums.spacebattles.com/threads/{self.thread_id}"
+        return f"http://{DOMAIN}/threads/{self.thread_id}"
 
     def threadmarks_index_url(self, category_id=1):
         return f"{self.thread_base_url}/threadmarks?category_id={category_id}"
