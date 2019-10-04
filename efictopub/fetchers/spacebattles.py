@@ -47,10 +47,25 @@ class Fetcher(BaseFetcher):
         )
 
     def fetch_posts(self):
-        return list(self.generate_threadmarked_posts())
+        categories_posts = [
+            self.generate_threadmarked_posts(category=category)
+            for category in self.categories_to_fetch
+        ]
+        # TODO distinguish non-main-story chapters
 
-    def generate_threadmarked_posts(self, category=1):
-        url = self.threadmarks_reader_url
+        # First, compose all of the posts in category order.
+        # All of category 1, followed by all of category 2, followed by ...
+        posts_in_sequence = [post for category in categories_posts for post in category]
+
+        if self.composition_order == "sequential":
+            return posts_in_sequence
+        elif self.composition_order == "chrono":
+            # All threadmarked posts, regardless of category, ordered by post date
+            return sorted(posts_in_sequence, key=lambda x: x.date_published)
+
+    def generate_threadmarked_posts(self, *, category):
+        category_id = self.threadmarks_categories[category]
+        url = self.threadmarks_reader_url(category_id)
         while True:
             print(f"Fetching posts from page")
             html = request_dispatcher.get(url).text
@@ -63,6 +78,31 @@ class Fetcher(BaseFetcher):
             if not url:
                 print("Done. Reached end of last page")
                 return
+
+    @property
+    def categories_to_fetch(self):
+        requested_categories = config.get_fetcher_opt("categories", required=False)
+
+        if requested_categories is None:
+            # By default, include only the "threadmarks" category (the main story)
+            return ["threadmarks"]
+        elif requested_categories == "all":
+            # The special value "all" means get everything
+            return self.threadmarks_categories.keys()
+        else:
+            # else, split the input string by delimiters
+            return re.split(r"[,\s]", requested_categories)
+
+    @property
+    def composition_order(self):
+        requested_order = (
+            config.get_fetcher_opt("order", required=False) or "sequential"
+        )
+
+        if requested_order not in ["sequential", "chrono"]:
+            raise RuntimeError(f"Unknown order {requested_order}")
+
+        return requested_order
 
     def calculate_thread_id(self, id_or_url):
         if re.match(r"^\d+$", id_or_url):
@@ -93,10 +133,8 @@ class Fetcher(BaseFetcher):
     def thread_base_url(self):
         return f"https://forums.spacebattles.com/threads/{self.thread_id}"
 
-    @property
-    def threadmarks_index_url(self, category=1):
-        return f"{self.thread_base_url}/threadmarks?category_id={category}"
+    def threadmarks_index_url(self, category_id=1):
+        return f"{self.thread_base_url}/threadmarks?category_id={category_id}"
 
-    @property
-    def threadmarks_reader_url(self, category=1):
-        return f"{self.thread_base_url}/{category}/reader"
+    def threadmarks_reader_url(self, category_id=1):
+        return f"{self.thread_base_url}/{category_id}/reader"

@@ -1,4 +1,5 @@
 from unittest.mock import MagicMock
+from unittest.mock import patch
 
 from efictopub import config
 from efictopub.fetchers import spacebattles
@@ -9,15 +10,37 @@ from tests.fixtures.real import spacebattles_thread_reader_2_html
 from tests.fixtures.stubs import stub_response
 
 
+def stubbed_generate_posts(self, category=1):
+    if category == "threadmarks":
+        return [
+            MagicMock(text="threadmark 1", date_published=10),
+            MagicMock(text="threadmark 2", date_published=20),
+            MagicMock(text="threadmark 3", date_published=30),
+        ]
+    elif category == "sidestory":
+        return [
+            MagicMock(text="sidestory 1", date_published=11),
+            MagicMock(text="sidestory 2", date_published=26),
+        ]
+    elif category == "announcement":
+        return [MagicMock(text="announcement 1", date_published=15)]
+    else:
+        raise  # this means a test is broken
+
+
+stubbed_threadmarks_categories = {
+    "threadmarks": "1",
+    "sidestory": "2",
+    "announcement": "3",
+}
+
+
 class TestFetchersSpacebattles:
     def setup_method(self):
         config.config["fetcher_opts"] = ["title=Great Story"]
 
-    def test_threadmark_category(self):
-        # TODO only assert that generate_threadmarked_posts() is called with the right args
-        pass
-
     def test_fetch_story(self):
+        stub_response(spacebattles_threadmarks_index_html)
         stub_response(spacebattles_thread_reader_1_html)
         stub_response(spacebattles_thread_reader_2_html)
 
@@ -63,3 +86,89 @@ class TestFetchersSpacebattles:
             "media": "10",
             "informational": "19",
         }
+
+    @patch(
+        "efictopub.fetchers.spacebattles.Fetcher.generate_threadmarked_posts",
+        stubbed_generate_posts,
+    )
+    @patch(
+        "efictopub.fetchers.spacebattles.Fetcher.threadmarks_categories",
+        stubbed_threadmarks_categories,
+    )
+    def test_categories_and_order_default(self):
+        fetcher = spacebattles.Fetcher("https://forums.spacebattles.com/threads/555/")
+        posts = fetcher.fetch_posts()
+
+        assert [post.text for post in posts] == [
+            "threadmark 1",
+            "threadmark 2",
+            "threadmark 3",
+        ]
+
+    @patch(
+        "efictopub.fetchers.spacebattles.Fetcher.generate_threadmarked_posts",
+        stubbed_generate_posts,
+    )
+    @patch(
+        "efictopub.fetchers.spacebattles.Fetcher.threadmarks_categories",
+        stubbed_threadmarks_categories,
+    )
+    def test_categories_and_order_two_categories(self):
+        config.config["fetcher_opts"] = ["categories=threadmarks,sidestory"]
+
+        fetcher = spacebattles.Fetcher("https://forums.spacebattles.com/threads/555/")
+        posts = fetcher.fetch_posts()
+
+        assert [post.text for post in posts] == [
+            "threadmark 1",
+            "threadmark 2",
+            "threadmark 3",
+            "sidestory 1",
+            "sidestory 2",
+        ]
+
+    @patch(
+        "efictopub.fetchers.spacebattles.Fetcher.generate_threadmarked_posts",
+        stubbed_generate_posts,
+    )
+    @patch(
+        "efictopub.fetchers.spacebattles.Fetcher.threadmarks_categories",
+        stubbed_threadmarks_categories,
+    )
+    def test_categories_and_order_all(self):
+        config.config["fetcher_opts"] = ["categories=all"]
+
+        fetcher = spacebattles.Fetcher("https://forums.spacebattles.com/threads/555/")
+        posts = fetcher.fetch_posts()
+
+        assert [post.text for post in posts] == [
+            "threadmark 1",
+            "threadmark 2",
+            "threadmark 3",
+            "sidestory 1",
+            "sidestory 2",
+            "announcement 1",
+        ]
+
+    @patch(
+        "efictopub.fetchers.spacebattles.Fetcher.generate_threadmarked_posts",
+        stubbed_generate_posts,
+    )
+    @patch(
+        "efictopub.fetchers.spacebattles.Fetcher.threadmarks_categories",
+        stubbed_threadmarks_categories,
+    )
+    def test_categories_and_order_all_chrono(self):
+        config.config["fetcher_opts"] = ["categories=all", "order=chrono"]
+
+        fetcher = spacebattles.Fetcher("https://forums.spacebattles.com/threads/555/")
+        posts = fetcher.fetch_posts()
+
+        assert [post.text for post in posts] == [
+            "threadmark 1",
+            "sidestory 1",
+            "announcement 1",
+            "threadmark 2",
+            "sidestory 2",
+            "threadmark 3",
+        ]
