@@ -72,6 +72,7 @@ class Fetcher(BaseFetcher):
             return sorted(posts_in_sequence, key=lambda x: x.date_published)
 
     def generate_threadmarked_posts(self, *, category):
+        print(f"Fetching {category}")
         category_id = self.threadmarks_categories[category]
         url = self.threadmarks_reader_url(category_id)
         while True:
