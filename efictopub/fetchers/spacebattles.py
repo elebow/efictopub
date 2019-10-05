@@ -39,7 +39,12 @@ class Fetcher(BaseFetcher):
         self.thread_id = self.calculate_thread_id(id_or_url)
 
     def fetch_story(self):
-        title = config.get_fetcher_opt("title", required=True)
+        title = (
+            config.get_fetcher_opt("title", required=True)
+            + " ("
+            + ", ".join(self.categories_to_fetch)
+            + ")"
+        )
         posts = list(self.fetch_posts())
         author = posts[0].author
         return Story(
