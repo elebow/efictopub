@@ -1,4 +1,5 @@
 import pytest
+from unittest.mock import call
 from unittest.mock import MagicMock
 from unittest.mock import mock_open
 from unittest.mock import patch
@@ -21,14 +22,21 @@ class TestArchive:
         file_open.assert_called_once_with("my-great-path", "r")
         jsonpickle_decode.assert_called_once_with(file_open().read())
 
+    @patch("efictopub.git.commit_story")
     @patch("jsonpickle.encode")
     @patch("builtins.open", new_callable=mock_open)
-    def test_store(self, file_open, jsonpickle_encode):
-        story = MagicMock(id="my-great-path", text="hhh")
+    def test_store(self, file_open, jsonpickle_encode, git_commit_story):
+        story = MagicMock(id="my-great-path", title="great-story", text="hhh")
         archive.store(story)
 
         file_open.assert_called_once_with("/path/to/archive/my-great-path.json", "w")
         jsonpickle_encode.assert_called_once_with(story)
+        git_commit_story.assert_has_calls(
+            [
+                call(story, "Local changes before fetching great-story"),
+                call(story, "Fetch great-story"),
+            ]
+        )
 
     @patch("glob.glob", lambda x: [])
     def test_path_zero_matches_found(self):

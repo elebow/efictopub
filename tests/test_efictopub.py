@@ -1,5 +1,6 @@
 from doubles import allow
 from unittest.mock import call
+from unittest.mock import MagicMock
 from unittest.mock import patch
 
 from efictopub import config
@@ -14,49 +15,13 @@ class TestEfictopub:
     def setup_method(self):
         config.config["fetcher_opts"] = ["title='Great Story'"]
 
-    @patch(
-        "reddit_next.Fetcher.fetch_submissions",
-        lambda _x: [
-            RedditSubmission(praw_sub) for praw_sub in praw_submissions_double(3)
-        ],
-    )
-    @patch("efictopub.archive.store")
-    def test_fetch_from_reddit_next(self, archive):
-        args = {"fetcher": "reddit_next", "target": "_whatever-url-or-id"}
-        subject = Efictopub(args)
-
-        assert [chap.text for chap in subject.story.chapters] == [
-            "<p>some selftext_html</p>\n<p>second line</p>\n",
-            "<p>some selftext_html</p>\n<p>second line</p>\n",
-            "<p>some selftext_html</p>\n<p>second line</p>\n",
-        ]
-        assert subject.story.author == "redditor 0"
-
-    @patch(
-        "reddit_author.Fetcher.fetch_submissions",
-        lambda _x: [
-            RedditSubmission(praw_sub) for praw_sub in praw_submissions_double(3)
-        ],
-    )
-    @patch("efictopub.archive.store")
-    def test_fetch_from_reddit_author_by_url(self, archive):
-        args = {"target": "reddit.com/u/some_redditor"}
-        subject = Efictopub(args)
-
-        assert [chap.text for chap in subject.story.chapters] == [
-            "<p>some selftext_html</p>\n<p>second line</p>\n",
-            "<p>some selftext_html</p>\n<p>second line</p>\n",
-            "<p>some selftext_html</p>\n<p>second line</p>\n",
-        ]
-        assert subject.story.author == "redditor 0"
-
     @patch("efictopub.efictopub.Efictopub.archive_story")
     @patch("efictopub.efictopub.Efictopub.output_story")
     def test_run(self, output_story, archive_story):
         args = {"target": "reddit.com/u/some_redditor"}
         subject = Efictopub(args)
         story = story_double()
-        allow(subject).story.and_return(story)
+        allow(subject.fetcher).fetch_story.and_return(story)
         allow(git).repo_is_dirty.and_return(False)
 
         subject.run()
@@ -71,8 +36,8 @@ class TestEfictopub:
     ):
         args = {"fetcher": "archive", "target": "reddit.com/u/some_redditor"}
         subject = Efictopub(args)
-        story = story_double()
-        allow(subject).story.and_return(story)
+        subject.fetcher.__module__ = "archive"
+        subject.fetcher.fetch_story = lambda: "aaa"
         allow(git).repo_is_dirty.and_return(False)
 
         subject.run()
@@ -86,7 +51,7 @@ class TestEfictopub:
         args = {"write_archive": False, "target": "reddit.com/u/some_redditor"}
         subject = Efictopub(args)
         story = story_double()
-        allow(subject).story.and_return(story)
+        allow(subject.fetcher).fetch_story.and_return(story)
         allow(git).repo_is_dirty.and_return(False)
 
         subject.run()
@@ -98,21 +63,15 @@ class TestEfictopub:
     @patch("efictopub.git.commit_story")
     @patch("efictopub.archive.store")
     def test_archive_and_git(
-        self, archive_story, git_commit_story, previous_commit_is_not_efic
+        self, archive_store, git_commit_story, previous_commit_is_not_efic
     ):
         args = {"target": "reddit.com/u/some_redditor"}
         subject = Efictopub(args)
         story = story_double()
-        allow(subject).story.and_return(story)
+        allow(subject.fetcher).fetch_story.and_return(story)
 
-        subject.archive_story()
+        subject.archive_story(story)
 
-        git_commit_story.assert_has_calls(
-            [
-                call(story, "Local changes before fetching great title"),
-                call(story, "Fetch great title"),
-            ]
-        )
-        archive_story.assert_called_once_with(story)
+        archive_store.assert_called_once_with(story)
 
         previous_commit_is_not_efic.assert_called_once()

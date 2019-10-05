@@ -3,6 +3,7 @@ from pathlib import Path
 import jsonpickle
 
 from efictopub import config
+from efictopub import git
 from efictopub.exceptions import NoArchivedStoryError, AmbiguousArchiveIdError
 
 
@@ -15,9 +16,13 @@ def get(id_or_path):
 
 
 def store(story):
+    git.commit_story(story, f"Local changes before fetching {story.title}")
+
     path = path_for_story(story)
     with open(path, "w") as outfile:
-        return outfile.write(jsonpickle.encode(story))
+        outfile.write(jsonpickle.encode(story))
+
+    git.commit_story(story, f"Fetch {story.title}")
 
 
 def path_for_story(story):
