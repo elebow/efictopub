@@ -3,9 +3,9 @@
 
 def main():
     from efictopub import cli
-    from efictopub.controller import Controller
+    from efictopub.efictopub import Efictopub
 
-    Controller(cli.args()).run()
+    Efictopub(cli.args()).run()
 
 
 if __name__ == "__main__":

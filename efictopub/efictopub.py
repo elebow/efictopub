@@ -7,7 +7,7 @@ from efictopub import git
 from efictopub.epub_writer import EpubWriter
 
 
-class Controller:
+class Efictopub:
     def __init__(self, args={}):
         self.args = args
 
