@@ -21,7 +21,7 @@ parser.add_argument(
     type=str,
     dest="fetcher",
     action="store",
-    help=f"fetcher to use ({', '.join(fetchers.fetcher_names())})",
+    help=f"manually specify fetcher to use ({', '.join(fetchers.fetcher_names())})",
 )
 
 parser.add_argument(
