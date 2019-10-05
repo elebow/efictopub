@@ -20,7 +20,10 @@ class SpacebattlesPost:
 
     @property
     def date_updated(self):
-        date_str = self.dom.select(".editDate .DateTime")[0].attrs["title"]
+        date_elems = self.dom.select(".editDate .DateTime")
+        if not date_elems:
+            return 0
+        date_str = date_elems[0].attrs["title"]
         return datetime.strptime(date_str, "%b %d, %Y at %I:%M %p").timestamp()
 
     @property
