@@ -2,6 +2,15 @@ import argparse
 
 from efictopub import fetchers
 
+
+class AliasFetcherOpt(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        if namespace.fetcher_opts is None:
+            namespace.fetcher_opts = []
+
+        namespace.fetcher_opts.append(f"{self.dest}={values}")
+
+
 parser = argparse.ArgumentParser(
     prog="efictopub",
     description="Fetch stories from various sources and optionally generate an "
@@ -73,6 +82,12 @@ parser.add_argument(
     dest="fetcher_opts",
     action="append",
     help="extra options passed through to fetchers",
+)
+parser.add_argument(
+    "--title", "-t", action=AliasFetcherOpt, help="manually specify story title"
+)
+parser.add_argument(
+    "--author", "-a", action=AliasFetcherOpt, help="manually specify story author"
 )
 
 
