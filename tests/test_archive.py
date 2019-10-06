@@ -6,6 +6,7 @@ from unittest.mock import patch
 
 
 from efictopub import archive
+from efictopub import config
 from efictopub.exceptions import NoArchivedStoryError, AmbiguousArchiveIdError
 
 
@@ -27,6 +28,7 @@ class TestArchive:
     @patch("builtins.open", new_callable=mock_open)
     def test_store(self, file_open, jsonpickle_encode, git_commit_story):
         story = MagicMock(id="my-great-path", title="great-story", text="hhh")
+        config.config["archive_location"] = "/path/to/archive"
         archive.store(story)
 
         file_open.assert_called_once_with("/path/to/archive/my-great-path.json", "w")

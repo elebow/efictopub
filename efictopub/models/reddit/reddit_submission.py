@@ -9,7 +9,7 @@ from efictopub.models.chapter import Chapter
 class RedditSubmission:
     def __init__(self, praw_submission):
         self.author_name = praw_submission.author.name
-        if config.get("fetch_comments", bool):
+        if config.get("fetch_comments"):
             self.comments = self.fetch_all_comments(praw_submission)
         else:
             self.comments = []

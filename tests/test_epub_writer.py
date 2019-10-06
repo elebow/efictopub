@@ -78,10 +78,11 @@ class TestEpubWriter:
 
     def test_output_filename_auto(self):
         config.config["outfile"] = ""
+        config.config["epub_location"] = "/some/epub/location"
         story = story_real()
         subject = EpubWriter(story)
 
         assert (
             subject.output_filename()
-            == f"$HOME/books/fic/My Great Story - Great Author.epub"
+            == f"/some/epub/location/My Great Story - Great Author.epub"
         )

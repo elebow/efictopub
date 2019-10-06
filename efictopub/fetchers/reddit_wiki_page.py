@@ -18,7 +18,7 @@ class Fetcher(BaseFetcher):
         self.url = url
         self.reddit = reddit_util.setup_reddit()
 
-        if not config.get("fetch_comments", bool):
+        if not config.get("fetch_comments"):
             print(
                 "WARNING: fetch_comments is disabled. Chapter bodies sometimes continue in comments. You might be missing chapter content!"
             )

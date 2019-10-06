@@ -40,7 +40,7 @@ class Fetcher(BaseFetcher):
             print(f"Fetching chapter {n} ({chapter_url})")
             chapter_html = request_dispatcher.get(chapter_url).text
 
-            if config.get("fetch_comments", bool):
+            if config.get("fetch_comments"):
                 reviews_url = self.generate_chapter_reviews_url(n)
                 print(f"Fetching chapter {n} reviews ({reviews_url})")
                 reviews_html = request_dispatcher.get(reviews_url).text

@@ -1,6 +1,5 @@
-# Module to store config values read from the file
+# Module to store and retrieve app-wide config values
 
-import confuse
 import functools
 
 from efictopub.exceptions import MissingRequiredFetcherOptError
@@ -13,21 +12,16 @@ from efictopub.exceptions import MissingRequiredFetcherOptError
 # See https://confuse.readthedocs.io/en/latest/#search-paths for config file locations
 
 
-def load(*, args, fetcher):
+def load(opts, *, fetcher):
     global config
-    config = load_config_file()
+    config = opts
     apply_fetcher_overrides(fetcher)
-    apply_cli_arg_overrides(args)
-
-
-def load_config_file():
-    return confuse.Configuration("efictopub", __name__)
 
 
 def apply_fetcher_overrides(fetcher):
     """Copy values from the appropriate override section into the root items"""
     global config
-    overrides = config["overrides"]
+    overrides = config.get("overrides", {})
 
     if fetcher is None or fetcher.__module__ not in overrides.keys():
         return
@@ -35,32 +29,22 @@ def apply_fetcher_overrides(fetcher):
     for key_1, val_1 in overrides[fetcher.__module__].items():
         if isinstance(val_1, dict):
             for key_2, val_2 in val_1.items():
-                config[key_1][key_2] = val_2.get()
+                config[key_1][key_2] = val_2
         else:
-            config[key_1] = val_1.get()
+            config[key_1] = val_1
 
 
-def apply_cli_arg_overrides(args):
-    global config
-    config.set_args(args, dots=True)
-
-
-def get(key, template=str):
+def get(key):
     global config
     if isinstance(key, str):
-        if key not in config:
-            return None
-
-        return config[key].get(template)
+        return config.get(key)
     elif isinstance(key, list):
-        # dereference nested levels of the config obj
-        return functools.reduce(confuse.Configuration.__getitem__, key, config).get(
-            template
-        )
+        # chain of nested config items
+        return functools.reduce(dict.__getitem__, key, config)
 
 
 def get_fetcher_opt(key, required=False):
-    fetcher_opts = get("fetcher_opts", list)
+    fetcher_opts = config.get("fetcher_opts")
     if fetcher_opts:
         matching_opts = [opt for opt in fetcher_opts if opt.startswith(f"{key}=")]
 

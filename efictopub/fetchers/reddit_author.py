@@ -22,7 +22,7 @@ class Fetcher(BaseFetcher):
         else:
             self.title_pattern = None
 
-        if not config.get("fetch_comments", bool):
+        if not config.get("fetch_comments"):
             print(
                 "WARNING: fetch_comments is disabled. Chapter bodies sometimes continue in comments. You might be missing chapter content!"
             )

@@ -37,13 +37,4 @@ def empty_stubbed_responses():
     assert num_leftover_stubbed_responses == 0
 
 
-def load_config_file():
-    import confuse
-
-    conf = confuse.Configuration("efictopub", read=False)
-    conf.set_file("tests/fixtures/config.yaml")
-    return conf
-
-
-config.load_config_file = load_config_file
-config.load(args={}, fetcher=None)
+config.load({}, fetcher=None)

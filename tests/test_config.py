@@ -1,68 +1,54 @@
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
-import argparse
-import confuse
-
 from efictopub import config
 
 
-def load_config_file():
-    conf = confuse.Configuration("efictopub", read=False)
-    conf.set_file("tests/fixtures/config.yaml")
-    return conf
+test_config = {
+    "reddit": {"app": "app-id", "secret": "app-secret"},
+    "archive_location": "/path/to/archive",
+    "epub_location": "$HOME/books/fic/",
+    "fetch_comments": True,
+    "write_archive": True,
+    "write_epub": True,
+    "overrides": {
+        "reddit_next": {
+            "epub_location": "$HOME/doc/books/reddit_fics/",
+            "write_epub": False,
+            "reddit": {"app": "reddit-next-app-id"},
+        },
+        "ffnet": {"fetch_comments": False},
+    },
+}
 
 
 class TestConfig:
     @classmethod
     def teardown_class(_cls):
-        config.load(args={}, fetcher=None)
+        config.load(test_config, fetcher=None)
 
-    @patch("efictopub.config.load_config_file", load_config_file)
-    def test_load_file(self):
-        config.load(args={}, fetcher=None)
+    def test_load(self):
+        config.load(test_config, fetcher=None)
 
         assert config.get("archive_location") == "/path/to/archive"
-        assert config.get("fetch_comments", bool) is True
+        assert config.get("fetch_comments") is True
 
-    @patch("efictopub.config.load_config_file", load_config_file)
     def test_fetcher_overrides(self):
-        config.load(args={}, fetcher=MagicMock(__module__="reddit_next"))
+        config.load(test_config, fetcher=MagicMock(__module__="reddit_next"))
 
-        assert config.get("write_epub", bool) is False
+        assert config.get("write_epub") is False
         assert config.get(["reddit", "app"]) == "reddit-next-app-id"
 
-    @patch("efictopub.config.load_config_file", load_config_file)
     def test_nonexistent_fetcher_override(self):
-        config.load(args={}, fetcher=MagicMock(__module__="rabbits"))
+        config.load(test_config, fetcher=MagicMock(__module__="rabbits"))
 
-        assert config.get("fetch_comments", bool) is True
-
-    @patch("efictopub.config.load_config_file", load_config_file)
-    def test_cli_arg_overrides(self):
-        arg_parser = argparse.ArgumentParser()
-        arg_parser.add_argument("--reddit.app", type=str)
-        args = arg_parser.parse_args(["--reddit.app=other-app-id"])
-
-        config.load(args=args, fetcher=MagicMock(__module__="rabbits"))
-
-        assert config.get(["reddit", "app"]) == "other-app-id"
-
-    @patch("efictopub.config.load_config_file", load_config_file)
-    def test_cli_arg_and_fetcher_overrides(self):
-        arg_parser = argparse.ArgumentParser()
-        arg_parser.add_argument("--fetch_comments", type=str)
-        args = arg_parser.parse_args(["--fetch_comments=5"])
-
-        config.load(args=args, fetcher=MagicMock(__module__="ffnet"))
-
-        assert config.get("fetch_comments") == "5"
+        assert config.get("fetch_comments") is True
 
     def test_get_fetcher_opt(self):
-        arg_parser = argparse.ArgumentParser()
-        arg_parser.add_argument("--fetcher-opt", dest="fetcher_opts", action="append")
-        args = arg_parser.parse_args(["--fetcher-opt=a=5", "--fetcher-opt=ab=6"])
+        config.load(
+            {"fetcher_opts": ["a=5", "ab=6"]},
+            fetcher=MagicMock(__module__="reddit_next"),
+        )
 
-        config.load(args=args, fetcher=MagicMock(__module__="ffnet"))
         assert config.get_fetcher_opt("a") == "5"
         assert config.get_fetcher_opt("ab") == "6"
