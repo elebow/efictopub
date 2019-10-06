@@ -91,5 +91,5 @@ parser.add_argument(
 )
 
 
-def args():
+def get():
     return vars(parser.parse_args())
