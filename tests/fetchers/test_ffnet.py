@@ -13,6 +13,7 @@ from tests.fixtures.stubs import stub_response
 
 class TestFetchersFFNet:
     def test_fetch_story(self):
+        config.config["fetch_comments"] = True
         stub_response(ffnet_chapter_html_real)
         stub_response(
             "<div id='content_wrapper_inner'><td><div>ch 1 review</div></td></div>"

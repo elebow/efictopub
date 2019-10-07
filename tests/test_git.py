@@ -3,8 +3,8 @@ from dulwich.porcelain import GitStatus
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
+from efictopub import config
 from efictopub import git
-
 
 from tests.fixtures.doubles import story_double
 
@@ -15,6 +15,7 @@ class TestGit:
     @patch("dulwich.porcelain.commit")
     @patch("dulwich.porcelain.add")
     def test_commit_story(self, add, commit, ensure_repo_initialized):
+        config.config["archive_location"] = "/path/to/archive"
         story = story_double()
 
         git.commit_story(story)

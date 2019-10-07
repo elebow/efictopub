@@ -8,11 +8,12 @@ from efictopub.epub_writer import EpubWriter
 
 
 class Efictopub:
-    def __init__(self, args={}):
-        self.args = args
+    def __init__(self, opts={}):
+        self.opts = opts
         self.fetcher = self.get_fetcher()
 
-        config.load(args=self.args, fetcher=self.fetcher)
+        # TODO load defaults for items not specified in opts?
+        config.load(opts=self.opts, fetcher=self.fetcher)
 
         if not self.check_repo_ready_for_write():
             # TODO move this to cli.py also?
@@ -35,16 +36,16 @@ class Efictopub:
             )
 
     def get_fetcher(self):
-        if "fetcher" in self.args and self.args["fetcher"] is not None:
-            return fetchers.fetcher_by_name(self.args["fetcher"], self.args["target"])
+        if "fetcher" in self.opts and self.opts["fetcher"] is not None:
+            return fetchers.fetcher_by_name(self.opts["fetcher"], self.opts["target"])
         else:
-            return fetchers.fetcher_for_url(self.args["target"])
+            return fetchers.fetcher_for_url(self.opts["target"])
 
     def check_repo_ready_for_write(self):
         if (
             git.repo_is_dirty()
-            and config.get("write_archive", bool)
-            and not config.get("clobber", bool)
+            and config.get("write_archive")
+            and not config.get("clobber")
         ):
             print(
                 "Git repo has uncommitted changes! Refusing to continue. Do one or more of the following:\n"
