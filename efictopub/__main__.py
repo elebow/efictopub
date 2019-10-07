@@ -2,10 +2,9 @@
 
 
 def main():
-    from efictopub import cli
-    from efictopub.efictopub import Efictopub
+    from efictopub.cli import cli
 
-    Efictopub(cli.args()).run()
+    cli.run()
 
 
 if __name__ == "__main__":

@@ -12,26 +12,23 @@ class Efictopub:
         self.args = args
         self.fetcher = self.get_fetcher()
 
-    def run(self):
         config.load(args=self.args, fetcher=self.fetcher)
 
         if not self.check_repo_ready_for_write():
+            # TODO move this to cli.py also?
             return
 
-        story = self.fetcher.fetch_story()
+        self.story = self.fetch_story()
 
-        if config.get("write_archive", bool) and self.fetcher.__module__ != "archive":
-            self.archive_story(story)
+    def fetch_story(self):
+        return self.fetcher.fetch_story()
 
-        if config.get("write_epub", bool):
-            self.output_story(story)
+    def write_epub(self):
+        EpubWriter(self.story).write_epub()
 
-    def output_story(self, story):
-        EpubWriter(story).write_epub()
-
-    def archive_story(self, story):
-        archive.store(story)
-        if git.previous_commit_is_not_efic(story):
+    def archive_story(self):
+        archive.store(self.story)
+        if git.previous_commit_is_not_efic(self.story):
             print(
                 "This story's git history contains commits made outside of this program."
                 "Please review these commits so that your changes are not lost!"
