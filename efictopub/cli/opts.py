@@ -4,6 +4,9 @@ import confuse
 from efictopub import fetchers
 
 
+# See https://confuse.readthedocs.io/en/latest/#search-paths for config file locations
+
+
 class AliasFetcherOpt(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         if namespace.fetcher_opts is None:

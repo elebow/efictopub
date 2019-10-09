@@ -1,8 +1,6 @@
 from efictopub.cli import opts
 from efictopub.efictopub import Efictopub
 
-# See https://confuse.readthedocs.io/en/latest/#search-paths for config file locations
-
 
 def run():
     options = opts.get()
