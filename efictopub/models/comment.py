@@ -1,3 +1,6 @@
+from efictopub.lib import comment_pruner
+
+
 class Comment:
     """
     A comment on a chapter.
@@ -13,6 +16,9 @@ class Comment:
         self.replies = replies
         self.score = score
         self.text = text
+
+    def tree_containing_author(self, author_name):
+        return comment_pruner.tree_containing_author(self, author_name)
 
     def as_dict(self):
         attr_names = [
