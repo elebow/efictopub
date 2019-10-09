@@ -1,5 +1,3 @@
-from collections import namedtuple
-
 from efictopub.lib import comment_pruner
 from efictopub.models.comment import Comment
 

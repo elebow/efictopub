@@ -1,5 +1,3 @@
-from unittest.mock import MagicMock
-
 from efictopub import config
 from efictopub.fetchers import wordpress
 

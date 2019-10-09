@@ -2,7 +2,6 @@ from datetime import datetime
 from ebooklib import epub
 
 from doubles import allow
-from freezegun import freeze_time
 from unittest import mock
 from unittest.mock import patch
 

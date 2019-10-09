@@ -1,6 +1,5 @@
 from datetime import datetime
 import functools
-import re
 
 from efictopub.models.chapter import Chapter
 

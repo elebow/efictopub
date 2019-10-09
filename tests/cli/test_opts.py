@@ -1,7 +1,5 @@
-import argparse
 import confuse
 
-from unittest.mock import MagicMock
 from unittest.mock import patch
 
 from efictopub.cli import opts
