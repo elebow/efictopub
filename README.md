@@ -29,6 +29,9 @@ efictopub https://www.fanfiction.net/s/8601250555/1/My-Great-Story
 # Sequential WordPress chapters by start URL and end pattern
 efictopub https://some-blog.wordpress.com/2011/06/11/1-1/ --fetcher-opt last_chapter_pattern="2013/11/19/interlude-end" --title="My Great Story"
 
+# Spacebattles thread with categories of threadmarks
+efictopub https://forums.spacebattles.com/threads/my-great-story.555/ --title="My Great Story" --fetcher-opt "categories=threadmarks,omake,sidestory" --fetcher-opt "order=chrono"
+
 # Re-render a story from the local efictopub archive
 efictopub /path/to/archived/file.json --fetcher archive
 ```
