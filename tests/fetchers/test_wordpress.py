@@ -80,3 +80,25 @@ class TestFetchersWordpress:
 
         assert entry.comments[1].author == "commenter 4"
         assert entry.comments[1].text == "<p>comment 4 text</p>"
+
+    def test_comments_only_author(self):
+        config.config["fetcher_opts"] = [
+            "title='Great Story'",
+            "author='Great Author'",
+            "last_chapter_pattern=2011/06/11",
+            "author_only_replies=commenter 2",
+        ]
+
+        stub_response(wordpress_chapter_html_real_1)
+
+        fetcher = wordpress.Fetcher("https://blog-name.wordpress.com/2011/06/11/1-1/")
+        entry = fetcher.fetch_blog_entries()[0].as_chapter()
+
+        assert len(entry.comments) == 1
+        assert entry.comments[0].author == "commenter 1"
+        assert entry.comments[0].text == "<p>comment 1 text</p>"
+
+        assert entry.comments[0].replies[0].author == "commenter 2"
+        assert entry.comments[0].replies[0].text == "<p>comment 2 text</p>"
+
+        assert len(entry.comments[0].replies[0].replies) == 0
