@@ -1,17 +1,20 @@
 import functools
+import pathlib
 
 import efictopub.archive
 from efictopub.fetchers import BaseFetcher
+from efictopub.models.story import Story
 
 
 def can_handle_url(url):
-    return False
+    path = pathlib.Path(url)
+    return path.exists() and path.is_file()
 
 
 class Fetcher(BaseFetcher):
     """
     Fetch a story from the archive.
-    Note that ID can be partial, as long as it is unique.
+    Note that ID can be partial, as long as it is unique. TODO
     """
 
     def __init__(self, id_or_path):

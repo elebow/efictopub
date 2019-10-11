@@ -37,3 +37,10 @@ class TestFetchers__init__:
             ).__module__
             == "wordpress"
         )
+
+        assert (
+            efictopub.fetchers.fetcher_for_url(
+                "README.md"  # an exisisting file
+            ).__module__
+            == "archive"
+        )
