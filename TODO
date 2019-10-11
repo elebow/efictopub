@@ -6,3 +6,7 @@ verbose mode (or dry-run mode?) that prints all the config settings at the begin
 require --clobber if the output epub already exists
 epub output: visually distinguish comments by the author
 stub_response in tests: incorporate URLs
+spacebattles: category for all posts by OP
+test coverage for Chapter and Comment
+serialize json: omit null values? and in deserialization, assume null for missing fields?
+move author-only comments to --comments option, which has modes: all, author, none
