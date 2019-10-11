@@ -1,7 +1,4 @@
-import functools
-
 from efictopub import config
-from efictopub.lib import comment_pruner
 
 
 class Chapter:
@@ -21,7 +18,7 @@ class Chapter:
     def __init__(
         self, *, comments, date_published, date_updated, permalink, score, text, title
     ):
-        self.comments = comments
+        self.comments = self.prune_comments(comments)
         self.date_published = date_published
         self.date_updated = date_updated
         self.permalink = permalink
@@ -29,21 +26,15 @@ class Chapter:
         self.text = text
         self.title = title
 
-    @property
-    @functools.lru_cache()
-    def comments(self):
+    def prune_comments(self, comments):
         author_only_name = config.get_fetcher_opt("author_only_replies")
         new_comments = [
             comment.tree_containing_author(author_only_name)
             if author_only_name
             else comment
-            for comment in self._comments
+            for comment in comments
         ]
         return list(filter(None, new_comments))
-
-    @comments.setter
-    def comments(self, comments):
-        self._comments = comments
 
     def as_dict(self):
         attr_names = [
