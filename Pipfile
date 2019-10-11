@@ -19,7 +19,7 @@ python_version = "3.7"
 
 [packages]
 praw = "*"
-ebooklib = "*"
+mkepub = "*"
 "bs4" = "*"
 requests = "*"
 dulwich = "*"
