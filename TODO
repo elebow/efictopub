@@ -1,4 +1,3 @@
-ebooklib MR: stop automatically setting dcterms:modified if it's being set manually
 ffnet category and property. Append in brackets to title?
 fetcher_args: minimum length of forum post to consider a chapter
 "update" operation. Fetch new chapters.
