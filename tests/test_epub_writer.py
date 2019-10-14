@@ -1,10 +1,3 @@
-from datetime import datetime
-from ebooklib import epub
-
-from doubles import allow
-from unittest import mock
-from unittest.mock import patch
-
 from efictopub import config
 from efictopub.epub_writer import EpubWriter
 
@@ -12,62 +5,35 @@ from tests.fixtures.real import story_real
 
 
 class TestEpubWriter:
-    @patch("efictopub.epub_writer.EpubWriter.add_chapters")
-    @patch("ebooklib.epub.write_epub")
-    def test_write_epub(self, write_epub_mock, add_chapters_mock):
-        config.config["outfile"] = "outfile.epub"
-        subject = EpubWriter(story_real())
-        subject.write_epub()
+    def test_write_epub(self, mocker):
+        mocker.patch("mkepub.Book.add_page")
+        mocker.patch("mkepub.Book.set_cover")
+        mocker.patch("mkepub.Book.save")
+        config.config["outfile"] = "x.epub"
+        writer = EpubWriter(story_real())
 
-        assert subject.book.title == "My Great Story"
-        assert subject.book.language == "en"
-        assert (
-            subject.book.metadata["http://purl.org/dc/elements/1.1/"]["creator"][0][0]
-            == "Great Author"
+        writer.write_epub()
+
+        assert writer.book.title == "My Great Story"
+        assert writer.book.metadata == {
+            "published": "1970-01-01T00:00:21",
+            "author": "Great Author",
+            "dcterms": {"available": "1970-01-01T00:00:00"},
+        }
+
+    def test_add_chapters(self, mocker):
+        mocker.patch("mkepub.Book.add_page")
+        writer = EpubWriter(story_real())
+
+        writer.add_chapters()
+
+        assert writer.book.add_page.has_calls(
+            [
+                mocker.call("chapter title 0", "chapter content 0"),
+                mocker.call("chapter title 1", "chapter content 1"),
+                mocker.call("chapter title 2", "chapter content 2"),
+            ]
         )
-        write_epub_mock.assert_called_once_with(
-            "outfile.epub", mock.ANY, {"mtime": datetime(1970, 1, 1, 0, 0, 21)}
-        )
-
-    def test_add_info_page(self):
-        allow(epub).write_epub
-
-        subject = EpubWriter(story_real())
-        subject.write_epub()
-
-        assert subject.book.items[2].content == "My Great Story<br>by Great Author"
-
-    def test_add_chapters(self):
-        subject = EpubWriter(story_real())
-        subject.add_chapters()
-
-        assert [chap.file_name for chap in subject.book.items] == [
-            "chap_000.xhtml",
-            "chap_001.xhtml",
-            "chap_002.xhtml",
-        ]
-        assert [chap.title for chap in subject.book.items] == [
-            "chapter title 0",
-            "chapter title 1",
-            "chapter title 2",
-        ]
-        assert [chap.content for chap in subject.book.items] == [
-            "chapter title 0\n\n<p>chapter content 0</p>",
-            "chapter title 1\n\n<p>chapter content 1</p>",
-            "chapter title 2\n\n<p>chapter content 2</p>",
-        ]
-
-    def test_add_toc(self):
-        subject = EpubWriter(story_real())
-        subject.add_toc()
-
-        assert isinstance(subject.book.toc, tuple)
-        assert [item.__class__ for item in subject.book.toc] == [epub.EpubHtml] * 3
-        assert [item.file_name for item in subject.book.toc] == [
-            "chap_000.xhtml",
-            "chap_001.xhtml",
-            "chap_002.xhtml",
-        ]
 
     def test_output_filename_config(self):
         config.config["outfile"] = "great-outfile.epub"
@@ -78,8 +44,7 @@ class TestEpubWriter:
     def test_output_filename_auto(self):
         config.config["outfile"] = ""
         config.config["epub_location"] = "/some/epub/location"
-        story = story_real()
-        subject = EpubWriter(story)
+        subject = EpubWriter(story_real())
 
         assert (
             subject.output_filename()
