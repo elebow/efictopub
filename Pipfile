@@ -4,10 +4,10 @@ url = "https://pypi.python.org/simple"
 name = "pypi"
 
 [dev-packages]
-trepan3k = "*"
 pytest = "*"
 "flake8" = "*"
 pytest-cov = "*"
+pytest-mock = "*"
 doubles = "*"
 readline = "*"
 black = "*"
