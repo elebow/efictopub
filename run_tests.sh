@@ -4,8 +4,6 @@ case "$@" in
 	*-k*) partial_test=1 ;;
 esac
 
-export PYTHONBREAKPOINT="trepan.api.debug"
-
 if [ "$partial_test" = 1 ]; then
 	coverage_arg=''
 else
@@ -15,6 +13,6 @@ fi
 
 # -s         do not capture output. This is needed for ipdb.set_trace()
 
-pipenv run python3 -m pytest -s $coverage_arg "$@"
+python3 -m pytest -s $coverage_arg "$@"
 
 exit $?
