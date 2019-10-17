@@ -20,7 +20,7 @@ class Fetcher(BaseFetcher):
     """Fetch Reddit submissions by following "next" links in the body"""
 
     def __init__(self, start_id_or_url):
-        self.reddit = reddit_util.setup_reddit()
+        self.praw_reddit = reddit_util.setup_reddit()
         self.start_id_or_url = start_id_or_url
 
         if not config.get("fetch_comments"):
@@ -39,7 +39,7 @@ class Fetcher(BaseFetcher):
         )
 
     def fetch_submissions(self):
-        start_subm = reddit_util.parse_id_or_url(self.start_id_or_url, self.reddit)
+        start_subm = reddit_util.parse_id_or_url(self.start_id_or_url, self.praw_reddit)
         return self.generate_next_submissions(start_subm)
 
     def generate_next_submissions(self, start_subm):
@@ -57,5 +57,5 @@ class Fetcher(BaseFetcher):
             elif len(next_urls) == 0:
                 return
             subm = RedditSubmission(
-                praw.models.Submission(self.reddit, url=next_urls[0])
+                praw.models.Submission(self.praw_reddit, url=next_urls[0])
             )

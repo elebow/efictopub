@@ -16,7 +16,7 @@ def can_handle_url(url):
 class Fetcher(BaseFetcher):
     def __init__(self, url):
         self.url = url
-        self.reddit = reddit_util.setup_reddit()
+        self.praw_reddit = reddit_util.setup_reddit()
 
         if not config.get("fetch_comments"):
             print(
@@ -35,12 +35,12 @@ class Fetcher(BaseFetcher):
 
     def fetch_submissions(self):
         return [
-            reddit.Submission(praw.models.Submission(self.reddit, url=link.href))
+            reddit.Submission(praw.models.Submission(self.praw_reddit, url=link.href))
             for link in self.links_mentioned_in_wiki_page()
         ]
 
     def links_mentioned_in_wiki_page(self):
-        wikipage = reddit_util.parse_id_or_url(self.url, self.reddit)
+        wikipage = reddit_util.parse_id_or_url(self.url, self.praw_reddit)
         links = HTMLParser(wikipage.html).links_containing_text("")
         return [link for link in links if "/wiki/" not in link.href]
 
