@@ -35,13 +35,13 @@ class TestRedditUtil:
 
     @patch("efictopub.lib.reddit_util.parse_url")
     def test_parse_id_or_url_submission(self, parse_url):
-        submission_url = praw_submissions[0].permalink
+        submission_url = "https://www.reddit.com/r/great_subr/comments/000/great_subm"
         self.subject.parse_id_or_url(submission_url, self.praw_reddit)
         self.subject.parse_url.assert_called_once_with(submission_url, self.praw_reddit)
 
     @patch("efictopub.lib.reddit_util.parse_url")
     def test_parse_id_or_url_comment(self, parse_url):
-        comment_url = praw_submissions[0].comments[0].permalink
+        comment_url = "https://www.reddit.com/r/great_subr/comments/000/great_subm/999"
         self.subject.parse_id_or_url(comment_url, self.praw_reddit)
         self.subject.parse_url.assert_called_once_with(comment_url, self.praw_reddit)
 
