@@ -1,4 +1,3 @@
-import praw
 import re
 
 from efictopub import config
@@ -56,6 +55,4 @@ class Fetcher(BaseFetcher):
                 raise AmbiguousNextError
             elif len(next_urls) == 0:
                 return
-            subm = RedditSubmission(
-                praw.models.Submission(self.praw_reddit, url=next_urls[0])
-            )
+            subm = reddit_util.parse_url(next_urls[0], self.praw_reddit)
