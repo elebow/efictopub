@@ -5,7 +5,6 @@ from tests.fixtures.doubles import (
     praw_submission_double,
     praw_submission_with_author_note_double,
     praw_submission_continued_in_comments_double,
-    praw_submissions,
 )
 
 

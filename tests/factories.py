@@ -63,3 +63,29 @@ class StoryFactory(factory.Factory):
     title = factory.Sequence(lambda n: f"Great Story Title {n}")
 
     num_chapters = 1
+
+
+class RedditSubmissionFactory(factory.Factory):
+    class Meta:
+        model = efictopub.models.reddit.reddit_submission.RedditSubmission
+
+    @classmethod
+    def _adjust_kwargs(cls, **kwargs):
+        # RedditSubmission only takes a PRAW submission object. PRAW objects are too annoying to build.
+        # So, just pass in a Mock that behaves like a PRAW submission obj.
+        from unittest.mock import MagicMock
+
+        attrs = {
+            "author": MagicMock(name="Submission Author Name {n}"),
+            "comments": [],
+            "created_utc": "published date {n}",
+            "edited": "updated date {n}",
+            "id": "reddit_id_{n}",
+            "permalink": "permalink {n}",
+            "selftext_html": "<p>chapter content {n}</p>",
+            "title": "Chapter Title {n}",
+            "ups": factory.Sequence(lambda n: f"upvotes_{n}"),
+        }
+        attrs.update(kwargs)
+        mock_praw_subm = MagicMock("praw.models.Submission", **attrs)
+        return {"praw_submission": mock_praw_subm}

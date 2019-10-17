@@ -1,58 +1,61 @@
 import pytest
-from unittest.mock import patch
 
 from efictopub import config
 from efictopub.fetchers import reddit_next
 from efictopub import exceptions
 
-from tests.fixtures.doubles import praw_submission_with_ambiguous_next
-from tests.fixtures.doubles import praw_submission_with_duplicate_next
-from tests.fixtures.doubles import praw_submissions
-from tests.fixtures.doubles import find_praw_submission
+from tests.fixtures.real import get_reddit_submission
 
 
 class TestFetchersRedditNext:
-    @patch("praw.models.Submission", find_praw_submission)
-    def test_submissions_following_next_links(self):
-        subms = reddit_next.Fetcher(praw_submissions[0].permalink).fetch_submissions()
+    def test_submissions_following_next_links(self, mocker):
+        mocker.patch("efictopub.lib.reddit_util.parse_url", get_reddit_submission)
+        subms = reddit_next.Fetcher(
+            "https://www.reddit.com/r/great_subreddit/comments/000000/next_links"
+        ).fetch_submissions()
 
         assert [subm.permalink for subm in subms] == [
-            "https://www.reddit.com/r/great_subreddit/comments/000000/great_title",
-            "https://www.reddit.com/r/great_subreddit/comments/000001/great_title",
-            "https://www.reddit.com/r/great_subreddit/comments/000002/great_title",
+            "https://www.reddit.com/r/great_subreddit/comments/000000/next_links",
+            "https://www.reddit.com/r/great_subreddit/comments/000001/next_links",
+            "https://www.reddit.com/r/great_subreddit/comments/000002/next_links",
         ]
 
-    def test_ambiguous_next(self):
+    def test_ambiguous_next(self, mocker):
+        mocker.patch("efictopub.lib.reddit_util.parse_url", get_reddit_submission)
+        subms = reddit_next.Fetcher(
+            "https://www.reddit.com/r/great_subreddit/comments/000003/ambiguous_next"
+        ).fetch_submissions()
+
         with pytest.raises(exceptions.AmbiguousNextError):
-            [
-                subm
-                for subm in reddit_next.Fetcher("_what").generate_next_submissions(
-                    praw_submission_with_ambiguous_next()
-                )
-            ]
+            # subms is a generator, so we have to evaluate it
+            [subm for subm in subms]
 
-    @patch("praw.models.Submission", find_praw_submission)
-    def test_duplicate_next(self):
+    def test_duplicate_next(self, mocker):
+        mocker.patch("efictopub.lib.reddit_util.parse_url", get_reddit_submission)
+        subms = reddit_next.Fetcher(
+            "https://www.reddit.com/r/great_subreddit/comments/000004/duplicate_next"
+        ).fetch_submissions()
+
         # implied asertion that no AmbiguousNextError is raised
-        [
-            subm
-            for subm in reddit_next.Fetcher("_what").generate_next_submissions(
-                praw_submission_with_duplicate_next()
-            )
-        ]
+        [subm for subm in subms]
 
-    @patch("praw.models.Submission", find_praw_submission)
-    def test_fetch_comments(self):
+    def test_fetch_comments(self, mocker, reddit_submission_factory):
+        mocker.patch("efictopub.models.reddit.reddit_comment.RedditComment.__new__")
+        mocker.patch("efictopub.lib.reddit_util.parse_url", get_reddit_submission)
         config.config["fetch_comments"] = True
-        chapters = reddit_next.Fetcher(
-            praw_submissions[0].permalink
-        ).fetch_submissions()
-        assert [len(chapter.comments) for chapter in chapters] == [3, 4, 5]
 
-    @patch("praw.models.Submission", find_praw_submission)
-    def test_skip_comments(self):
-        config.config["fetch_comments"] = False
-        chapters = reddit_next.Fetcher(
-            praw_submissions[0].permalink
+        subms = reddit_next.Fetcher(
+            "https://www.reddit.com/r/great_subreddit/comments/000005/has_comments"
         ).fetch_submissions()
-        assert [len(chapter.comments) for chapter in chapters] == [0, 0, 0]
+
+        assert [len(subm.comments) for subm in subms] == [2]
+
+    def test_skip_comments(self, mocker):
+        mocker.patch("efictopub.lib.reddit_util.parse_url", get_reddit_submission)
+        config.config["fetch_comments"] = False
+
+        subms = reddit_next.Fetcher(
+            "https://www.reddit.com/r/great_subreddit/comments/000005/has_comments"
+        ).fetch_submissions()
+
+        assert [len(subm.comments) for subm in subms] == [0]

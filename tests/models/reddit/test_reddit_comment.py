@@ -1,7 +1,5 @@
 from efictopub.models.reddit import RedditComment
 
-from tests.fixtures.doubles import praw_submissions
-
 
 class TestRedditComment:
     def setup_method(self):

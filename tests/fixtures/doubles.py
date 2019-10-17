@@ -88,42 +88,8 @@ def praw_submission_continued_in_comments_double(n=0):
     return praw_submission_double(author=author, comments=comment_forest)
 
 
-def praw_submission_with_ambiguous_next():
-    return praw_submission_double(
-        selftext_html="<a href='link1'>next</a> <a href='link2'>next</a>"
-    )
-
-
-def praw_submission_with_duplicate_next():
-    return praw_submission_double(
-        selftext_html="""
-        <a href='https://www.reddit.com/r/great_subreddit/comments/000000/great_title'>next</a>
-        <a href='https://www.reddit.com/r/great_subreddit/comments/000000/great_title'>next</a>
-    """
-    )
-
-
 def praw_wikipage_double(_reddit, _subreddit, _pagename):
     return InstanceDouble(
         "praw.models.reddit.wikipage.WikiPage",
         content_html="<a href='http://www.reddit.com/r/HFY/'>/r/hfy</a>)\n<a href='http://redd.it/2oflhg'>some other link</a>",
     )
-
-
-praw_submissions = [
-    praw_submission_double(0, title="some story", comments=praw_comments_double(3)),
-    praw_submission_double(1, title="some story 02", comments=praw_comments_double(4)),
-    praw_submission_double(2, title="some story 03", comments=praw_comments_double(5)),
-]
-for subm in praw_submissions[0:-1]:
-    # Add "Next" links to all but the last
-    subm.selftext_html += f"<a href='https://www.reddit.com/r/great_subreddit/comments/00000{int(subm.id[-1:]) + 1}/great_title'>Next</a>"
-praw_submissions[0].comments[2].body_html += "<a href='example.com'>some link</a>"
-
-
-def find_praw_submission(_self=None, *, url=None, id=None):
-    if url is not None:
-        return [subm for subm in praw_submissions if subm.permalink == url][0]
-    elif id is not None:
-        return [subm for subm in praw_submissions if subm.id == id][0]
-    raise

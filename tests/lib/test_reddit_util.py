@@ -6,8 +6,6 @@ from efictopub.lib import reddit_util
 from efictopub.models.reddit import RedditSubmission, RedditComment, RedditWikiPage
 from efictopub import exceptions
 
-from tests.fixtures.doubles import praw_submissions
-
 
 subreddit_inst = MagicMock()
 subreddit_class = MagicMock(return_value=subreddit_inst)
