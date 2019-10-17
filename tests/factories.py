@@ -53,8 +53,13 @@ class CommentFactory(factory.Factory):
 class StoryFactory(factory.Factory):
     class Meta:
         model = efictopub.models.story.Story
+        exclude = ("num_chapters",)
 
     author = factory.Sequence(lambda n: f"Story Author Name {n}")
-    chapters = factory.List([factory.SubFactory(ChapterFactory) for n in range(3)])
+    chapters = factory.LazyAttribute(
+        lambda o: [ChapterFactory.build() for n in range(o.num_chapters)]
+    )
     date_fetched = 1553317565
     title = factory.Sequence(lambda n: f"Great Story Title {n}")
+
+    num_chapters = 1

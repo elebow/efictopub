@@ -4,37 +4,33 @@ from freezegun import freeze_time
 
 from efictopub.models.story import Story
 
-from tests.fixtures.doubles import chapter_double
-from tests.fixtures.real import chapters_real
+
+def build_three_chapters(chapter_factory):
+    return [
+        chapter_factory.build(
+            date_published=5, date_updated=6, permalink="permalink for chapter 0"
+        ),
+        chapter_factory.build(date_published=6, date_updated=7),
+        chapter_factory.build(date_published=7, date_updated=8),
+    ]
 
 
 class TestStory:
-    def test_date_start(self):
-        subject = Story(
-            chapters=[
-                chapter_double(date_published=5, date_updated=6),
-                chapter_double(date_published=6, date_updated=7),
-                chapter_double(date_published=7, date_updated=8),
-            ]
-        )
+    def test_date_start(self, chapter_factory):
+        subject = Story(chapters=build_three_chapters(chapter_factory))
 
         assert subject.date_start == 5
 
-    def test_date_end(self):
-        subject = Story(
-            chapters=[
-                chapter_double(date_published=5, date_updated=6),
-                chapter_double(date_published=6, date_updated=7),
-                chapter_double(date_published=7, date_updated=8),
-            ]
-        )
+    def test_date_end(self, chapter_factory):
+        subject = Story(chapters=build_three_chapters(chapter_factory))
 
         assert subject.date_end == 8
 
-    def test_id(self):
-        subject = Story(chapters=chapters_real(3))
+    def test_id(self, chapter_factory):
+        chapters = build_three_chapters(chapter_factory)
+        subject = Story(chapters=chapters)
 
-        assert subject.id == "0permalink+0"
+        assert subject.id == "5permalink+for+chapter+0"
 
     @freeze_time("2000-01-01")
     def test_as_dict(self):

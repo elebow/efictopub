@@ -3,42 +3,6 @@ import praw
 from doubles import InstanceDouble
 
 
-def chapter_double(n=0, date_published=f"start date", date_updated=f"end date"):
-    return InstanceDouble(
-        "efictopub.models.chapter.Chapter",
-        comments=comments_double(3),
-        date_published=date_published,
-        date_updated=date_updated,
-        permalink=f"permalink {n}",
-        author=f"great author {n}",
-        score=5,
-        story_title="My Great Story",
-        text=f"<p>chapter content {n}</p>",
-        title=f"chapter title {n}",
-    )
-
-
-def chapters_double(count):
-    return [chapter_double(n) for n in range(0, count)]
-
-
-def comment_double(n=0):
-    return InstanceDouble(
-        "efictopub.models.comment.Comment",
-        author=f"author {n}",
-        date_published=f"published date {n}",
-        date_updated=f"updated date {n}",
-        permalink=f"permalink {n}",
-        replies=[comment_double(m) for m in range(0, n - 1)] if n > 0 else [],
-        score=f"score {n}",
-        text=f"text {n}",
-    )
-
-
-def comments_double(count):
-    return [comment_double(n) for n in range(0, count)]
-
-
 def praw_redditor(n=0):
     return InstanceDouble("praw.models.Redditor", name=f"redditor {n}")
 
@@ -143,20 +107,6 @@ def praw_wikipage_double(_reddit, _subreddit, _pagename):
     return InstanceDouble(
         "praw.models.reddit.wikipage.WikiPage",
         content_html="<a href='http://www.reddit.com/r/HFY/'>/r/hfy</a>)\n<a href='http://redd.it/2oflhg'>some other link</a>",
-    )
-
-
-def story_double():
-    return InstanceDouble(
-        "efictopub.models.story.Story",
-        author="great author",
-        chapters=chapters_double(3),
-        date_start=1435000000.0,
-        date_end=1438000000,
-        date_fetched=1553317565,
-        title="great title",
-        cover_svg="<text>aaa</text>",
-        id="555https%3A%2F%2Fwww.fanfiction.net%2Fs%2F10550829%2F1%2FGreat-Title",
     )
 
 

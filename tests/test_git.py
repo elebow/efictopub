@@ -1,79 +1,82 @@
-from dulwich.porcelain import GitStatus
-
-from unittest.mock import MagicMock
-from unittest.mock import patch
+import dulwich.porcelain
 
 from efictopub import config
 from efictopub import git
 
-from tests.fixtures.doubles import story_double
-
 
 class TestGit:
-    @patch("efictopub.git.repo_path", lambda: "/path/to/archive")
-    @patch("efictopub.git.ensure_repo_initialized")
-    @patch("dulwich.porcelain.commit")
-    @patch("dulwich.porcelain.add")
-    def test_commit_story(self, add, commit, ensure_repo_initialized):
+    def test_commit_story(self, mocker, story_factory):
+        mocker.patch("efictopub.git.ensure_repo_initialized")
+        mocker.patch("dulwich.porcelain.commit")
+        mocker.patch("dulwich.porcelain.add")
         config.config["archive_location"] = "/path/to/archive"
-        story = story_double()
+        story = story_factory.build()
 
         git.commit_story(story)
 
-        ensure_repo_initialized.assert_called_once()
-        add.assert_called_once_with(
+        git.ensure_repo_initialized.assert_called_once()
+        dulwich.porcelain.add.assert_called_once_with(
             "/path/to/archive", f"/path/to/archive/{story.id}.json"
         )
-        commit.assert_called_once_with(
+        dulwich.porcelain.commit.assert_called_once_with(
             "/path/to/archive",
             message="Update story",
             author="efictopub <efictopub@users.noreply.github.com>",
         )
 
-    @patch("efictopub.git.repo_path", lambda: "/path/to/archive")
-    @patch("efictopub.git.ensure_repo_initialized", MagicMock())
-    @patch(
-        "dulwich.porcelain.status",
-        lambda _x: GitStatus(
-            staged={"add": [], "delete": [], "modify": []},
-            unstaged=[b"f1"],
-            untracked=[],
-        ),
-    )
-    def test_repo_is_dirty_dirty(self):
+    def test_repo_is_dirty_dirty(self, mocker):
+        mocker.patch("efictopub.git.ensure_repo_initialized")
+        mocker.patch(
+            "dulwich.porcelain.status",
+            lambda _x: dulwich.porcelain.GitStatus(
+                staged={"add": [], "delete": [], "modify": []},
+                unstaged=[b"f1"],
+                untracked=[],
+            ),
+        )
+        config.config["archive_location"] = "/path/to/archive"
+
         assert git.repo_is_dirty() is True
 
-    @patch("efictopub.git.repo_path", lambda: "/path/to/archive")
-    @patch("efictopub.git.ensure_repo_initialized", MagicMock())
-    @patch(
-        "dulwich.porcelain.status",
-        lambda _x: GitStatus(
-            staged={"add": [], "delete": [], "modify": []}, unstaged=[], untracked=[]
-        ),
-    )
-    def test_repo_is_dirty_clean(self):
+    def test_repo_is_dirty_clean(self, mocker):
+        mocker.patch("efictopub.git.ensure_repo_initialized")
+        mocker.patch(
+            "dulwich.porcelain.status",
+            lambda _x: dulwich.porcelain.GitStatus(
+                staged={"add": [], "delete": [], "modify": []},
+                unstaged=[],
+                untracked=[],
+            ),
+        )
+        mocker.patch("efictopub.git.repo_path", lambda: "/path/to/archive")
+        config.config["archive_location"] = "/path/to/archive"
+
         assert git.repo_is_dirty() is False
 
-    @patch(
-        "dulwich.repo.Repo.get_walker",
-        lambda _x, **args: [
-            MagicMock(commit=MagicMock(author=b"some other committer"))
-        ],
-    )
-    def test_previous_commit_is_not_efic_true(self):
-        story = story_double()
+    def test_previous_commit_is_not_efic_true(self, mocker, story_factory):
+        mocker.patch(
+            "dulwich.repo.Repo.get_walker",
+            lambda _x, **args: [
+                mocker.MagicMock(
+                    commit=mocker.MagicMock(author=b"some other committer")
+                )
+            ],
+        )
+        story = story_factory.build()
+
         assert git.previous_commit_is_not_efic(story) is True
 
-    @patch(
-        "dulwich.repo.Repo.get_walker",
-        lambda _x, **args: [
-            MagicMock(
-                commit=MagicMock(
-                    author=b"efictopub <efictopub@users.noreply.github.com>"
+    def test_previous_commit_is_not_efic_false(self, mocker, story_factory):
+        mocker.patch(
+            "dulwich.repo.Repo.get_walker",
+            lambda _x, **args: [
+                mocker.MagicMock(
+                    commit=mocker.MagicMock(
+                        author=b"efictopub <efictopub@users.noreply.github.com>"
+                    )
                 )
-            )
-        ],
-    )
-    def test_previous_commit_is_not_efic_false(self):
-        story = story_double()
+            ],
+        )
+        story = story_factory.build()
+
         assert git.previous_commit_is_not_efic(story) is False
