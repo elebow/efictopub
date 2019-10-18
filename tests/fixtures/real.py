@@ -53,14 +53,36 @@ def praw_comment(mocker):
 
 
 @pytest.fixture
+def praw_submission(mocker, praw_comment):
+    subm = mocker.MagicMock(
+        author_name=mocker.MagicMock(),
+        comments=mocker.MagicMock(),
+        created_utc="5",
+        edited="6",
+        reddit_id="111111",
+        permalink="permalink",
+        selftext_html="selftext HTML",
+        title="Submission Title",
+        ups=5,
+    )
+    # `name` is a keyword argument of Mock, so set the attr separately
+    subm.author.name = "Redditor Name"
+    # comments should behave like a PRAW CommentForest. Or, an iterable MagicMock.
+    subm.comments.__iter__.return_value = [praw_comment, praw_comment]
+    return subm
+
+
+@pytest.fixture
 def redditor_with_submissions(mocker):
     mock_praw_submissions = [
-        mocker.Mock(title="PRAW Submission 00", id="000000"),
-        mocker.Mock(title="PRAW Submission 01", id="000001"),
-        mocker.Mock(title="PRAW Submission 02", id="000002"),
+        mocker.MagicMock(title="PRAW Submission 00", id="000000"),
+        mocker.MagicMock(title="PRAW Submission 01", id="000001"),
+        mocker.MagicMock(title="PRAW Submission 02", id="000002"),
     ]
-    mock_redditor = mocker.Mock(
-        submissions=mocker.Mock(new=mocker.Mock(return_value=mock_praw_submissions))
+    mock_redditor = mocker.MagicMock(
+        submissions=mocker.MagicMock(
+            new=mocker.Mock(return_value=mock_praw_submissions)
+        )
     )
     return mock_redditor
 
