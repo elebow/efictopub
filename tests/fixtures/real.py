@@ -1,5 +1,6 @@
 # TODO rename this file to something like tests/support/fixtures.py
 
+import pytest
 
 import tests
 
@@ -26,6 +27,19 @@ spacebattles_thread_reader_2_html = read_fixture("spacebattles_thread_reader_2.h
 
 wordpress_chapter_html_real_1 = read_fixture("wordpress_1.html")
 wordpress_chapter_html_real_2 = read_fixture("wordpress_2.html")
+
+
+@pytest.fixture
+def redditor_with_submissions(mocker):
+    mock_praw_submissions = [
+        mocker.Mock(title="PRAW Submission 00", id="000000"),
+        mocker.Mock(title="PRAW Submission 01", id="000001"),
+        mocker.Mock(title="PRAW Submission 02", id="000002"),
+    ]
+    mock_redditor = mocker.Mock(
+        submissions=mocker.Mock(new=mocker.Mock(return_value=mock_praw_submissions))
+    )
+    return mock_redditor
 
 
 def build_comment_forest():

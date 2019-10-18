@@ -12,9 +12,6 @@ import efictopub.lib.reddit_util
 import efictopub.lib.request_dispatcher
 import tests.fixtures.stubs
 
-import factory
-from tests import factories
-
 
 if os.environ.get("LIVE_REQUESTS") != "true":
 
@@ -44,7 +41,12 @@ def empty_stubbed_responses():
 
 config.load({}, fetcher=None)
 
+import factory
+from tests import factories
+
 # register all of the factory.Factory subclasses in tests.factories
 for (name, factory_class) in inspect.getmembers(factories):
     if inspect.isclass(factory_class) and issubclass(factory_class, factory.Factory):
         register(factory_class)
+
+from tests.fixtures.real import redditor_with_submissions
