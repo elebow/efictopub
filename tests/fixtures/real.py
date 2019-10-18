@@ -87,12 +87,16 @@ def redditor_with_submissions(mocker):
     return mock_redditor
 
 
-def build_comment_forest():
+def build_reddit_submission_with_comments():
     import praw
     from unittest.mock import MagicMock
 
-    # CommentForest is bothersome to mock. Just use a real one.
-    return praw.models.comment_forest.CommentForest(None, [MagicMock(), MagicMock()])
+    return tests.factories.RedditSubmissionFactory.build(
+        # CommentForest is bothersome to mock. Just use a real one.
+        comments=praw.models.comment_forest.CommentForest(
+            None, [MagicMock(), MagicMock()]
+        )
+    )
 
 
 reddit_submissions = {
@@ -118,9 +122,7 @@ reddit_submissions = {
         <a href='https://www.reddit.com/r/great_subreddit/comments/000002/next_links'>next</a>
     """
     ),
-    "https://www.reddit.com/r/great_subreddit/comments/000005/has_comments": lambda: tests.factories.RedditSubmissionFactory.build(
-        comments=build_comment_forest()
-    ),
+    "https://www.reddit.com/r/great_subreddit/comments/000005/has_comments": build_reddit_submission_with_comments,
 }
 
 
