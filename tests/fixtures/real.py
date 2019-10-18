@@ -30,6 +30,29 @@ wordpress_chapter_html_real_2 = read_fixture("wordpress_2.html")
 
 
 @pytest.fixture
+def praw_comment(mocker):
+    def praw_comment_without_replies():
+        comment = mocker.Mock(
+            author=mocker.Mock(),
+            author_flair_text="Author Flair Text",
+            body_html="body html",
+            created_utc="5",
+            edited="6",
+            id="111111",
+            permalink="permalink",
+            replies=[],
+            ups=5,
+        )
+        # `name` is a keyword argument of Mock, so set the attr separately
+        comment.author.name = "Redditor Name"
+        return comment
+
+    comment = praw_comment_without_replies()
+    comment.replies = [praw_comment_without_replies(), praw_comment_without_replies()]
+    return comment
+
+
+@pytest.fixture
 def redditor_with_submissions(mocker):
     mock_praw_submissions = [
         mocker.Mock(title="PRAW Submission 00", id="000000"),
