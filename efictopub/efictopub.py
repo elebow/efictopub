@@ -13,10 +13,6 @@ class Efictopub:
         # TODO load defaults for items not specified in opts?
         config.load(opts=self.opts, fetcher=self.fetcher)
 
-        if not self.check_repo_ready_for_write():
-            # TODO move this to cli.py also?
-            return
-
         self.story = self.fetch_story()
 
     def fetch_story(self):
@@ -40,16 +36,8 @@ class Efictopub:
             return fetchers.fetcher_for_url(self.opts["target"])
 
     def check_repo_ready_for_write(self):
-        if (
-            git.repo_is_dirty()
-            and config.get("write_archive")
-            and not config.get("clobber")
-        ):
-            print(
-                "Git repo has uncommitted changes! Refusing to continue. Do one or more of the following:\n"
-                f"1. Commit, reset, or otherwise settle the git repo at {config.get('archive_location')}\n"
-                "2. Add the --no-archive option to omit writing to the archive.\n"
-                "3. Add the --clobber option to clobber uncommitted changes in the archive."
-            )
-            return False
-        return True
+        return (
+            not git.repo_is_dirty()
+            or not config.get("write_archive")
+            or config.get("clobber")
+        )
