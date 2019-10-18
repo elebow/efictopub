@@ -10,7 +10,7 @@ class Efictopub:
         self.opts = opts
         self.fetcher = self.get_fetcher()
 
-        # TODO load defaults for items not specified in opts?
+        # TODO move confuse load defaults to here
         config.load(opts=self.opts, fetcher=self.fetcher)
 
         self.story = self.fetch_story()
