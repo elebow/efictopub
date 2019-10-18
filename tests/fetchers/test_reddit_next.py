@@ -40,7 +40,7 @@ class TestFetchersRedditNext:
         [subm for subm in subms]
 
     def test_fetch_comments(self, mocker, reddit_submission_factory):
-        mocker.patch("efictopub.models.reddit.reddit_comment.RedditComment.__new__")
+        mocker.patch("efictopub.models.reddit.reddit_comment.RedditComment.body_html")
         mocker.patch("efictopub.lib.reddit_util.parse_url", get_reddit_submission)
         config.config["fetch_comments"] = True
 
