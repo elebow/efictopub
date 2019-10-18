@@ -17,7 +17,7 @@ setuptools.setup(
         "pytest",
         "pytest-cov",
         "pytest-mock",
-        "doubles",
+        "requests-mock",
         "factory-boy",
         "pytest-factoryboy",
     ],
