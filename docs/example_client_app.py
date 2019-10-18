@@ -15,4 +15,8 @@ efictopub.archive_story()
 efictopub.write_epub()
 
 # return EPUB file contents without writing to disk
+# NYI
 efictopub.epub()
+
+# return the Story object
+efictopub.story
