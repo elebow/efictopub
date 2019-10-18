@@ -7,7 +7,6 @@ from efictopub.fetchers import spacebattles
 from tests.fixtures.real import spacebattles_threadmarks_index_html
 from tests.fixtures.real import spacebattles_thread_reader_1_html
 from tests.fixtures.real import spacebattles_thread_reader_2_html
-from tests.fixtures.stubs import stub_response
 
 
 def stubbed_generate_posts(self, category=1):
@@ -39,10 +38,19 @@ class TestFetchersSpacebattles:
     def setup_method(self):
         config.config["fetcher_opts"] = ["title=Great Story"]
 
-    def test_fetch_story(self):
-        stub_response(spacebattles_threadmarks_index_html)
-        stub_response(spacebattles_thread_reader_1_html)
-        stub_response(spacebattles_thread_reader_2_html)
+    def test_fetch_story(self, requests_mock):
+        requests_mock.get(
+            "https://forums.spacebattles.com/threads/555/threadmarks?category_id=1",
+            text=spacebattles_threadmarks_index_html,
+        )
+        requests_mock.get(
+            "https://forums.spacebattles.com/threads/555/1/reader",
+            text=spacebattles_thread_reader_1_html,
+        )
+        requests_mock.get(
+            "https://forums.spacebattles.com/my-great-story.555/reader?page=2",
+            text=spacebattles_thread_reader_2_html,
+        )
 
         fetcher = spacebattles.Fetcher("https://forums.spacebattles.com/threads/555/")
         story = fetcher.fetch_story()
@@ -75,8 +83,11 @@ class TestFetchersSpacebattles:
         assert get_id("111") == "111"
         assert get_id("a") is None
 
-    def test_threadmarks_categories(self):
-        stub_response(spacebattles_threadmarks_index_html)
+    def test_threadmarks_categories(self, requests_mock):
+        requests_mock.get(
+            "https://forums.spacebattles.com/threads/555/threadmarks?category_id=1",
+            text=spacebattles_threadmarks_index_html,
+        )
 
         fetcher = spacebattles.Fetcher("https://forums.spacebattles.com/threads/555/")
         assert fetcher.threadmarks_categories == {

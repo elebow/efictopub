@@ -28,7 +28,7 @@ class SpacebattlesPage:
     def next_page_url(self):
         links = self.dom.select("link[rel='next']")
         if links:
-            return f"http://{DOMAIN}/{links[0].attrs['href']}"
+            return f"https://{DOMAIN}/{links[0].attrs['href']}"
         return None
 
 
@@ -140,7 +140,7 @@ class Fetcher(BaseFetcher):
 
     @property
     def thread_base_url(self):
-        return f"http://{DOMAIN}/threads/{self.thread_id}"
+        return f"https://{DOMAIN}/threads/{self.thread_id}"
 
     def threadmarks_index_url(self, category_id=1):
         return f"{self.thread_base_url}/threadmarks?category_id={category_id}"
