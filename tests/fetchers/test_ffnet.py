@@ -1,11 +1,11 @@
 from efictopub import config
 from efictopub.fetchers import ffnet
 
-from tests.fixtures.real import ffnet_chapter_html_real
-from tests.fixtures.real import ffnet_chapter_2_html_real
-from tests.fixtures.real import ffnet_chapter_3_html_real
-from tests.fixtures.real import ffnet_single_chapter_story_html_real
-from tests.fixtures.real import ffnet_single_chapter_story_reviews_html_real
+from tests.fixtures import ffnet_chapter_html_real
+from tests.fixtures import ffnet_chapter_2_html_real
+from tests.fixtures import ffnet_chapter_3_html_real
+from tests.fixtures import ffnet_single_chapter_story_html_real
+from tests.fixtures import ffnet_single_chapter_story_reviews_html_real
 
 
 class TestFetchersFFNet:

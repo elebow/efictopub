@@ -2,7 +2,7 @@ from efictopub.models.ffnet.ffnet_reviews import FFNetReviews
 
 import pytest
 
-from tests.fixtures.real import ffnet_chapter_reviews_html_real
+from tests.fixtures import ffnet_chapter_reviews_html_real
 
 
 class TestFFNetReviews:

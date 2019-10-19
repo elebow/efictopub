@@ -1,5 +1,3 @@
-# TODO rename this file to something like tests/support/fixtures.py
-
 import pytest
 
 import tests

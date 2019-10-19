@@ -3,8 +3,8 @@ from efictopub.fetchers import wordpress
 
 import pytest
 
-from tests.fixtures.real import wordpress_chapter_html_real_1
-from tests.fixtures.real import wordpress_chapter_html_real_2
+from tests.fixtures import wordpress_chapter_html_real_1
+from tests.fixtures import wordpress_chapter_html_real_2
 
 
 class TestFetchersWordpress:

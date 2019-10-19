@@ -3,9 +3,9 @@ import pytest
 from efictopub import config
 from efictopub.fetchers import spacebattles
 
-from tests.fixtures.real import spacebattles_threadmarks_index_html
-from tests.fixtures.real import spacebattles_thread_reader_1_html
-from tests.fixtures.real import spacebattles_thread_reader_2_html
+from tests.fixtures import spacebattles_threadmarks_index_html
+from tests.fixtures import spacebattles_thread_reader_1_html
+from tests.fixtures import spacebattles_thread_reader_2_html
 
 
 class TestFetchersSpacebattles:

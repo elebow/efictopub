@@ -39,4 +39,4 @@ for (name, factory_class) in inspect.getmembers(factories):
     if inspect.isclass(factory_class) and issubclass(factory_class, factory.Factory):
         register(factory_class)
 
-from tests.fixtures.real import redditor_with_submissions, praw_comment, praw_submission
+from tests.fixtures import redditor_with_submissions, praw_comment, praw_submission

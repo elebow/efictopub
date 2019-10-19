@@ -4,7 +4,7 @@ from efictopub import config
 from efictopub.fetchers import reddit_next
 from efictopub import exceptions
 
-from tests.fixtures.real import get_reddit_submission
+from tests.fixtures import get_reddit_submission
 
 
 class TestFetchersRedditNext:
