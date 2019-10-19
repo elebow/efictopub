@@ -4,7 +4,6 @@ import pytest
 import requests
 
 from pytest_factoryboy import register
-from unittest.mock import MagicMock
 
 from efictopub import config
 
@@ -18,6 +17,8 @@ if os.environ.get("LIVE_REQUESTS") != "true":
 
     @pytest.fixture(autouse=True, scope="session")
     def no_reddit():
+        from unittest.mock import MagicMock
+
         efictopub.lib.reddit_util.setup_reddit = MagicMock()
 
     efictopub.lib.request_dispatcher.MIN_DELAY = 0
