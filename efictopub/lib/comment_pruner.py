@@ -2,13 +2,16 @@ import copy
 
 
 def tree_contains_author(root, author_name):
-    if not root.replies:
+    if getattr(root, "_tree_contains_author", None):
+        return root._tree_contains_author
+    elif not root.replies:
         return root.author == author_name
     else:
-        # TODO save this in a boolean attribute on root so we don't have to compute it more than once
-        return root.author == author_name or any(
+        found_in_replies = root.author == author_name or any(
             [tree_contains_author(reply, author_name) for reply in root.replies]
         )
+        root._tree_contains_author = found_in_replies
+        return found_in_replies
 
 
 def tree_containing_author(root, author_name):
