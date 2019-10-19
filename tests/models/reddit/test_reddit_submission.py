@@ -49,9 +49,9 @@ class TestRedditSubmission:
             comment_continuation,
             praw_comment,
         ]
-        chapter = RedditSubmission(praw_submission)
+        reddit_submission = RedditSubmission(praw_submission)
 
-        assert chapter.text == (
+        assert reddit_submission.text == (
             "<p>selftext HTML</p>\n"
             + "\n"
             + "<p>"
@@ -61,8 +61,11 @@ class TestRedditSubmission:
             + "long continuation 2" * 200
             + "</p>"
         )
-        assert chapter.comments[0].text == "[efictopub]: included in chapter text"
         assert (
-            chapter.comments[0].replies[0].text
+            reddit_submission.comments[0].text
+            == "[efictopub]: included in chapter text"
+        )
+        assert (
+            reddit_submission.comments[0].replies[0].text
             == "[efictopub]: included in chapter text"
         )
