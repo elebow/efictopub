@@ -1,7 +1,5 @@
 import confuse
 
-from unittest.mock import patch
-
 from efictopub.cli import opts
 
 
@@ -25,17 +23,19 @@ class TestCliOpts:
         assert args.write_epub is False
         assert "title=My Great Title" in args.fetcher_opts
 
-    @patch("efictopub.cli.opts.load_config_file", load_config_file)
-    @patch("sys.argv", ["executable_name", "www.example.com/target"])
-    def test_config_file(self):
+    def test_config_file(self, mocker):
+        mocker.patch("efictopub.cli.opts.load_config_file", load_config_file)
+        mocker.patch("sys.argv", ["executable_name", "www.example.com/target"])
         options = opts.get()
 
         assert options["write_archive"] is True
         assert options["archive_location"] == "/path/to/archive"
 
-    @patch("efictopub.cli.opts.load_config_file", load_config_file)
-    @patch("sys.argv", ["executable_name", "www.example.com/target", "--no-archive"])
-    def test_cli_arg_overrides_config_file(self):
+    def test_cli_arg_overrides_config_file(self, mocker):
+        mocker.patch("efictopub.cli.opts.load_config_file", load_config_file)
+        mocker.patch(
+            "sys.argv", ["executable_name", "www.example.com/target", "--no-archive"]
+        )
         options = opts.get()
 
         assert options["write_archive"] is False

@@ -1,5 +1,3 @@
-from unittest.mock import MagicMock
-
 from efictopub import config
 
 
@@ -32,21 +30,21 @@ class TestConfig:
         assert config.get("archive_location") == "/path/to/archive"
         assert config.get("fetch_comments") is True
 
-    def test_fetcher_overrides(self):
-        config.load(test_config, fetcher=MagicMock(__module__="reddit_next"))
+    def test_fetcher_overrides(self, mocker):
+        config.load(test_config, fetcher=mocker.MagicMock(__module__="reddit_next"))
 
         assert config.get("write_epub") is False
         assert config.get(["reddit", "app"]) == "reddit-next-app-id"
 
-    def test_nonexistent_fetcher_override(self):
-        config.load(test_config, fetcher=MagicMock(__module__="rabbits"))
+    def test_nonexistent_fetcher_override(self, mocker):
+        config.load(test_config, fetcher=mocker.MagicMock(__module__="rabbits"))
 
         assert config.get("fetch_comments") is True
 
-    def test_get_fetcher_opt(self):
+    def test_get_fetcher_opt(self, mocker):
         config.load(
             {"fetcher_opts": ["a=5", "ab=6"]},
-            fetcher=MagicMock(__module__="reddit_next"),
+            fetcher=mocker.MagicMock(__module__="reddit_next"),
         )
 
         assert config.get_fetcher_opt("a") == "5"
