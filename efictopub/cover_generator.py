@@ -7,15 +7,15 @@ class CoverGenerator:
         self.story = story
 
     def generate_cover_svg(self):
-        drawing = svgwrite.Drawing(size=(300, 200), debug=True)
+        drawing = svgwrite.Drawing(size=(300, 220), debug=True)
         group = drawing.g(style="font-family:Times")
 
         group.add(drawing.text(**self.title_line(), x=["50%"], y=[60]))
         group.add(drawing.text(**self.author_line(), x=["50%"], y=[90]))
         group.add(drawing.text(**self.date_line(), x=[10], y=[140]))
         group.add(drawing.text(**self.permalink_line(), x=[10], y=[160]))
-
-        # TODO word and chapter counts
+        group.add(drawing.text(**self.chaptercount_line(), x=[10], y=[180]))
+        group.add(drawing.text(**self.wordcount_line(), x=[10], y=[200]))
 
         drawing.add(group)
         return drawing.tostring()
@@ -40,3 +40,15 @@ class CoverGenerator:
         )
 
         return {"text": f"{start} – {end} (fetched {fetched})"}
+
+    def chaptercount_line(self):
+        chaptercount = len(self.story.chapters)
+        if chaptercount > 1:
+            chapters_string = "chapters"
+        else:
+            chapters_string = "chapter"
+        return {"text": f"{chaptercount} {chapters_string}"}
+
+    def wordcount_line(self):
+        wordcount = sum([len(chapter.text.split()) for chapter in self.story.chapters])
+        return {"text": f"{wordcount} words"}
