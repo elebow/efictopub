@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock
+import pytest
 
 from efictopub import config
 from efictopub.fetchers import spacebattles
@@ -8,33 +8,39 @@ from tests.fixtures.real import spacebattles_thread_reader_1_html
 from tests.fixtures.real import spacebattles_thread_reader_2_html
 
 
-def stubbed_generate_posts(self, category=1):
-    if category == "threadmarks":
-        return [
-            MagicMock(text="threadmark 1", date_published=10),
-            MagicMock(text="threadmark 2", date_published=20),
-            MagicMock(text="threadmark 3", date_published=30),
-        ]
-    elif category == "sidestory":
-        return [
-            MagicMock(text="sidestory 1", date_published=11),
-            MagicMock(text="sidestory 2", date_published=26),
-        ]
-    elif category == "announcement":
-        return [MagicMock(text="announcement 1", date_published=15)]
-    else:
-        raise  # this means a test is broken
-
-
-stubbed_threadmarks_categories = {
-    "threadmarks": "1",
-    "sidestory": "2",
-    "announcement": "3",
-}
-
-
 class TestFetchersSpacebattles:
-    def setup_method(self):
+    @pytest.fixture
+    def generate_posts(self, mocker):
+        def posts(_self, category):
+            if category == "threadmarks":
+                return [
+                    mocker.MagicMock(text="threadmark 1", date_published=10),
+                    mocker.MagicMock(text="threadmark 2", date_published=20),
+                    mocker.MagicMock(text="threadmark 3", date_published=30),
+                ]
+            elif category == "sidestory":
+                return [
+                    mocker.MagicMock(text="sidestory 1", date_published=11),
+                    mocker.MagicMock(text="sidestory 2", date_published=26),
+                ]
+            elif category == "announcement":
+                return [mocker.MagicMock(text="announcement 1", date_published=15)]
+            else:
+                raise  # this means a test is broken
+
+        mocker.patch(
+            "efictopub.fetchers.spacebattles.Fetcher.generate_threadmarked_posts", posts
+        )
+
+    @pytest.fixture
+    def threadmarks_categories(self, mocker):
+        mocker.patch(
+            "efictopub.fetchers.spacebattles.Fetcher.threadmarks_categories",
+            {"threadmarks": "1", "sidestory": "2", "announcement": "3"},
+        )
+
+    @pytest.fixture(autouse=True)
+    def base_config(self):
         config.config["fetcher_opts"] = ["title=Great Story"]
 
     def test_fetch_story(self, requests_mock):
@@ -97,16 +103,7 @@ class TestFetchersSpacebattles:
             "informational": "19",
         }
 
-    def test_categories_and_order_default(self, mocker):
-        mocker.patch(
-            "efictopub.fetchers.spacebattles.Fetcher.generate_threadmarked_posts",
-            stubbed_generate_posts,
-        )
-        mocker.patch(
-            "efictopub.fetchers.spacebattles.Fetcher.threadmarks_categories",
-            stubbed_threadmarks_categories,
-        )
-
+    def test_categories_and_order_default(self, generate_posts, threadmarks_categories):
         fetcher = spacebattles.Fetcher("https://forums.spacebattles.com/threads/555/")
         posts = fetcher.fetch_posts()
 
@@ -116,15 +113,9 @@ class TestFetchersSpacebattles:
             "threadmark 3",
         ]
 
-    def test_categories_and_order_two_categories(self, mocker):
-        mocker.patch(
-            "efictopub.fetchers.spacebattles.Fetcher.generate_threadmarked_posts",
-            stubbed_generate_posts,
-        )
-        mocker.patch(
-            "efictopub.fetchers.spacebattles.Fetcher.threadmarks_categories",
-            stubbed_threadmarks_categories,
-        )
+    def test_categories_and_order_two_categories(
+        self, mocker, generate_posts, threadmarks_categories
+    ):
         config.config["fetcher_opts"] = ["categories=threadmarks,sidestory"]
 
         fetcher = spacebattles.Fetcher("https://forums.spacebattles.com/threads/555/")
@@ -138,15 +129,9 @@ class TestFetchersSpacebattles:
             "sidestory 2",
         ]
 
-    def test_categories_and_order_all(self, mocker):
-        mocker.patch(
-            "efictopub.fetchers.spacebattles.Fetcher.generate_threadmarked_posts",
-            stubbed_generate_posts,
-        )
-        mocker.patch(
-            "efictopub.fetchers.spacebattles.Fetcher.threadmarks_categories",
-            stubbed_threadmarks_categories,
-        )
+    def test_categories_and_order_all(
+        self, mocker, generate_posts, threadmarks_categories
+    ):
         config.config["fetcher_opts"] = ["categories=all"]
 
         fetcher = spacebattles.Fetcher("https://forums.spacebattles.com/threads/555/")
@@ -161,15 +146,9 @@ class TestFetchersSpacebattles:
             "announcement 1",
         ]
 
-    def test_categories_and_order_all_chrono(self, mocker):
-        mocker.patch(
-            "efictopub.fetchers.spacebattles.Fetcher.generate_threadmarked_posts",
-            stubbed_generate_posts,
-        )
-        mocker.patch(
-            "efictopub.fetchers.spacebattles.Fetcher.threadmarks_categories",
-            stubbed_threadmarks_categories,
-        )
+    def test_categories_and_order_all_chrono(
+        self, mocker, generate_posts, threadmarks_categories
+    ):
         config.config["fetcher_opts"] = ["categories=all", "order=chrono"]
 
         fetcher = spacebattles.Fetcher("https://forums.spacebattles.com/threads/555/")
