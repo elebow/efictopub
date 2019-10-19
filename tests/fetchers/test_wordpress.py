@@ -1,12 +1,15 @@
 from efictopub import config
 from efictopub.fetchers import wordpress
 
+import pytest
+
 from tests.fixtures.real import wordpress_chapter_html_real_1
 from tests.fixtures.real import wordpress_chapter_html_real_2
 
 
 class TestFetchersWordpress:
-    def setup_method(self):
+    @pytest.fixture(autouse=True)
+    def base_config(self):
         config.config["fetcher_opts"] = ["title='Great Story'", "author='Great Author'"]
 
     def test_fetch_blog_entries(self, requests_mock):

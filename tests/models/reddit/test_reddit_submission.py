@@ -1,9 +1,12 @@
 from efictopub import config
 from efictopub.models.reddit import RedditSubmission
 
+import pytest
+
 
 class TestRedditSubmission:
-    def setup_class(self):
+    @pytest.fixture(autouse=True)
+    def base_config(self):
         config.config["fetch_comments"] = True
 
     def test_comments(self, praw_submission):

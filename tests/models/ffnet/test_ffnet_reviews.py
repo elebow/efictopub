@@ -1,14 +1,17 @@
 from efictopub.models.ffnet.ffnet_reviews import FFNetReviews
 
+import pytest
+
 from tests.fixtures.real import ffnet_chapter_reviews_html_real
 
 
 class TestFFNetReviews:
-    def setup_method(self):
-        self.reviews = FFNetReviews(ffnet_chapter_reviews_html_real).reviews
+    @pytest.fixture
+    def reviews(self):
+        return FFNetReviews(ffnet_chapter_reviews_html_real).reviews
 
-    def test_as_comment(self):
-        assert [r.author for r in self.reviews] == [
+    def test_as_comment(self, reviews):
+        assert [r.author for r in reviews] == [
             "User 201",
             "User 202",
             "User 203",
@@ -17,7 +20,7 @@ class TestFFNetReviews:
             "User 206",
         ]
 
-        assert [r.date_published.timestamp() for r in self.reviews] == [
+        assert [r.date_published.timestamp() for r in reviews] == [
             1525044182,
             1502099520,
             1496473762,
@@ -26,7 +29,7 @@ class TestFFNetReviews:
             1492430074,
         ]
 
-        assert [r.text for r in self.reviews] == [
+        assert [r.text for r in reviews] == [
             "Review 1 content",
             "Review 2 content",
             "Review 3 content with\n\nline break",  # TODO doubled line break
