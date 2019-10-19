@@ -66,7 +66,9 @@ class RedditSubmission:
         return Chapter(
             comments=self.comments,
             date_published=self.created_utc,
-            date_updated=self.edited,  # TODO self.edited is a timestamp or False
+            # self.edited is a timestamp or False.
+            # In Python 3, False == 0, but cast it to an int to make sure it serializes correctly.
+            date_updated=int(self.edited),
             permalink=self.permalink,
             score=self.ups,
             text=self.text,
