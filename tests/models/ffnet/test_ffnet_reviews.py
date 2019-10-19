@@ -32,7 +32,7 @@ class TestFFNetReviews:
         assert [r.text for r in reviews] == [
             "Review 1 content",
             "Review 2 content",
-            "Review 3 content with\n\nline break",  # TODO doubled line break
+            "Review 3 content with\nline break",
             "Review 4 content",
             "Review 5 content",
             "Review 6 content",
