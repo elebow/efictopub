@@ -4,7 +4,6 @@ from efictopub import config
 from efictopub.fetchers import BaseFetcher
 from efictopub.lib import reddit_util
 from efictopub.html_parser import HTMLParser
-from efictopub.models.reddit import RedditSubmission
 from efictopub.models.story import Story
 from efictopub.exceptions import AmbiguousNextError
 

@@ -3,7 +3,6 @@ import pathlib
 
 import efictopub.archive
 from efictopub.fetchers import BaseFetcher
-from efictopub.models.story import Story
 
 
 def can_handle_url(url):

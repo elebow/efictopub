@@ -1,9 +1,5 @@
-from doubles import allow
-
 from efictopub import config
 from efictopub.fetchers import reddit_author
-
-from tests.fixtures.real import get_reddit_submission
 
 
 class TestFetchersRedditAuthor:
