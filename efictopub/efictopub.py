@@ -35,7 +35,7 @@ class Efictopub:
         else:
             return fetchers.fetcher_for_url(self.opts["target"])
 
-    def check_repo_ready_for_write(self):
+    def repo_ready_for_write(self):
         return (
             not git.repo_is_dirty()
             or not config.get("write_archive")

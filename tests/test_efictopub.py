@@ -11,7 +11,7 @@ class TestEfictopub:
     def test_archive_story(self, mocker):
         mocker.patch("efictopub.efictopub.Efictopub.get_fetcher")
         mocker.patch(
-            "efictopub.efictopub.Efictopub.check_repo_ready_for_write", lambda _x: True
+            "efictopub.efictopub.Efictopub.repo_ready_for_write", lambda _x: True
         )
         archive_store = mocker.patch("efictopub.archive.store")
         previous_commit_not_efic = mocker.patch(
@@ -25,7 +25,7 @@ class TestEfictopub:
 
     def test_get_fetcher_manual(self, mocker):
         mocker.patch(
-            "efictopub.efictopub.Efictopub.check_repo_ready_for_write", lambda _x: True
+            "efictopub.efictopub.Efictopub.repo_ready_for_write", lambda _x: True
         )
         fetcher_by_name = mocker.patch("efictopub.fetchers.fetcher_by_name")
 
@@ -37,7 +37,7 @@ class TestEfictopub:
 
     def test_get_fetcher_auto(self, mocker):
         mocker.patch(
-            "efictopub.efictopub.Efictopub.check_repo_ready_for_write", lambda _x: True
+            "efictopub.efictopub.Efictopub.repo_ready_for_write", lambda _x: True
         )
         fetcher_for_url = mocker.patch("efictopub.fetchers.fetcher_for_url")
 
@@ -45,34 +45,34 @@ class TestEfictopub:
 
         fetcher_for_url.assert_called_once_with("www.example.com/great-story")
 
-    def test_check_repo_ready_for_write_repo_clean(self, mocker):
+    def test_repo_ready_for_write_repo_clean(self, mocker):
         mocker.patch("efictopub.git.repo_is_dirty", lambda: False)
         mocker.patch("efictopub.efictopub.Efictopub.get_fetcher")
 
         efictopub = Efictopub({"write_archive": True, "clobber": False})
 
-        assert efictopub.check_repo_ready_for_write() is True
+        assert efictopub.repo_ready_for_write() is True
 
-    def test_check_repo_ready_for_write_repo_dirty(self, mocker):
+    def test_repo_ready_for_write_repo_dirty(self, mocker):
         mocker.patch("efictopub.git.repo_is_dirty", lambda: True)
         mocker.patch("efictopub.efictopub.Efictopub.get_fetcher")
 
         efictopub = Efictopub({"write_archive": True, "clobber": False})
 
-        assert efictopub.check_repo_ready_for_write() is False
+        assert efictopub.repo_ready_for_write() is False
 
-    def test_check_repo_ready_for_write_repo_dirty_no_write(self, mocker):
+    def test_repo_ready_for_write_repo_dirty_no_write(self, mocker):
         mocker.patch("efictopub.git.repo_is_dirty", lambda: True)
         mocker.patch("efictopub.efictopub.Efictopub.get_fetcher")
 
         efictopub = Efictopub({"write_archive": False, "clobber": False})
 
-        assert efictopub.check_repo_ready_for_write() is True
+        assert efictopub.repo_ready_for_write() is True
 
-    def test_check_repo_ready_for_write_repo_dirty_clobber(self, mocker):
+    def test_repo_ready_for_write_repo_dirty_clobber(self, mocker):
         mocker.patch("efictopub.git.repo_is_dirty", lambda: True)
         mocker.patch("efictopub.efictopub.Efictopub.get_fetcher")
 
         efictopub = Efictopub({"write_archive": True, "clobber": True})
 
-        assert efictopub.check_repo_ready_for_write() is True
+        assert efictopub.repo_ready_for_write() is True
