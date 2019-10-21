@@ -7,15 +7,15 @@ class CoverGenerator:
         self.story = story
 
     def generate_cover_svg(self):
-        drawing = svgwrite.Drawing(size=(300, 220), debug=True)
-        group = drawing.g(style="font-family:Times")
+        drawing = svgwrite.Drawing(size=(400, 220), debug=True)
+        group = drawing.g(style="font-family: Times; dominant-baseline: hanging")
 
-        group.add(drawing.text(**self.title_line(), x=["50%"], y=[60]))
-        group.add(drawing.text(**self.author_line(), x=["50%"], y=[90]))
-        group.add(drawing.text(**self.date_line(), x=[10], y=[140]))
-        group.add(drawing.text(**self.permalink_line(), x=[10], y=[160]))
-        group.add(drawing.text(**self.chaptercount_line(), x=[10], y=[180]))
-        group.add(drawing.text(**self.wordcount_line(), x=[10], y=[200]))
+        group.add(drawing.text(**self.title_line(), x=["50%"], y=[0]))
+        group.add(drawing.text(**self.author_line(), x=["50%"], dy=[30]))
+        group.add(drawing.text(**self.date_line(), x=[10], y=[80]))
+        group.add(drawing.text(**self.permalink_line(), x=[10], y=[100]))
+        group.add(drawing.text(**self.chaptercount_line(), x=[10], y=[120]))
+        group.add(drawing.text(**self.wordcount_line(), x=[10], y=[140]))
 
         drawing.add(group)
         return drawing.tostring()
