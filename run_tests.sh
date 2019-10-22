@@ -13,6 +13,6 @@ fi
 
 # -s         do not capture output. This is needed for ipdb.set_trace()
 
-python3 -m pytest -s $coverage_arg "$@"
+python3 -m pytest -s --color=yes $coverage_arg "$@"
 
 exit $?
