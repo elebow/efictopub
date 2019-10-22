@@ -26,6 +26,7 @@ class EpubWriter:
         self.add_cover()
         self.add_info_page()
         self.add_chapters()
+        self.set_stylesheet()
 
         output_filename = self.output_filename()
         self.book.save(output_filename)
@@ -47,6 +48,15 @@ class EpubWriter:
 
     def add_info_page(self):
         self.book.add_page("info", f"{self.story.title}<br>by {self.story.author}")
+
+    def set_stylesheet(self):
+        self.book.set_stylesheet(
+            """
+            .chapter-header {
+                text-align: center;
+            }
+            """
+        )
 
     def text_for_chapter(self, chapter):
         if len(self.story.chapters) > 1:
