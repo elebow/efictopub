@@ -50,9 +50,11 @@ class EpubWriter:
 
     def text_for_chapter(self, chapter):
         if len(self.story.chapters) > 1:
-            return f"{chapter.title}\n\n{chapter.text}"
+            chapter_header = f"<h2 class='chapter-header'><em>{chapter.title}</em></h2>"
         else:
-            return chapter.text
+            chapter_header = ""
+
+        return chapter_header + chapter.text
 
     def output_filename(self):
         return config.get("outfile") or os.path.join(

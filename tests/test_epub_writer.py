@@ -35,13 +35,16 @@ class TestEpubWriter:
         writer.book.add_page.assert_has_calls(
             [
                 mocker.call(
-                    "Chapter Title 0", "Chapter Title 0\n\n<p>chapter content 0</p>"
+                    "Chapter Title 0",
+                    "<h2 class='chapter-header'><em>Chapter Title 0</em></h2><p>chapter content 0</p>",
                 ),
                 mocker.call(
-                    "Chapter Title 1", "Chapter Title 1\n\n<p>chapter content 1</p>"
+                    "Chapter Title 1",
+                    "<h2 class='chapter-header'><em>Chapter Title 1</em></h2><p>chapter content 1</p>",
                 ),
                 mocker.call(
-                    "Chapter Title 2", "Chapter Title 2\n\n<p>chapter content 2</p>"
+                    "Chapter Title 2",
+                    "<h2 class='chapter-header'><em>Chapter Title 2</em></h2><p>chapter content 2</p>",
                 ),
             ]
         )
