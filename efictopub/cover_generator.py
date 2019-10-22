@@ -12,12 +12,11 @@ class CoverGenerator:
 
     def generate_cover_svg(self):
         self.add_title_line()
-
-        self.group.add(self.drawing.text(**self.author_line(), x=["50%"], dy=[self.last_y + 30]))
-        self.group.add(self.drawing.text(**self.date_line(), x=[10], y=[self.last_y + 80]))
-        self.group.add(self.drawing.text(**self.permalink_line(), x=[10], y=[self.last_y + 100]))
-        self.group.add(self.drawing.text(**self.chaptercount_line(), x=[10], y=[self.last_y + 120]))
-        self.group.add(self.drawing.text(**self.wordcount_line(), x=[10], y=[self.last_y + 140]))
+        self.add_author_line()
+        self.add_date_line()
+        self.add_permalink_line()
+        self.add_chaptercount_line()
+        self.add_wordcount_line()
 
         self.drawing.add(self.group)
         return self.drawing.tostring()
@@ -37,32 +36,42 @@ class CoverGenerator:
             self.group.add(text_element)
         self.last_y = len(lines) * 30
 
-    def author_line(self):
-        return {"text": self.story.author, "style": "text-anchor: middle;"}
+    def add_author_line(self):
+        self.group.add(
+            self.drawing.text(
+                text=self.story.author,
+                style="text-anchor: middle;",
+                x=["50%"],
+                dy=[self.last_y + 30],
+            )
+        )
 
-    def permalink_line(self):
-        return {"text": self.story.chapters[0].permalink}
-
-    def date_line(self):
+    def add_date_line(self):
         start = datetime.date.fromtimestamp(self.story.date_start).strftime("%Y-%m-%d")
         end = datetime.date.fromtimestamp(self.story.date_end).strftime("%Y-%m-%d")
         fetched = datetime.date.fromtimestamp(self.story.date_fetched).strftime(
             "%Y-%m-%d"
         )
 
-        return {"text": f"{start} – {end} (fetched {fetched})"}
+        self.add_text(self.last_y + 80, f"{start} – {end} (fetched {fetched})")
 
-    def chaptercount_line(self):
+    def add_permalink_line(self):
+        self.add_text(self.last_y + 100, self.story.chapters[0].permalink)
+
+    def add_chaptercount_line(self):
         chaptercount = len(self.story.chapters)
         if chaptercount > 1:
             chapters_string = "chapters"
         else:
             chapters_string = "chapter"
-        return {"text": f"{chaptercount} {chapters_string}"}
+        self.add_text(self.last_y + 120, f"{chaptercount} {chapters_string}")
 
-    def wordcount_line(self):
+    def add_wordcount_line(self):
         wordcount = sum([len(chapter.text.split()) for chapter in self.story.chapters])
-        return {"text": f"{wordcount} words"}
+        self.add_text(self.last_y + 140, f"{wordcount} words")
+
+    def add_text(self, ypos, text):
+        self.group.add(self.drawing.text(text=text, x=[10], y=[ypos]))
 
     def break_lines(self, line, max_chars=24):
         if len(line) < max_chars:
