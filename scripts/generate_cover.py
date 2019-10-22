@@ -21,7 +21,11 @@ chapters = [
         title="chapter title",
     )
 ]
-story = Story(title="My Great Story", author="Author Name", chapters=chapters)
+story = Story(
+    title="My Great Story with a very long title that will span several lines",
+    author="Author Name",
+    chapters=chapters,
+)
 svg = story.cover_svg
 
 with open(sys.argv[1], "w") as outfile:
