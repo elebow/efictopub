@@ -17,7 +17,7 @@ class EpubWriter:
             ).isoformat(),
             dcterms={
                 "available": datetime.utcfromtimestamp(
-                    self.story.date_start  # dcterms:modified
+                    self.story.date_start
                 ).isoformat()
             },
         )
