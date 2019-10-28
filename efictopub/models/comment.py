@@ -20,6 +20,18 @@ class Comment:
     def tree_containing_author(self, author_name):
         return comment_pruner.tree_containing_author(self, author_name)
 
+    def as_html(self):
+        body = f"<p>{self.text}</p>"
+        if self.replies:
+            replies = (
+                "<div class='replies'>"
+                + "".join([reply.as_html() for reply in self.replies])
+                + "</div>"
+            )
+        else:
+            replies = ""
+        return f"<div class='comment'>{body}{replies}</div>"
+
     def as_dict(self):
         attr_names = [
             "author",

@@ -64,7 +64,16 @@ class EpubWriter:
         else:
             chapter_header = ""
 
-        return chapter_header + chapter.text
+        if config.get("fetch_comments"):
+            comments_text = (
+                "<div class='comments'>"
+                + "".join([comment.as_html() for comment in chapter.comments])
+                + "</div>"
+            )
+        else:
+            comments_text = ""
+
+        return chapter_header + chapter.text + comments_text
 
     def output_filename(self):
         return config.get("outfile") or os.path.join(

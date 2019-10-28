@@ -49,6 +49,40 @@ class TestEpubWriter:
             ]
         )
 
+    def test_add_chapters_with_comments(
+        self, mocker, story_factory, chapter_factory, comment_factory
+    ):
+        config.config["fetch_comments"] = True
+        mocker.patch("mkepub.Book.add_page")
+
+        chapter_factory.reset_sequence(0)
+        comment_factory.reset_sequence(0)
+        comments = [comment_factory.build(tree_depth=2)]
+        story = story_factory.build(num_chapters=1)
+        story.chapters[0].comments = comments
+
+        writer = EpubWriter(story)
+        writer.add_chapters()
+
+        writer.book.add_page.assert_has_calls(
+            [
+                mocker.call(
+                    "Chapter Title 0",
+                    "<p>chapter content 0</p>"
+                    "<div class='comments'>"
+                    "<div class='comment'>"
+                    "<p>text 0</p>"
+                    "<div class='replies'>"
+                    "<div class='comment'>"
+                    "<p>text 1</p>"
+                    "</div>"
+                    "</div>"
+                    "</div>"
+                    "</div>",
+                )
+            ]
+        )
+
     def test_output_filename_config(self, story_factory):
         config.config["outfile"] = "great-outfile.epub"
         writer = EpubWriter(story_factory.build())
