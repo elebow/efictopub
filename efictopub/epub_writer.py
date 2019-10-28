@@ -53,7 +53,11 @@ class EpubWriter:
         self.book.set_stylesheet(
             """
             .chapter-header {
-                text-align: center;
+              text-align: center;
+            }
+            .comment {
+              border-left: solid 1px black;
+              padding-left: 15px;
             }
             """
         )
