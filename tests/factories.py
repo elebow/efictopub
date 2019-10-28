@@ -1,5 +1,3 @@
-import random
-
 import efictopub.models.chapter
 import efictopub.models.comment
 import efictopub.models.story
@@ -42,7 +40,7 @@ class CommentFactory(factory.Factory):
         if self.tree_depth <= 0:
             return []
         else:
-            num_children = random.randint(0, 3)
+            num_children = self.tree_depth - 1
             return [
                 CommentFactory.build(tree_depth=self.tree_depth - 1)
                 for m in range(num_children)
