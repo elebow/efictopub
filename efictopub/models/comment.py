@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from efictopub.lib import comment_pruner
 
 
@@ -20,7 +22,21 @@ class Comment:
     def tree_containing_author(self, author_name):
         return comment_pruner.tree_containing_author(self, author_name)
 
+    def pretty_author(self):
+        if self.date_updated:
+            readable_date_updated = datetime.utcfromtimestamp(
+                self.date_updated
+            ).strftime("%Y-%m-%d")
+            edited_string = f", edited {readable_date_updated}"
+        else:
+            edited_string = ""
+        readable_date = datetime.utcfromtimestamp(self.date_published).strftime(
+            "%Y-%m-%d"
+        )
+        return f"{self.author} ({readable_date}{edited_string})"
+
     def as_html(self):
+        author = f"<p>{self.pretty_author()}</p>"
         body = f"<p>{self.text}</p>"
         if self.replies:
             replies = (
@@ -30,7 +46,7 @@ class Comment:
             )
         else:
             replies = ""
-        return f"<div class='comment'>{body}{replies}</div>"
+        return f"<div class='comment'>{author}{body}{replies}</div>"
 
     def as_dict(self):
         attr_names = [

@@ -29,8 +29,8 @@ class CommentFactory(factory.Factory):
         exclude = ("tree_depth",)
 
     author = factory.Sequence(lambda n: f"Comment Author Name {n}")
-    date_published = factory.Sequence(lambda n: f"published date {n}")
-    date_updated = factory.Sequence(lambda n: f"updated date {n}")
+    date_published = factory.Sequence(lambda n: 10000 * n)
+    date_updated = factory.Sequence(lambda n: 10000 * n + 100)
     permalink = factory.Sequence(lambda n: f"permalink {n}")
     score = factory.Sequence(lambda n: f"score {n}")
     text = factory.Sequence(lambda n: f"text {n}")
