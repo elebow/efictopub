@@ -87,17 +87,24 @@ class TestFetchersWordpress:
         fetcher = wordpress.Fetcher("https://blog-name.wordpress.com/2011/06/11/1-1/")
         entry = fetcher.fetch_blog_entries()[0]
 
+        assert len(entry.comments) == 3
         assert entry.comments[0].author == "commenter 1"
         assert entry.comments[0].text == "<p>comment 1 text</p>"
 
+        assert len(entry.comments[0].replies) == 1
         assert entry.comments[0].replies[0].author == "commenter 2"
         assert entry.comments[0].replies[0].text == "<p>comment 2 text</p>"
 
+        assert len(entry.comments[0].replies[0].replies) == 1
         assert entry.comments[0].replies[0].replies[0].author == "commenter 3"
         assert entry.comments[0].replies[0].replies[0].text == "<p>comment 3 text</p>"
 
+        assert len(entry.comments[1].replies) == 0
         assert entry.comments[1].author == "commenter 4"
         assert entry.comments[1].text == "<p>comment 4 text</p>"
+
+        assert len(entry.comments[2].replies) == 2
+        assert len(entry.comments[2].replies[0].replies) == 1
 
     def test_comments_only_author(self, requests_mock):
         config.config["fetcher_opts"] = [
