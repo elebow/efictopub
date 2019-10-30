@@ -8,4 +8,7 @@ stub_response in tests: incorporate URLs
 spacebattles: category for all posts by OP
 test coverage for Chapter and Comment
 serialize json: omit null values? and in deserialization, assume null for missing fields?
-move author-only comments to --comments option, which has modes: all, author, none
+move author-only comments and fetch_comments to --comments option, which has three modes: all, author, none
+	mention in the EPUB which mode was used during fetching
+	make this option have effect when reading from the archive, too
+collapse double space after period?
