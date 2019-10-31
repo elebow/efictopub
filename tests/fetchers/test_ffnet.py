@@ -10,7 +10,7 @@ from tests.fixtures import ffnet_single_chapter_story_reviews_html_real
 
 class TestFetchersFFNet:
     def test_fetch_story(self, requests_mock):
-        config.config["fetch_comments"] = True
+        config.config["comments"] = "all"
         requests_mock.get(
             "https://www.fanfiction.net/s/555/1", text=ffnet_chapter_html_real
         )
@@ -74,7 +74,7 @@ class TestFetchersFFNet:
         assert ffnet.Fetcher("a").ffnet_id is None
 
     def test_fetch_comments(self, requests_mock):
-        config.config["fetch_comments"] = True
+        config.config["comments"] = "all"
 
         requests_mock.get(
             "https://www.fanfiction.net/s/555/1",
@@ -89,7 +89,7 @@ class TestFetchersFFNet:
         assert [len(chapter.reviews) for chapter in chapters] == [3]
 
     def test_skip_comments(self, requests_mock):
-        config.config["fetch_comments"] = False
+        config.config["comments"] = "none"
 
         requests_mock.get(
             "https://www.fanfiction.net/s/555/1",

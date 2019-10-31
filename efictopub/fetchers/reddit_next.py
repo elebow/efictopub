@@ -21,9 +21,9 @@ class Fetcher(BaseFetcher):
         self.praw_reddit = reddit_util.setup_reddit()
         self.start_id_or_url = start_id_or_url
 
-        if not config.get("fetch_comments"):
+        if config.get("comments") == "none":
             print(
-                "WARNING: fetch_comments is disabled. Chapter bodies sometimes continue in comments. You might be missing chapter content!"
+                "WARNING: comments are disabled. Chapter bodies sometimes continue in comments. You might be missing chapter content!"
             )
 
     def fetch_story(self):

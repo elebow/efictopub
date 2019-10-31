@@ -42,7 +42,7 @@ class TestFetchersRedditNext:
     def test_fetch_comments(self, mocker, reddit_submission_factory):
         mocker.patch("efictopub.models.reddit.reddit_comment.RedditComment.body_html")
         mocker.patch("efictopub.lib.reddit_util.parse_url", get_reddit_submission)
-        config.config["fetch_comments"] = True
+        config.config["comments"] = "all"
 
         subms = reddit_next.Fetcher(
             "https://www.reddit.com/r/great_subreddit/comments/000005/has_comments"
@@ -52,7 +52,7 @@ class TestFetchersRedditNext:
 
     def test_skip_comments(self, mocker):
         mocker.patch("efictopub.lib.reddit_util.parse_url", get_reddit_submission)
-        config.config["fetch_comments"] = False
+        config.config["comments"] = "none"
 
         subms = reddit_next.Fetcher(
             "https://www.reddit.com/r/great_subreddit/comments/000005/has_comments"

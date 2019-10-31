@@ -5,7 +5,7 @@ test_config = {
     "reddit": {"app": "app-id", "secret": "app-secret"},
     "archive_location": "/path/to/archive",
     "epub_location": "$HOME/books/fic/",
-    "fetch_comments": True,
+    "comments": "all",
     "write_archive": True,
     "write_epub": True,
     "overrides": {
@@ -14,7 +14,7 @@ test_config = {
             "write_epub": False,
             "reddit": {"app": "reddit-next-app-id"},
         },
-        "ffnet": {"fetch_comments": False},
+        "ffnet": {"comments": "none"},
     },
 }
 
@@ -28,7 +28,7 @@ class TestConfig:
         config.load(test_config, fetcher=None)
 
         assert config.get("archive_location") == "/path/to/archive"
-        assert config.get("fetch_comments") is True
+        assert config.get("comments") == "all"
 
     def test_fetcher_overrides(self, mocker):
         config.load(test_config, fetcher=mocker.MagicMock(__module__="reddit_next"))
@@ -39,7 +39,7 @@ class TestConfig:
     def test_nonexistent_fetcher_override(self, mocker):
         config.load(test_config, fetcher=mocker.MagicMock(__module__="rabbits"))
 
-        assert config.get("fetch_comments") is True
+        assert config.get("comments") == "all"
 
     def test_get_fetcher_opt(self, mocker):
         config.load(

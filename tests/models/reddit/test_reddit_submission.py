@@ -7,7 +7,7 @@ import pytest
 class TestRedditSubmission:
     @pytest.fixture(autouse=True)
     def base_config(self):
-        config.config["fetch_comments"] = True
+        config.config["comments"] = "all"
 
     def test_comments(self, praw_submission):
         submission = RedditSubmission(praw_submission)

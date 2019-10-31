@@ -26,6 +26,7 @@ class TestEpubWriter:
         }
 
     def test_add_chapters(self, mocker, story_factory, chapter_factory):
+        config.config["comments"] = "none"
         mocker.patch("mkepub.Book.add_page")
         chapter_factory.reset_sequence(0)
         writer = EpubWriter(story_factory.build(num_chapters=3))
@@ -52,7 +53,7 @@ class TestEpubWriter:
     def test_add_chapters_with_comments(
         self, mocker, story_factory, chapter_factory, comment_factory
     ):
-        config.config["fetch_comments"] = True
+        config.config["comments"] = "all"
         mocker.patch("mkepub.Book.add_page")
 
         chapter_factory.reset_sequence(0)

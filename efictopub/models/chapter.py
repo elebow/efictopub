@@ -18,7 +18,10 @@ class Chapter:
     def __init__(
         self, *, comments, date_published, date_updated, permalink, score, text, title
     ):
-        self.comments = self.prune_comments(comments)
+        if config.get("comments") == "author":
+            self.comments = self.prune_comments(comments)
+        else:
+            self.comments = comments
         self.date_published = date_published
         self.date_updated = date_updated
         self.permalink = permalink
@@ -27,12 +30,9 @@ class Chapter:
         self.title = title
 
     def prune_comments(self, comments):
-        author_only_name = config.get_fetcher_opt("author_only_replies")
+        author_name = config.get_fetcher_opt("author_name", required=True)
         new_comments = [
-            comment.tree_containing_author(author_only_name)
-            if author_only_name
-            else comment
-            for comment in comments
+            comment.tree_containing_author(author_name) for comment in comments
         ]
         return list(filter(None, new_comments))
 

@@ -67,11 +67,12 @@ parser.add_argument(
     help="clobber uncommitted changes in the archive",
 )
 parser.add_argument(
-    "--no-comments",
+    "--comments",
     dest="comments",
-    action="store_false",
-    default=True,
-    help="do not store or write comments, for fetchers that support comments",
+    action="store",
+    choices=["all", "author", "none"],
+    default="all",
+    help="store and write comments, for fetchers that support comments. Set to `author` to only include comment trees that contain a comment by the story author.",
 )
 parser.add_argument(
     "--no-write-epub",

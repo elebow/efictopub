@@ -107,11 +107,12 @@ class TestFetchersWordpress:
         assert len(entry.comments[2].replies[0].replies) == 1
 
     def test_comments_only_author(self, requests_mock):
+        config.config["comments"] = "author"
         config.config["fetcher_opts"] = [
             "title='Great Story'",
             "author='Great Author'",
             "last_chapter_pattern=2011/06/11",
-            "author_only_replies=commenter 2",
+            "author_name=commenter 2",
         ]
         requests_mock.get(
             "https://blog-name.wordpress.com/2011/06/11/1-1/",

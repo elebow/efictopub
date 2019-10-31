@@ -79,7 +79,7 @@ class EpubWriter:
         else:
             chapter_header = ""
 
-        if config.get("fetch_comments"):
+        if config.get("comments") != "none":
             comments_text = (
                 "<h3>Comments</h3>"
                 + "<div class='comments'>"
