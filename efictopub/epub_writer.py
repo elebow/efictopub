@@ -63,7 +63,9 @@ class EpubWriter:
               border-left: solid 1px black;
               border-bottom: solid 1px black;
               padding-left: 15px;
-              padding-bottom: 15px;
+              padding-bottom: 5px;
+              margin-bottom: 15px;
+              margin-top: 10px;
             }
             .comment-author {
               font-weight: bold;

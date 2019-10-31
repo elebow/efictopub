@@ -36,7 +36,7 @@ class Comment:
         return f"{self.author} ({readable_date}{edited_string})"
 
     def as_html(self):
-        author = f"<p class='comment-author'>{self.pretty_author()}</p>"
+        author = f"<div class='comment-author'>{self.pretty_author()}</div>"
         body = f"<p>{self.text}</p>"
         if self.replies:
             replies = (
