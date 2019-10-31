@@ -20,18 +20,18 @@ class TestComment:
         assert (
             html
             == "<div class='comment'>"
-            + "<p>Comment Author Name 0 (1970-01-01, edited 1970-01-01)</p>"
+            + "<p class='comment-author'>Comment Author Name 0 (1970-01-01, edited 1970-01-01)</p>"
             + "<p>Comment 1</p>"
             + "<div class='replies'>"
             + "<div class='comment'>"
-            + "<p>Comment Author Name 1 (1970-01-01, edited 1970-01-01)</p>"
+            + "<p class='comment-author'>Comment Author Name 1 (1970-01-01, edited 1970-01-01)</p>"
             + "<p>Comment 2</p>"
             + "<div class='replies'>"
-            + "<div class='comment'><p>Comment Author Name 3 (1970-01-01, edited 1970-01-01)</p><p>Comment 4</p></div>"
-            + "<div class='comment'><p>Comment Author Name 4 (1970-01-01, edited 1970-01-01)</p><p>Comment 5</p></div>"
+            + "<div class='comment'><p class='comment-author'>Comment Author Name 3 (1970-01-01, edited 1970-01-01)</p><p>Comment 4</p></div>"
+            + "<div class='comment'><p class='comment-author'>Comment Author Name 4 (1970-01-01, edited 1970-01-01)</p><p>Comment 5</p></div>"
             + "</div>"
             + "</div>"
-            + "<div class='comment'><p>Comment Author Name 2 (1970-01-01, edited 1970-01-01)</p><p>Comment 3</p></div>"
+            + "<div class='comment'><p class='comment-author'>Comment Author Name 2 (1970-01-01, edited 1970-01-01)</p><p>Comment 3</p></div>"
             + "</div>"
             + "</div>"
         )
