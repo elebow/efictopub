@@ -2,7 +2,6 @@ ffnet category and property. Append in brackets to title?
 fetcher_args: minimum length of forum post to consider a chapter
 "update" operation. Fetch new chapters.
 verbose mode (or dry-run mode?) that prints all the config settings at the beginning of execution (and then exits?)
-epub output: visually distinguish comments by the author
 stub_response in tests: incorporate URLs
 spacebattles: category for all posts by OP
 serialize json: omit null values? and in deserialization, assume null for missing fields?

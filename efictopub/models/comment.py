@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from efictopub import config
 from efictopub.lib import comment_pruner
 
 
@@ -33,7 +34,13 @@ class Comment:
         readable_date = datetime.utcfromtimestamp(self.date_published).strftime(
             "%Y-%m-%d"
         )
-        return f"{self.author} ({readable_date}{edited_string})"
+        # TODO get author_name more automatically
+        author_name = config.get_fetcher_opt("author", required=False)
+        if author_name == self.author:
+            distinguish_string = "★ "
+        else:
+            distinguish_string = ""
+        return f"{distinguish_string}{self.author} ({readable_date}{edited_string})"
 
     def as_html(self):
         author = f"<div class='comment-author'>{self.pretty_author()}</div>"
