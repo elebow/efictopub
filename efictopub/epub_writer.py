@@ -70,7 +70,8 @@ class EpubWriter:
 
         if config.get("fetch_comments"):
             comments_text = (
-                "<div class='comments'>"
+                "<h3>Comments</h3>"
+                + "<div class='comments'>"
                 + "".join([comment.as_html() for comment in chapter.comments])
                 + "</div>"
             )

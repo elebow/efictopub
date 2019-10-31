@@ -69,6 +69,7 @@ class TestEpubWriter:
                 mocker.call(
                     "Chapter Title 0",
                     "<p>chapter content 0</p>"
+                    "<h3>Comments</h3>"
                     "<div class='comments'>"
                     "<div class='comment'>"
                     "<p>Comment Author Name 0 (1970-01-01, edited 1970-01-01)</p>"
