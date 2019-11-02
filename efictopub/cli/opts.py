@@ -1,5 +1,4 @@
 import argparse
-import confuse
 
 from efictopub import fetchers
 
@@ -96,15 +95,5 @@ parser.add_argument(
 )
 
 
-def load_config_file():
-    return confuse.Configuration("efictopub", __name__)
-
-
 def get():
-    config = load_config_file()
-
-    args = parser.parse_args()
-    config.set_args(args, dots=True)
-
-    # call flatten() on the root item to get a dict-like object
-    return config.flatten()
+    return vars(parser.parse_args())

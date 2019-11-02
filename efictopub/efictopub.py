@@ -1,3 +1,5 @@
+import confuse
+
 from efictopub import config
 from efictopub import archive
 from efictopub import fetchers
@@ -7,11 +9,17 @@ from efictopub.epub_writer import EpubWriter
 
 class Efictopub:
     def __init__(self, opts={}):
-        self.opts = opts
+        confuse_opts = confuse.Configuration("efictopub", __name__)
+        confuse_opts.set_args(opts, dots=True)
+        self.opts = confuse_opts.flatten()
+
         self.fetcher = self.get_fetcher()
 
-        # TODO move confuse load defaults to here
         config.load(opts=self.opts, fetcher=self.fetcher)
+
+        # re-merge the CLI opts, because they might have been overriden by
+        # fetcher_overrides in config.load
+        self.opts.update(opts)
 
         self.story = self.fetch_story()
 
