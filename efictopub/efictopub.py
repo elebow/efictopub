@@ -9,17 +9,19 @@ from efictopub.epub_writer import EpubWriter
 
 class Efictopub:
     def __init__(self, opts={}):
+        # we have to find the fetcher first because it determines the fetcher_overrides applied in config
+        self.fetcher = self.get_fetcher(opts)
+
         confuse_opts = confuse.Configuration("efictopub", __name__)
+        fetcher_overrides = confuse_opts["overrides"].get().get(self.fetcher.__module__)
+        if fetcher_overrides:
+            # add a second, higher-priority source to the Confuse object
+            confuse_opts.set(fetcher_overrides)
+        # set_args takes the highest priority
         confuse_opts.set_args(opts, dots=True)
         self.opts = confuse_opts.flatten()
 
-        self.fetcher = self.get_fetcher()
-
         config.load(opts=self.opts, fetcher=self.fetcher)
-
-        # re-merge the CLI opts, because they might have been overriden by
-        # fetcher_overrides in config.load
-        self.opts.update(opts)
 
         self.story = self.fetch_story()
 
@@ -37,11 +39,11 @@ class Efictopub:
                 "Please review these commits so that your changes are not lost!"
             )
 
-    def get_fetcher(self):
-        if "fetcher" in self.opts and self.opts["fetcher"] is not None:
-            return fetchers.fetcher_by_name(self.opts["fetcher"], self.opts["target"])
+    def get_fetcher(self, opts):
+        if "fetcher" in opts and opts["fetcher"] is not None:
+            return fetchers.fetcher_by_name(opts["fetcher"], opts["target"])
         else:
-            return fetchers.fetcher_for_url(self.opts["target"])
+            return fetchers.fetcher_for_url(opts["target"])
 
     def repo_ready_for_write(self):
         return (

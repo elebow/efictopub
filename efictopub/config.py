@@ -15,23 +15,6 @@ from efictopub.exceptions import MissingRequiredFetcherOptError
 def load(opts, *, fetcher):
     global config
     config = opts
-    apply_fetcher_overrides(fetcher)
-
-
-def apply_fetcher_overrides(fetcher):
-    """Copy values from the appropriate override section into the root items"""
-    global config
-    overrides = config.get("overrides", {})
-
-    if fetcher is None or fetcher.__module__ not in overrides.keys():
-        return
-
-    for key_1, val_1 in overrides[fetcher.__module__].items():
-        if isinstance(val_1, dict):
-            for key_2, val_2 in val_1.items():
-                config[key_1][key_2] = val_2
-        else:
-            config[key_1] = val_1
 
 
 def get(key):

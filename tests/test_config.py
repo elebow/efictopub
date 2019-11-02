@@ -30,12 +30,6 @@ class TestConfig:
         assert config.get("archive_location") == "/path/to/archive"
         assert config.get("comments") == "all"
 
-    def test_fetcher_overrides(self, mocker):
-        config.load(test_config, fetcher=mocker.MagicMock(__module__="reddit_next"))
-
-        assert config.get("write_epub") is False
-        assert config.get(["reddit", "app"]) == "reddit-next-app-id"
-
     def test_nonexistent_fetcher_override(self, mocker):
         config.load(test_config, fetcher=mocker.MagicMock(__module__="rabbits"))
 

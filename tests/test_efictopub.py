@@ -30,6 +30,9 @@ class TestEfictopub:
         # CLI overrides
         assert efictopub.opts["write_epub"] is False
 
+        # fetcher overrides
+        assert efictopub.opts["epub_location"] == "/some/other/epub/location"
+
         # CLI options take precedence over the config file's fetcher_overrides
         assert efictopub.opts["comments"] == "author"
 
