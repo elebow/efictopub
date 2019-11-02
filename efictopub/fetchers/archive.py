@@ -22,7 +22,3 @@ class Fetcher(BaseFetcher):
     @functools.lru_cache()
     def fetch_story(self):
         return efictopub.archive.get(self.id_or_path)
-
-    @functools.lru_cache()
-    def fetch_chapters(self):
-        return self.fetch_story().chapters
