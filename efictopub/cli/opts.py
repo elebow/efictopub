@@ -55,14 +55,12 @@ parser.add_argument(
     "--no-archive",
     dest="write_archive",
     action="store_false",
-    default=True,
     help="do not write the story to the archive",
 )
 parser.add_argument(
     "--clobber",
     dest="clobber",
     action="store_true",
-    default=False,
     help="clobber uncommitted changes in the archive",
 )
 parser.add_argument(
@@ -70,14 +68,12 @@ parser.add_argument(
     dest="comments",
     action="store",
     choices=["all", "author", "none"],
-    default="all",
     help="store and write comments, for fetchers that support comments. Set to `author` to only include comment trees that contain a comment by the story author.",
 )
 parser.add_argument(
     "--no-write-epub",
     dest="write_epub",
     action="store_false",
-    default=True,
     help="do not write an EPUB file",
 )
 
