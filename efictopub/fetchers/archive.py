@@ -13,7 +13,7 @@ def can_handle_url(url):
 class Fetcher(BaseFetcher):
     """
     Fetch a story from the archive.
-    Note that ID can be partial, as long as it is unique. TODO
+    Note that ID can be a partial prefix, as long as it is unique.
     """
 
     def __init__(self, id_or_path):
