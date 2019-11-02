@@ -7,7 +7,7 @@ from efictopub.efictopub import Efictopub
 class TestEfictopub:
     @pytest.fixture(autouse=True)
     def fetch_story(self, mocker):
-        mocker.patch("efictopub.efictopub.Efictopub.fetch_story")
+        mocker.patch("efictopub.efictopub.Efictopub.story")
 
     @pytest.fixture
     def load_config_file(self, mocker):

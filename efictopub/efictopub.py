@@ -1,4 +1,5 @@
 import confuse
+import functools
 
 from efictopub import config
 from efictopub import archive
@@ -23,9 +24,9 @@ class Efictopub:
 
         config.load(opts=self.opts, fetcher=self.fetcher)
 
-        self.story = self.fetch_story()
-
-    def fetch_story(self):
+    @property
+    @functools.lru_cache()
+    def story(self):
         return self.fetcher.fetch_story()
 
     def write_epub(self):

@@ -8,4 +8,3 @@ serialize json: omit null values? and in deserialization, assume null for missin
 mention in the EPUB which comment mode was used during fetching
 	make the option have effect when reading from the archive, too
 collapse double space after period?
-move fetching out of constructor, so we can check repo_ready_for_write() before the expensive fetch
