@@ -7,3 +7,5 @@ serialize json: omit null values? and in deserialization, assume null for missin
 mention in the EPUB which comment mode was used during fetching
 	make the option have effect when reading from the archive, too
 collapse double space after period?
+Python 3.8
+	functools.cached_property
