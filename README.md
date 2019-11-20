@@ -5,7 +5,19 @@ files.
 
 ## What are the features though
 
-* Automatically selects a fetching strategy based on URL, including several for Reddit
+* Supports multiple fetching strategies, for numerous sites:
+  * Reddit
+    * start at given submission and follow "next" links
+    * all submissions from author matching a regex
+    * all submissions linked on a wiki page
+  * Fanfiction.net
+  * WordPress
+  * SpaceBattles forums
+    * specify one or more threadmark categories
+    * multiple ordering options
+      * chronologically by post date, with all the categories interleaved
+      * sequentially by category (eg, all the main story followed by all the omakes)
+* Can include posted comments, or just comment chains that include an author response
 * Produces standard EPUB files
 * Generates text-only covers for visibility in e-reader libraries
 * Maintains a local archive in JSON format for integration with other tools
@@ -33,7 +45,7 @@ efictopub https://some-blog.wordpress.com/2011/06/11/1-1/ --fetcher-opt last_cha
 efictopub https://forums.spacebattles.com/threads/my-great-story.555/ --title="My Great Story" --fetcher-opt "categories=threadmarks,omake,sidestory" --fetcher-opt "order=chrono"
 
 # Re-render a story from the local efictopub archive
-efictopub /path/to/archived/file.json --fetcher archive
+efictopub /path/to/archived/file.json
 ```
 
 See the built-in help text (`efictopub --help`) for more options.
