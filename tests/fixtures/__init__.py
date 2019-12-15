@@ -26,6 +26,8 @@ spacebattles_thread_reader_2_html = read_fixture("spacebattles_thread_reader_2.h
 wordpress_chapter_html_real_1 = read_fixture("wordpress_1.html")
 wordpress_chapter_html_real_2 = read_fixture("wordpress_2.html")
 
+ao3_navigation_page_html = read_fixture("ao3_navigation_page.html")
+
 
 @pytest.fixture
 def praw_comment(mocker):
