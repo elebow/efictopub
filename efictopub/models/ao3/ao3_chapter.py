@@ -1,5 +1,6 @@
 import bs4
 import functools
+import re
 
 from efictopub.models.chapter import Chapter
 
@@ -36,7 +37,11 @@ class AO3Chapter:
 
     @property
     def title(self):
-        return self.dom.select(".title")[0].text.strip()
+        title_line = self.dom.select(".chapter.preface .title")[0].text
+        matches = re.findall(r".*: (.*)", title_line)
+        if matches:
+            return matches[0].strip()
+        return title_line.strip()
 
     @property
     def ao3_id(self):
