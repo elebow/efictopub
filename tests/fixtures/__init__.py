@@ -27,7 +27,8 @@ wordpress_chapter_html_real_1 = read_fixture("wordpress_1.html")
 wordpress_chapter_html_real_2 = read_fixture("wordpress_2.html")
 
 ao3_navigation_page_html = read_fixture("ao3_navigation_page.html")
-ao3_chapter_html = read_fixture("ao3_chapter_1.html")
+ao3_chapter_html_1 = read_fixture("ao3_chapter_1.html")
+ao3_chapter_html_2 = read_fixture("ao3_chapter_2.html")
 
 
 @pytest.fixture

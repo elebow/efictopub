@@ -2,13 +2,13 @@ from efictopub.models.ao3.ao3_chapter import AO3Chapter
 
 import pytest
 
-from tests.fixtures import ao3_chapter_html
+from tests.fixtures import ao3_chapter_html_1
 
 
 class TestAO3Chapter:
     @pytest.fixture
     def ao3_chapter(self):
-        return AO3Chapter(ao3_chapter_html, "date_published")
+        return AO3Chapter(ao3_chapter_html_1, "date_published")
 
     def test_as_chapter(self, ao3_chapter):
         chapter = ao3_chapter.as_chapter()
