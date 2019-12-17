@@ -114,7 +114,7 @@ class TestFetchersSpacebattles:
         ]
 
     def test_categories_and_order_two_categories(
-        self, mocker, generate_posts, threadmarks_categories
+        self, generate_posts, threadmarks_categories
     ):
         config.config["fetcher_opts"] = ["categories=threadmarks,sidestory"]
 
@@ -129,9 +129,7 @@ class TestFetchersSpacebattles:
             "sidestory 2",
         ]
 
-    def test_categories_and_order_all(
-        self, mocker, generate_posts, threadmarks_categories
-    ):
+    def test_categories_and_order_all(self, generate_posts, threadmarks_categories):
         config.config["fetcher_opts"] = ["categories=all"]
 
         fetcher = spacebattles.Fetcher("https://forums.spacebattles.com/threads/555/")
@@ -147,7 +145,7 @@ class TestFetchersSpacebattles:
         ]
 
     def test_categories_and_order_all_chrono(
-        self, mocker, generate_posts, threadmarks_categories
+        self, generate_posts, threadmarks_categories
     ):
         config.config["fetcher_opts"] = ["categories=all", "order=chrono"]
 
