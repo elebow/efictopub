@@ -20,5 +20,5 @@ class TestAO3Chapter:
         assert chapter.date_updated == 0
         assert chapter.permalink == "https://www.archiveofourown.org/chapters/880"
         assert chapter.score == 14369
-        assert chapter.text == "Chapter 1 text."
+        assert chapter.text == "<p>Chapter 1 text.</p>"
         assert chapter.title == "Prologue"

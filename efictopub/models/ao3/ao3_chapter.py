@@ -47,7 +47,12 @@ class AO3Chapter:
     @property
     def text(self):
         # TODO concatenate the author notes and similar fields
-        return self.dom.select(".module[role=article]")[0].text.strip()
+        return (
+            self.dom.select(".module[role=article]")[0]
+            .encode_contents()
+            .decode()
+            .strip()
+        )
 
     @property
     def title(self):
