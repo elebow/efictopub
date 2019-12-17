@@ -17,6 +17,10 @@ class AO3Chapter:
         self.date_published = date_published
 
     @property
+    def author_name(self):
+        return self.dom.select(".byline")[0].text.strip()
+
+    @property
     def comments(self):
         # TODO
         return []
@@ -29,6 +33,14 @@ class AO3Chapter:
     @property
     def score(self):
         return int(self.dom.select(".stats dd.kudos")[0].text)
+
+    @property
+    def story_title(self):
+        return self.dom.select(".title.heading")[0].text.strip()
+
+    @property
+    def summary(self):
+        return self.dom.select(".summary .userstuff")[0].text.strip()
 
     @property
     def text(self):
