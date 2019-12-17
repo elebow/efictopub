@@ -43,6 +43,7 @@ class TestFetchersAO3:
         assert story.title == "My Great Story"
         assert story.author == "user1"
         assert story.summary == "story summary"
+        assert story.date_start == 1293858000
         assert len(story.chapters) == 2
 
     def test_fetch_chapters(self, mock_chapters_info, mock_chapters):

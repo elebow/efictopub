@@ -44,8 +44,9 @@ class Fetcher(BaseFetcher):
             else:
                 comments_html = ""
 
-            ao3_chapter = AO3Chapter(str(chapter_html), str(comments_html))
-            # TODO also pass in chapter_info.date
+            ao3_chapter = AO3Chapter(
+                str(chapter_html), str(comments_html), date_published=chapter_info.date
+            )
 
             print("OK")
             yield ao3_chapter
