@@ -58,10 +58,10 @@ parser.add_argument(
     help="do not write the story to the archive",
 )
 parser.add_argument(
-    "--clobber",
+    "--no-clobber",
     dest="clobber",
-    action="store_true",
-    help="clobber uncommitted changes in the archive",
+    action="store_false",
+    help="do not clobber uncommitted changes in the archive or existing output files",
 )
 parser.add_argument(
     "--comments",

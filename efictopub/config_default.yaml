@@ -7,11 +7,11 @@ epub_location: $HOME/books/fic/
 comments: all
 write_archive: true
 write_epub: true
-clobber: false
+clobber: true
 user_agent: efictopub
 overrides:
   reddit_next:
-    epub_location: $HOME/doc/books/reddit_fics
+    epub_location: $HOME/books/reddit_fics
     write_epub: false
     reddit:
       app: reddit-next-app-id
