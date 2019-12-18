@@ -7,7 +7,8 @@ This package provides the CLI tool `efictopub` and the Python module `efictopub`
 
 ## What are the features though
 
-* Supports multiple fetching strategies, for numerous sites:
+* Supports multiple fetching strategies, for numerous sites. See [docs/fetchers.md](docs/fetchers.md)
+  for details.
   * Reddit
   * Fanfiction.net
   * Archive of our Own
@@ -80,7 +81,7 @@ See also the built-in help text (`efictopub --help`).
 
 * `--fetcher FETCHER`, `-F FETCHER`
 
-   manually specify fetcher to use
+   manually specify fetcher to use, overriding the automatic selection
 
 * `--config CONFIG_FILE`, `-c CONFIG_FILE`
 
@@ -110,7 +111,7 @@ See also the built-in help text (`efictopub --help`).
 
 * `--fetcher-opt FETCHER_OPTS`
 
-   specify extra options passed through to fetchers. See <https://github.com/elebow/efictopub/blob/master/docs/fetchers.md>.
+   specify extra options passed through to fetchers. See [docs/fetchers.md](docs/fetchers.md).
 
 * `--title TITLE`, `-t TITLE`
 
@@ -128,7 +129,7 @@ dict. See the example client app above.
 ## Configuration file
 
 Default options can be specified in a config file, which is respected in both CLI
-and API modes. See <https://github.com/elebow/efictopub/blob/master/efictopub/config_default.yaml>
+and API modes. See [efictopub/config_default.yaml](efictopub/config_default.yaml)
 for the internal default config file, which also serves as an example.
 
 Options specified as command-line arguments or passed to the `Efictopub` constructor
