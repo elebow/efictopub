@@ -131,8 +131,8 @@ Default options can be specified in a config file, which is respected in both CL
 and API modes. See <https://github.com/elebow/efictopub/blob/master/efictopub/config_default.yaml>
 for the internal default config file, which also serves as an example.
 
-Options specified in the as command-line arguments or passed to the `Efictopub`
-constructor take precedence over the config file.
+Options specified as command-line arguments or passed to the `Efictopub` constructor
+take precedence over the config file.
 
 ## A note about copyrights
 
