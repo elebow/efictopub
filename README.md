@@ -3,6 +3,8 @@
 efictopub is a tool for downloading amateur fiction from the web and generating EPUB
 files.
 
+This package provides the CLI tool `efictopub` and the Python module `efictopub`.
+
 ## What are the features though
 
 * Supports multiple fetching strategies, for numerous sites:
@@ -11,19 +13,20 @@ files.
     * all submissions from author matching a regex
     * all submissions linked on a wiki page
   * Fanfiction.net
+  * Archive of our Own
   * WordPress
   * SpaceBattles forums
     * specify one or more threadmark categories
     * multiple ordering options
       * chronologically by post date, with all the categories interleaved
       * sequentially by category (eg, all the main story followed by all the omakes)
-* Can include posted comments, or just comment chains that include an author response
+* Can include all comments, or just comment chains that include an author response
 * Produces standard EPUB files
 * Generates text-only covers for visibility in e-reader libraries
 * Maintains a local archive in JSON format for integration with other tools
 * Uses git to manage local archive history
 
-## Show me some usage examples
+## CLI usage examples
 
 ```sh
 # Reddit submissions containing "next" links
@@ -38,6 +41,9 @@ efictopub https://www.reddit.com/r/some_subreddit/wiki/some_page --title="My Gre
 # Fanfiction.net
 efictopub https://www.fanfiction.net/s/8601250555/1/My-Great-Story
 
+# Archive of our Own
+efictopub https://archiveofourown.org/works/10896981
+
 # Sequential WordPress chapters by start URL and end pattern
 efictopub https://some-blog.wordpress.com/2011/06/11/1-1/ --fetcher-opt last_chapter_pattern="2013/11/19/interlude-end" --title="My Great Story"
 
@@ -48,7 +54,69 @@ efictopub https://forums.spacebattles.com/threads/my-great-story.555/ --title="M
 efictopub /path/to/archived/file.json
 ```
 
-See the built-in help text (`efictopub --help`) for more options.
+## Library usage examples
+
+See <https://github.com/elebow/efictopub/blob/master/docs/example_client_app.py>.
+
+## Options (CLI)
+
+See also the built-in help text (`efictopub --help`).
+
+* `--fetcher FETCHER`, `-F FETCHER`
+
+   manually specify fetcher to use
+
+* `--config CONFIG_FILE`, `-c CONFIG_FILE`
+
+   override default config file
+
+* `--outfile OUTFILE`, `-o OUTFILE`
+
+   specify output file, for actions that support an output file (default varies per
+   action)
+
+* `--no-archive`
+
+   do not write the story to the archive
+
+* `--no-clobber`
+
+   do not clobber uncommitted changes in the archive or existing output files
+
+* `--comments {all,author,none}`
+
+   store and write comments, for fetchers that support comments. Set to `author`
+   to only include comment trees that contain a comment by the story author.
+
+* `--no-write-epub`
+
+   do not write an EPUB file
+
+* `--fetcher-opt FETCHER_OPTS`
+
+   specify extra options passed through to fetchers
+
+* `--title TITLE`, `-t TITLE`
+
+   manually specify story title
+
+* `--author AUTHOR`, `-a AUTHOR`
+
+   manually specify story author
+
+## Options (module API)
+
+The options described above can be passed in to the `Efictopub` constructor as a
+dict. See <https://github.com/elebow/efictopub/blob/master/docs/example_client_app.py>.
+
+## Configuration file
+
+Default options can be specified in a config file, which is respected in both CLI
+and API modes. See <https://github.com/elebow/efictopub/blob/master/efictopub/config_default.yaml>
+for the internal default config file, which also serves as an example.
+
+Options specified in the as command-line arguments or passed to the `Efictopub`
+constructor take precedence over the config file.
 
 ## A note about copyrights
 
