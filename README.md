@@ -9,17 +9,10 @@ This package provides the CLI tool `efictopub` and the Python module `efictopub`
 
 * Supports multiple fetching strategies, for numerous sites:
   * Reddit
-    * start at given submission and follow "next" links
-    * all submissions from author matching a regex
-    * all submissions linked on a wiki page
   * Fanfiction.net
   * Archive of our Own
   * WordPress
   * SpaceBattles forums
-    * specify one or more threadmark categories
-    * multiple ordering options
-      * chronologically by post date, with all the categories interleaved
-      * sequentially by category (eg, all the main story followed by all the omakes)
 * Can include all comments, or just comment chains that include an author response
 * Produces standard EPUB files
 * Generates text-only covers for visibility in e-reader libraries
@@ -94,7 +87,7 @@ See also the built-in help text (`efictopub --help`).
 
 * `--fetcher-opt FETCHER_OPTS`
 
-   specify extra options passed through to fetchers
+   specify extra options passed through to fetchers. See <https://github.com/elebow/efictopub/blob/master/docs/fetchers.md>.
 
 * `--title TITLE`, `-t TITLE`
 
@@ -128,21 +121,3 @@ using this tool to ensure that your usage is permissible in all applicable juris
 Even in cases where use of this tool is legally permitted, some authors may prefer
 that you not use it under certain circumstances, or at all. For example, an author
 may be in the process of seeking a book deal. Please respect the wishes of authors.
-
-## Implementing a new fetcher
-
-A fetcher is a Python module located in `efictopub/fetchers/` that has the following
-properties:
-
-1. Contains a function named `can_handle_url()`, which takes a string URL and returns
-   true if the fetcher is capable of handling the URL.
-1. Contains a class named `Fetcher`.
-      - `Fetcher` inherits from the abstract base class `efictopub.fetchers.BaseFetcher`
-      - `Fetcher.fetch_story()` returns a `Story` object.
-
-See `efictopub/fetchers/reddit_author.py` for an almost-minimal example of a fetcher.
-
-A fetcher is usually accompanied by a model in `efictopub/models/` to represent the
-fetched object (usually a chapter). These models typically implement an `as_chapter()`
-method that returns an instance of `Chapter`. Some simple fetchers may construct
-a `Chapter` directly.
