@@ -9,3 +9,7 @@ mention in the EPUB which comment mode was used during fetching
 collapse double space after period?
 Python 3.8
 	functools.cached_property
+centralize console output in some quietable mechanism
+test coverage wordpress models
+test script (using efictopub as a library) that does end-to-end test with live sites and compares against out-of-repo fixtures
+images
