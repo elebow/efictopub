@@ -7,7 +7,7 @@ epub_location: $HOME/books/fic/
 comments: all
 write_archive: true
 write_epub: true
-clobber: true
+clobber: false
 user_agent: efictopub
 overrides:
   reddit_next:

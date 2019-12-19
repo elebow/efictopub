@@ -30,7 +30,8 @@ class EpubWriter:
 
         output_filename = self.output_filename()
 
-        if config.get("clobber") and pathlib.Path(output_filename).exists():
+        # always clobber existing file
+        if pathlib.Path(output_filename).exists():
             os.unlink(output_filename)
 
         self.book.save(output_filename)

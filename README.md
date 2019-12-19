@@ -96,9 +96,9 @@ See also the built-in help text (`efictopub --help`).
 
    do not write the story to the archive
 
-* `--no-clobber`
+* `--clobber`
 
-   do not clobber uncommitted changes in the archive or existing output files
+   clobber uncommitted changes in the archive
 
 * `--comments {all,author,none}`
 
