@@ -132,11 +132,19 @@ class Fetcher(BaseFetcher):
         print(f"Getting threadmarks categories from {url}")
         html = request_dispatcher.get(url).text
         dom = bs4.BeautifulSoup(html, "lxml")
-        tabs = dom.select(".threadmarks .tabs li")
+        a_elems = dom.select(".block-tabHeader--threadmarkCategoryTabs a")
         return {
-            tab.text.strip().lower(): tab.find("a").attrs["href"].split("=")[-1]
-            for tab in tabs
+            a_elem.text.strip().lower(): self.threadmark_category_number(a_elem)
+            for a_elem in a_elems
         }
+
+    def threadmark_category_number(self, a_elem):
+        split_url = a_elem.attrs["href"].split("=")
+        if len(split_url) == 2:
+            return split_url[-1]
+        else:
+            # in XenForo 2, the "threadmarks" category URL has an implied ID
+            return "1"
 
     @property
     def thread_base_url(self):

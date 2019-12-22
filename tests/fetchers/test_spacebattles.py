@@ -97,10 +97,9 @@ class TestFetchersSpacebattles:
         fetcher = spacebattles.Fetcher("https://forums.spacebattles.com/threads/555/")
         assert fetcher.threadmarks_categories == {
             "threadmarks": "1",
-            "sidestory": "16",
-            "apocrypha": "13",
-            "media": "10",
+            "sidestory": "19",
             "informational": "19",
+            "staff post": "7",
         }
 
     def test_categories_and_order_default(self, generate_posts, threadmarks_categories):
