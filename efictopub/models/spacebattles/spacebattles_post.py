@@ -10,42 +10,37 @@ class SpacebattlesPost:
 
     @property
     def author(self):
-        return self.dom.select(".messageUserBlock .username")[0].text
+        return self.dom.select(".username")[0].text
 
     @property
     def date_published(self):
-        date_str = self.dom.select(".messageMeta .DateTime")[0].attrs["title"]
-        return datetime.strptime(date_str, "%b %d, %Y at %I:%M %p").timestamp()
+        # the first <time> element is for publish, even if there is an edit <time>
+        return int(self.dom.select("time")[0].attrs["data-time"])
 
     @property
     def date_updated(self):
-        date_elems = self.dom.select(".editDate .DateTime")
-        if not date_elems:
+        edit_elems = self.dom.select(".message-lastEdit")
+        if len(edit_elems) == 0:
             return 0
-        date_str = date_elems[0].attrs["title"]
-        return datetime.strptime(date_str, "%b %d, %Y at %I:%M %p").timestamp()
+        return int(edit_elems[0].select("time")[0].attrs["data-time"])
 
     @property
     def permalink(self):
-        path = self.dom.select(".messageMeta .hashPermalink")[0].attrs["href"]
-        return f"https://forums.spacebattles.com/{path}"
+        # The second link in the right-side block is a permalink
+        path = self.dom.select(".message-attribution-opposite a")[1].attrs["href"]
+        return f"https://forums.spacebattles.com{path}"
 
     @property
     def likes(self):
-        # add 3 for the first three names before the "and N others"
-        return (
-            int(self.dom.select(".LikeText")[0].find_all("a")[-1].text.split(" ")[0])
-            + 3
-        )
+        return int(self.dom.select(".sv-rating__count")[0].text)
 
     @property
     def text(self):
-        return self.dom.select(".messageText")[0].encode_contents().decode().strip()
+        return self.dom.select(".message-body")[0].encode_contents().decode().strip()
 
     @property
     def chapter_title(self):
-        elem_text = self.dom.select(".threadmarker .label")[0].text
-        return elem_text.strip().replace(r"Threadmarks: ", "")
+        return self.dom.select(".threadmarkLabel")[0].text
 
     @functools.lru_cache()
     def as_chapter(self):

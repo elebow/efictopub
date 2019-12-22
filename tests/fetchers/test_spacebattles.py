@@ -49,11 +49,11 @@ class TestFetchersSpacebattles:
             text=spacebattles_threadmarks_index_html,
         )
         requests_mock.get(
-            "https://forums.spacebattles.com/threads/555/1/reader",
+            "https://forums.spacebattles.com/threads/555/1/reader/",
             text=spacebattles_thread_reader_1_html,
         )
         requests_mock.get(
-            "https://forums.spacebattles.com/my-great-story.555/reader?page=2",
+            "https://forums.spacebattles.com/threads/my-great-story.555/reader/page-2",
             text=spacebattles_thread_reader_2_html,
         )
 
@@ -61,13 +61,18 @@ class TestFetchersSpacebattles:
         story = fetcher.fetch_story()
         chapter_0 = story.chapters[0]
 
-        assert story.author == "user1"
-        assert chapter_0.date_published == 1407771960
-        assert chapter_0.date_updated == 1542691740
-        assert chapter_0.permalink == "https://forums.spacebattles.com/posts/55520034/"
-        assert chapter_0.score == 120
+        assert story.author == "User 1"
+        assert chapter_0.date_published == 1522580101
+        assert chapter_0.date_updated == 0
+        assert (
+            chapter_0.permalink
+            == "https://forums.spacebattles.com/threads/my-great-story.555/post-500"
+        )
+        assert chapter_0.score == 173
         assert chapter_0.text == "post 1 content"
         assert chapter_0.title == "threadmark description 771"
+
+        assert story.chapters[1].date_updated == 1561568837
 
     def test_calculate_thread_id(self):
         def get_id(x):

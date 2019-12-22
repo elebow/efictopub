@@ -17,6 +17,7 @@ DOMAIN = "forums.spacebattles.com"
 
 
 class SpacebattlesPage:
+    # TODO move this to models dir
     def __init__(self, dom):
         self.dom = dom
 
@@ -28,7 +29,7 @@ class SpacebattlesPage:
     def next_page_url(self):
         links = self.dom.select("link[rel='next']")
         if links:
-            return f"https://{DOMAIN}/{links[0].attrs['href']}"
+            return f"https://{DOMAIN}{links[0].attrs['href']}"
         return None
 
 
@@ -154,4 +155,5 @@ class Fetcher(BaseFetcher):
         return f"{self.thread_base_url}/threadmarks?category_id={category_id}"
 
     def threadmarks_reader_url(self, category_id=1):
-        return f"{self.thread_base_url}/{category_id}/reader"
+        # The trailing slash is apparently required in XenForo 2
+        return f"{self.thread_base_url}/{category_id}/reader/"
