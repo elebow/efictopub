@@ -112,7 +112,7 @@ class TestFetchersWordpress:
             "title='Great Story'",
             "author='Great Author'",
             "last_chapter_pattern=2011/06/11",
-            "author_name=commenter 2",
+            "author=commenter 2",
         ]
         requests_mock.get(
             "https://blog-name.wordpress.com/2011/06/11/1-1/",

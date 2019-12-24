@@ -30,7 +30,7 @@ class Chapter:
         self.title = title
 
     def prune_comments(self, comments):
-        author_name = config.get_fetcher_opt("author_name", required=True)
+        author_name = config.get_fetcher_opt("author", required=True)
         new_comments = [
             comment.tree_containing_author(author_name) for comment in comments
         ]
