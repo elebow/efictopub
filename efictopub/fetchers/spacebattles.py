@@ -100,8 +100,8 @@ class Fetcher(BaseFetcher):
             # The special value "all" means get everything
             return self.threadmarks_categories.keys()
         else:
-            # else, split the input string by delimiters
-            return re.split(r"[,\s]", requested_categories)
+            # else, split the input string by delimiter
+            return requested_categories.split(",")
 
     @property
     def composition_order(self):

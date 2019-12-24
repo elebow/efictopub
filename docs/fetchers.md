@@ -60,7 +60,7 @@ threadmark categories—by default, just "threadmarks".
 ##### Fetcher options
 
 * `title` (required) – story title
-* `categories` – comma- or space-separated list of threadmark categories to include.
+* `categories` – comma-separated list of threadmark categories to include.
   Defaults to just `threadmarks`. Also accepts the special value `all`.
 * `order` – controls whether chapters are assembled in order of posting date (`chrono`)
   or category (`sequential`. eg, all threadmarks in posting order, followed by all

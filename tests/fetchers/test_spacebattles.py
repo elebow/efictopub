@@ -164,3 +164,20 @@ class TestFetchersSpacebattles:
             "sidestory 2",
             "threadmark 3",
         ]
+
+    def test_categories_to_fetch(self, threadmarks_categories):
+        config.config["fetcher_opts"] = []
+        fetcher = spacebattles.Fetcher("_")
+        assert list(fetcher.categories_to_fetch) == ["threadmarks"]
+
+        config.config["fetcher_opts"] = ["categories=all"]
+        fetcher = spacebattles.Fetcher("_")
+        assert list(fetcher.categories_to_fetch) == [
+            "threadmarks",
+            "sidestory",
+            "announcement",
+        ]
+
+        config.config["fetcher_opts"] = ["categories=threadmarks,staff post"]
+        fetcher = spacebattles.Fetcher("_")
+        assert fetcher.categories_to_fetch == ["threadmarks", "staff post"]
