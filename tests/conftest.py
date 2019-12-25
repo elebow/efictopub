@@ -13,15 +13,15 @@ import efictopub.lib.request_dispatcher
 
 # requests
 
-if os.environ.get("LIVE_REQUESTS") != "true":
 
-    @pytest.fixture(autouse=True, scope="session")
-    def no_reddit():
-        from unittest.mock import MagicMock
+@pytest.fixture(autouse=True, scope="session")
+def no_reddit():
+    from unittest.mock import MagicMock
 
-        efictopub.lib.reddit_util.setup_reddit = MagicMock()
+    efictopub.lib.reddit_util.setup_reddit = MagicMock()
 
-    efictopub.lib.request_dispatcher.MIN_DELAY = 0
+
+efictopub.lib.request_dispatcher.MIN_DELAY = 0
 
 
 # config
