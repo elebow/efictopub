@@ -36,7 +36,7 @@ efictopub https://www.reddit.com/r/some_subreddit/wiki/some_page --title="My Gre
 efictopub https://www.fanfiction.net/s/8601250555/1/My-Great-Story
 
 # Archive of our Own
-efictopub https://archiveofourown.org/works/10896981
+efictopub https://archiveofourown.org/works/11310144
 
 # Sequential WordPress chapters by start URL and end pattern
 efictopub https://some-blog.wordpress.com/2011/06/11/1-1/ --fetcher-opt last_chapter_pattern="2013/11/19/interlude-end" --title="My Great Story"
