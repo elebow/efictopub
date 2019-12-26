@@ -42,7 +42,7 @@ def parse_url(url, praw_reddit):
 
 def setup_reddit():
     return praw.Reddit(
-        client_id=config.get(["reddit", "efictopub"]),
+        client_id=config.get(["reddit", "app"]),
         client_secret=config.get(["reddit", "secret"]),
         user_agent=config.get("user_agent"),
     )
