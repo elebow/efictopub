@@ -51,6 +51,7 @@ class TestFetchersRedditNext:
         assert [len(subm.comments) for subm in subms] == [2]
 
     def test_skip_comments(self, mocker):
+        mocker.patch("efictopub.models.reddit.reddit_comment.RedditComment.body_html")
         mocker.patch("efictopub.lib.reddit_util.parse_url", get_reddit_submission)
         config.config["comments"] = "none"
 

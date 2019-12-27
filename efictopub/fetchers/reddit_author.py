@@ -22,11 +22,6 @@ class Fetcher(BaseFetcher):
         else:
             self.title_pattern = None
 
-        if config.get("comments") == "none":
-            print(
-                "WARNING: comments are disabled. Chapter bodies sometimes continue in comments. You might be missing chapter content!"
-            )
-
     def fetch_story(self):
         submissions = self.fetch_submissions()
         title = config.get_fetcher_opt("title", required=True)

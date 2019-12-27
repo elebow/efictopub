@@ -74,7 +74,7 @@ class RedditSubmissionFactory(factory.Factory):
 
         attrs = {
             "author": MagicMock(name="Submission Author Name {n}"),
-            "comments": [],
+            "comments": MagicMock(),
             "created_utc": "published date {n}",
             "edited": "updated date {n}",
             "id": "reddit_id_{n}",

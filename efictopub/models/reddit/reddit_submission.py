@@ -9,10 +9,8 @@ from efictopub.models.chapter import Chapter
 class RedditSubmission:
     def __init__(self, praw_submission):
         self.author_name = praw_submission.author.name
-        if config.get("comments") != "none":
-            self.comments = self.fetch_all_comments(praw_submission)
-        else:
-            self.comments = []
+        # The body text sometimes continues in a comment, so fetch all comments at first
+        self.all_comments = self.fetch_all_comments(praw_submission)
         self.created_utc = praw_submission.created_utc
         self.edited = praw_submission.edited
         self.reddit_id = praw_submission.id
@@ -31,10 +29,10 @@ class RedditSubmission:
         """Extract the text from the submission body and zero or more comments."""
         text = self.trim_html(self.selftext_html)
 
-        if not self.comments:
+        if not self.all_comments:
             return text
 
-        comment = self.comments[0]
+        comment = self.all_comments[0]
         while True:
             if len(comment.text) > 2000:
                 # Dumb heuristic to differentiate author notes from actual content
@@ -46,6 +44,12 @@ class RedditSubmission:
             comment = comment.replies[0]
 
         return text
+
+    @property
+    def comments(self):
+        if config.get("comments") != "none":
+            return self.all_comments
+        return []
 
     def trim_html(self, html):
         dom = bs4.BeautifulSoup(html, "lxml").body
