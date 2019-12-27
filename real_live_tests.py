@@ -20,6 +20,12 @@ def verify_equal(actual, expected):
         )
 
 
+def tree_depth(comment, count=0):
+    if comment.replies:
+        return 1 + max([tree_depth(reply, count) for reply in comment.replies])
+    return 1
+
+
 with open("real_live_tests.yaml", "r") as test_cases_file:
     test_cases = yaml.load(test_cases_file)
 
@@ -36,13 +42,25 @@ for test_name, test_case in selected_test_cases.items():
 
     story = Efictopub(test_case["args"]).story
 
-    verify_equal(story.title, test_case["expected"]["title"])
-    verify_equal(story.author, test_case["expected"]["author"])
-    verify_equal(story.summary, test_case["expected"]["summary"])
-    verify_equal(
-        sum([len(chapter.text) for chapter in story.chapters]),
-        test_case["expected"]["text_size"],
-    )
-    verify_equal(story.chapters[-1].text[-50:], test_case["expected"]["last_50_chars"])
+    for attr, expected_val in test_case["expected"].items():
+        if attr == "title":
+            verify_equal(story.title, expected_val)
+        elif attr == "author":
+            verify_equal(story.author, expected_val)
+        elif attr == "summary":
+            verify_equal(story.summary, expected_val)
+        elif attr == "text_size":
+            verify_equal(sum([len(chap.text) for chap in story.chapters]), expected_val)
+        elif attr == "last_50_chars":
+            verify_equal(story.chapters[-1].text[-50:], expected_val)
+        elif attr == "top_level_comment_counts":
+            for i, chapter in enumerate(story.chapters):
+                verify_equal(len(chapter.comments), expected_val[i])
+        elif attr == "deepest_comment_chain_depths":
+            for i, chapter in enumerate(story.chapters):
+                max_depth = max([tree_depth(comment) for comment in chapter.comments])
+                verify_equal(max_depth, expected_val[i])
+        else:
+            raise Exception(f"Unknown expected value key `{attr}`")
 
 print("[32mtests complete[0m")
