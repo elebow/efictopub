@@ -22,13 +22,10 @@ class TestFetchersRedditNext:
 
     def test_ambiguous_next(self, mocker):
         mocker.patch("efictopub.lib.reddit_util.parse_url", get_reddit_submission)
-        subms = reddit_next.Fetcher(
-            "https://www.reddit.com/r/great_subreddit/comments/000003/ambiguous_next"
-        ).fetch_submissions()
-
         with pytest.raises(exceptions.AmbiguousNextError):
-            # subms is a generator, so we have to evaluate it
-            [subm for subm in subms]
+            reddit_next.Fetcher(
+                "https://www.reddit.com/r/great_subreddit/comments/000003/ambiguous_next"
+            ).fetch_submissions()
 
     def test_duplicate_next(self, mocker):
         mocker.patch("efictopub.lib.reddit_util.parse_url", get_reddit_submission)

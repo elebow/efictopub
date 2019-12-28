@@ -1,3 +1,4 @@
+import functools
 import re
 
 from efictopub import config
@@ -18,7 +19,6 @@ class Fetcher(BaseFetcher):
     """Fetch Reddit submissions by following "next" links in the body"""
 
     def __init__(self, start_id_or_url):
-        self.praw_reddit = reddit_util.setup_reddit()
         self.start_id_or_url = start_id_or_url
 
     def fetch_story(self):
@@ -33,7 +33,7 @@ class Fetcher(BaseFetcher):
 
     def fetch_submissions(self):
         start_subm = reddit_util.parse_id_or_url(self.start_id_or_url, self.praw_reddit)
-        return self.generate_next_submissions(start_subm)
+        return list(self.generate_next_submissions(start_subm))
 
     def generate_next_submissions(self, start_subm):
         """
@@ -50,3 +50,8 @@ class Fetcher(BaseFetcher):
             elif len(next_urls) == 0:
                 return
             subm = reddit_util.parse_url(next_urls[0], self.praw_reddit)
+
+    @property
+    @functools.lru_cache()
+    def praw_reddit(self):
+        return reddit_util.setup_reddit()
