@@ -2,14 +2,13 @@ ffnet category and property. Append in brackets to title?
 fetcher_args: minimum length of forum post to consider a chapter
 "update" operation. Fetch new chapters.
 verbose mode (or dry-run mode?) that prints all the config settings at the beginning of execution (and then exits?)
-spacebattles: category for all posts by OP
+spacebattles: category for all posts by OP, even if not threadmarked
 serialize json: omit null values? and in deserialization, assume null for missing fields?
 mention in the EPUB which comment mode was used during fetching
 	make the option have effect when reading from the archive, too
-collapse double space after period?
+collapse double space after period? or general html sanitizer
 Python 3.8
 	functools.cached_property
 centralize console output in some quietable mechanism
 test coverage wordpress models
-test script (using efictopub as a library) that does end-to-end test with live sites and compares against out-of-repo fixtures
 images
