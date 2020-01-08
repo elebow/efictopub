@@ -8,7 +8,7 @@ from efictopub.models.chapter import Chapter
 
 class RedditSubmission:
     def __init__(self, praw_submission):
-        self.author_name = praw_submission.author.name
+        self.author_name = self.format_author_name(praw_submission)
         # The body text sometimes continues in a comment, so fetch all comments at first
         self.all_comments = self.fetch_all_comments(praw_submission)
         self.created_utc = praw_submission.created_utc
@@ -64,6 +64,13 @@ class RedditSubmission:
             containing_div.unwrap()
 
         return dom.encode_contents().decode()
+
+    def format_author_name(self, praw_submission):
+        author_flair_text = praw_submission.author_flair_text
+        if author_flair_text:
+            return f"{praw_submission.author.name} ({author_flair_text})"
+        else:
+            return praw_submission.author.name
 
     @functools.lru_cache()
     def as_chapter(self):

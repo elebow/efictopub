@@ -72,8 +72,9 @@ class RedditSubmissionFactory(factory.Factory):
         # So, just pass in a Mock that behaves like a PRAW submission obj.
         from unittest.mock import MagicMock
 
-        attrs = {
+        praw_subm_attrs = {
             "author": MagicMock(name="Submission Author Name {n}"),
+            "author_flair_text": "Author Flair Text",
             "comments": MagicMock(),
             "created_utc": "published date {n}",
             "edited": "updated date {n}",
@@ -83,6 +84,6 @@ class RedditSubmissionFactory(factory.Factory):
             "title": "Chapter Title {n}",
             "ups": factory.Sequence(lambda n: f"upvotes_{n}"),
         }
-        attrs.update(kwargs)
-        mock_praw_subm = MagicMock("praw.models.Submission", **attrs)
+        praw_subm_attrs.update(kwargs)
+        mock_praw_subm = MagicMock("praw.models.Submission", **praw_subm_attrs)
         return {"praw_submission": mock_praw_subm}
