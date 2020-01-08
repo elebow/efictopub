@@ -92,7 +92,7 @@ class TestFetchersWordpress:
         assert entry.comments[0].text == "<p>comment 1 text</p>"
 
         assert len(entry.comments[0].replies) == 1
-        assert entry.comments[0].replies[0].author == "commenter 2"
+        assert entry.comments[0].replies[0].author == "author-name"
         assert entry.comments[0].replies[0].text == "<p>comment 2 text</p>"
 
         assert len(entry.comments[0].replies[0].replies) == 1
@@ -110,9 +110,7 @@ class TestFetchersWordpress:
         config.config["comments"] = "author"
         config.config["fetcher_opts"] = [
             "title='Great Story'",
-            "author='Great Author'",
             "last_chapter_pattern=2011/06/11",
-            "author=commenter 2",
         ]
         requests_mock.get(
             "https://blog-name.wordpress.com/2011/06/11/1-1/",
@@ -120,13 +118,13 @@ class TestFetchersWordpress:
         )
 
         fetcher = wordpress.Fetcher("https://blog-name.wordpress.com/2011/06/11/1-1/")
-        entry = fetcher.fetch_blog_entries()[0].as_chapter()
+        entry = fetcher.fetch_story().chapters[0]
 
         assert len(entry.comments) == 1
         assert entry.comments[0].author == "commenter 1"
         assert entry.comments[0].text == "<p>comment 1 text</p>"
 
-        assert entry.comments[0].replies[0].author == "commenter 2"
+        assert entry.comments[0].replies[0].author == "author-name"
         assert entry.comments[0].replies[0].text == "<p>comment 2 text</p>"
 
         assert len(entry.comments[0].replies[0].replies) == 0

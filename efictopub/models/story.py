@@ -2,6 +2,7 @@ from datetime import datetime
 import functools
 import urllib.parse
 
+from efictopub import config
 from efictopub.cover_generator import CoverGenerator
 
 
@@ -19,6 +20,10 @@ class Story:
             self.date_fetched = datetime.now().timestamp()
         else:
             self.date_fetched = date_fetched
+
+        if config.get("comments") == "author":
+            for chapter in self.chapters:
+                chapter.prune_comments(self.author)
 
     @property
     @functools.lru_cache()
