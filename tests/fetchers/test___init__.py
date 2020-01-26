@@ -12,6 +12,13 @@ class TestFetchers__init__:
 
         assert (
             efictopub.fetchers.fetcher_for_url(
+                "https://archiveofourown.org/works/55555555"
+            ).__module__
+            == "ao3"
+        )
+
+        assert (
+            efictopub.fetchers.fetcher_for_url(
                 "https://www.reddit.com/u/redditor"
             ).__module__
             == "reddit_author"
