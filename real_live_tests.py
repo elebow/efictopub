@@ -13,11 +13,14 @@ import yaml
 from efictopub.efictopub import Efictopub
 
 
+failed = False
+
+
 def verify_equal(actual, expected):
     if not actual == expected:
-        raise Exception(
-            f"actual value `{actual}` is not equal to expected value `{expected}`"
-        )
+        global failed
+        failed = True
+        print(f"actual value `{actual}` is not equal to expected value `{expected}`")
 
 
 def tree_depth(comment, count=0):
@@ -63,4 +66,7 @@ for test_name, test_case in selected_test_cases.items():
         else:
             raise Exception(f"Unknown expected value key `{attr}`")
 
-print("[32mtests complete[0m")
+if failed:
+    print("[31mtests failed[0m")
+else:
+    print("[32mtests complete[0m")
