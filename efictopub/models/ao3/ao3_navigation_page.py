@@ -21,4 +21,4 @@ class AO3NavigationPage:
         ]
 
     def build_url(self, path):
-        return f"https://www.archiveofourown.org{path}"
+        return f"https://www.archiveofourown.org{path}?view_adult=true"

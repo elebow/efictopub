@@ -14,14 +14,17 @@ class TestAO3NavigationPage:
         chapters = ao3_navigation_page.chapters
 
         assert (
-            chapters[0].url == "https://www.archiveofourown.org/works/555/chapters/880"
+            chapters[0].url
+            == "https://www.archiveofourown.org/works/555/chapters/880?view_adult=true"
         )
         assert chapters[0].date == "2015-06-16"
         assert (
-            chapters[1].url == "https://www.archiveofourown.org/works/555/chapters/881"
+            chapters[1].url
+            == "https://www.archiveofourown.org/works/555/chapters/881?view_adult=true"
         )
         assert chapters[1].date == "2015-06-17"
         assert (
-            chapters[2].url == "https://www.archiveofourown.org/works/555/chapters/882"
+            chapters[2].url
+            == "https://www.archiveofourown.org/works/555/chapters/882?view_adult=true"
         )
         assert chapters[2].date == "2015-06-18"

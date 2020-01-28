@@ -64,9 +64,9 @@ class TestFetchersAO3:
         ).fetch_chapters_info()
         assert len(chapters_info) == 3
         assert [chapter.url for chapter in chapters_info] == [
-            "https://www.archiveofourown.org/works/555/chapters/880",
-            "https://www.archiveofourown.org/works/555/chapters/881",
-            "https://www.archiveofourown.org/works/555/chapters/882",
+            "https://www.archiveofourown.org/works/555/chapters/880?view_adult=true",
+            "https://www.archiveofourown.org/works/555/chapters/881?view_adult=true",
+            "https://www.archiveofourown.org/works/555/chapters/882?view_adult=true",
         ]
 
     def test_calculate_ao3_id(self):
