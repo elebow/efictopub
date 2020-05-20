@@ -47,6 +47,17 @@ class AO3Chapter:
     @property
     def text(self):
         # TODO concatenate the author notes and similar fields
+        if self.is_single_chapter:
+            text = "".join(
+                [
+                    str(x)
+                    for x in self.dom.select("#chapters .userstuff")[0].children
+                    if x != "\n"
+                ]
+            )
+
+            return text.strip()
+
         return (
             self.dom.select(".module[role=article]")[0]
             .encode_contents()
@@ -56,7 +67,11 @@ class AO3Chapter:
 
     @property
     def title(self):
-        title_line = self.dom.select(".chapter.preface .title")[0].text
+        if self.is_single_chapter:
+            title_line = self.dom.select(".preface .title")[0].text
+        else:
+            title_line = self.dom.select(".chapter.preface .title")[0].text
+
         matches = re.findall(r".*: (.*)", title_line)
         if matches:
             return matches[0].strip()
@@ -64,10 +79,17 @@ class AO3Chapter:
 
     @property
     def ao3_id(self):
-        # TODO AO3 treats single- and multi-chapter works differently
+        if self.is_single_chapter:
+            return self.dom.select("#kudo_commentable_id")[0].attrs["value"]
+
         return self.dom.select("#selected_id option[selected=selected]")[0].attrs[
             "value"
         ]
+
+    @property
+    @functools.lru_cache()
+    def is_single_chapter(self):
+        return len(self.dom.select("#chapter_index")) == 0
 
     @functools.lru_cache()
     def as_chapter(self):
