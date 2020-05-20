@@ -63,6 +63,8 @@ for test_name, test_case in selected_test_cases.items():
             for i, chapter in enumerate(story.chapters):
                 max_depth = max([tree_depth(comment) for comment in chapter.comments])
                 verify_equal(max_depth, expected_val[i])
+        elif attr == "first_chapter_date_published":
+            verify_equal(story.chapters[0].date_published, expected_val)
         else:
             raise Exception(f"Unknown expected value key `{attr}`")
 
