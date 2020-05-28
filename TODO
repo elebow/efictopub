@@ -7,8 +7,24 @@ serialize json: omit null values? and in deserialization, assume null for missin
 mention in the EPUB which comment mode was used during fetching
 	make the option have effect when reading from the archive, too
 collapse double space after period? or general html sanitizer
+	https://pypi.org/project/html-sanitizer/
 Python 3.8
 	functools.cached_property
 centralize console output in some quietable mechanism
 test coverage wordpress models
 images
+retry around network fetches? Does requests already do that? And praw?
+tox. Setup.py test deprecated.
+options to set metadata in output epub. essentially passthrough.
+IP in metadata for Calibre
+Plain-text output suitable for text-to-speech
+TextWriter class --writer \[epub, text, none\] instead of --write_epub
+Readme: text output for TTS
+SB:
+	category for "all posts by author in a given thread longer than configurable minimum length".
+		Different URL, though... can the categories be classes?
+	multi-thread stories
+	categories uniq
+	Comments unique ID. Use it to prevent duplicates?
+	genericize to work for SV
+wordpress.Fetcher move that link_or_whitespace method into a new subclass of bs4.Element ?

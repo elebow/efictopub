@@ -51,7 +51,7 @@ class Fetcher(BaseFetcher):
         return Story(
             title=title,
             author=author,
-            summary="",
+            summary="",  # TODO some threads have summaries
             chapters=[entry.as_chapter() for entry in posts],
         )
 
