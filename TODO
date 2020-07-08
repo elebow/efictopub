@@ -14,7 +14,6 @@ centralize console output in some quietable mechanism
 test coverage wordpress models
 images
 retry around network fetches? Does requests already do that? And praw?
-tox. Setup.py test deprecated.
 options to set metadata in output epub. essentially passthrough.
 IP in metadata for Calibre
 Plain-text output suitable for text-to-speech

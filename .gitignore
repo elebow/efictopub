@@ -1,4 +1,6 @@
 .coverage
+*egg-info/
 **/__pycache__/
 .pytest_cache/
 real_live_tests.yaml
+.tox/
