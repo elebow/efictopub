@@ -31,6 +31,10 @@ ao3_chapter_html_1 = read_fixture("ao3_chapter_1.html")
 ao3_chapter_html_2 = read_fixture("ao3_chapter_2.html")
 ao3_single_chapter_story_html = read_fixture("ao3_single_chapter_story.html")
 
+royalroad_index_page_html = read_fixture("royalroad_index.html")
+royalroad_chapter_html_1 = read_fixture("royalroad_chapter_1.html")
+royalroad_chapter_html_2 = read_fixture("royalroad_chapter_2.html")
+
 
 @pytest.fixture
 def praw_comment(mocker):
