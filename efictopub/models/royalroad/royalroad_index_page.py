@@ -28,6 +28,7 @@ class RoyalroadIndexPage:
     @property
     @functools.lru_cache()
     def summary(self):
+        # TODO images
         return (
             self.dom.select("div[property='description']")[0]
             .encode_contents()

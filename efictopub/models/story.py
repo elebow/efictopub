@@ -49,6 +49,7 @@ class Story:
     @property
     @functools.lru_cache()
     def id(self):
+        # TODO some sites have an "story page" separate from the first chapter
         return urllib.parse.quote_plus(
             str(self.date_start) + self.chapters[0].permalink
         )
