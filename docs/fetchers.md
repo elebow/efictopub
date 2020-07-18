@@ -3,17 +3,17 @@
 This document describes the supported fetchers and their options. Don't forget to
 look at the general options in the README.
 
-## `reddit_next`
+## Fetcher options
 
-Target is a Reddit submission that contains a link with the text `next` pointing
-to the next chapter in the series. The fetcher will follow the links until it reaches
-a submission that does not contain one.
+### `ao3`
 
-##### Fetcher options
+Target is a story on Archive of our Own. The fetcher fetches all chapters.
 
-* `title` (required) – story title
+### `ffnet`
 
-## `reddit_author`
+Target is a story on fanfiction.net. The fetcher fetches all chapters.
+
+### `reddit_author`
 
 Target is a Reddit user page. The fetcher will fetch every submission matching the
 optional `title_pattern`.
@@ -23,7 +23,17 @@ optional `title_pattern`.
 * `title` (required) – story title
 * `title_pattern` – regex to filter author's submissions
 
-## `reddit_wiki_page`
+### `reddit_next`
+
+Target is a Reddit submission that contains a link with the text `next` pointing
+to the next chapter in the series. The fetcher will follow the links until it reaches
+a submission that does not contain one.
+
+##### Fetcher options
+
+* `title` (required) – story title
+
+### `reddit_wiki_page`
 
 Target is a Reddit wiki page containing links to chapters of a story. The fetcher
 will fetch every link on the page that is not an intra-wiki link (ie, links that
@@ -33,29 +43,25 @@ do not contain the substring `/wiki/`).
 
 * `title` (required) – story title
 
-## `ffnet`
+### `royalroad`
 
-Target is a story on fanfiction.net. The fetcher fetches all chapters.
-
-## `ao3`
-
-Target is a story on archiveofourown.org. The fetcher fetches all chapters.
-
-## `wordpress`
-
-Target is the first entry of a story on a WordPress blog. The fetcher fetches
-sequential entries until the URL matches the specified regex or it reaches the most
-recent entry.
+Target is a story on Royal Road. The fetcher fetches all chapters.
 
 ##### Fetcher options
 
 * `title` (required) – story title
 * `last_chapter_pattern` – regex describing the URL of the final chapter of the story
 
-## `spacebattles`
+### `spacebattles`
 
-Target is a thread on spacebattles.com. The fetcher fetches posts in the specified
+Target is a thread on SpaceBattles Forums The fetcher fetches posts in the specified
 threadmark categories—by default, just "threadmarks".
+
+### `wordpress`
+
+Target is the first entry of a story on a WordPress blog. The fetcher fetches
+sequential entries until the URL matches the specified regex or it reaches the most
+recent entry.
 
 ##### Fetcher options
 

@@ -9,11 +9,12 @@ This package provides the CLI tool `efictopub` and the Python module `efictopub`
 
 * Supports multiple fetching strategies, for numerous sites. See [docs/fetchers.md](docs/fetchers.md)
   for details.
-  * Reddit
-  * Fanfiction.net
   * Archive of our Own
-  * WordPress
+  * Fanfiction.net
+  * Reddit
+  * Royal Road
   * SpaceBattles forums
+  * WordPress
 * Can include all comments, or just comment chains that include an author response
 * Produces standard EPUB files
 * Generates text-only covers for visibility in e-reader libraries
@@ -43,6 +44,9 @@ efictopub https://some-blog.wordpress.com/2011/06/11/1-1/ --fetcher-opt last_cha
 
 # Spacebattles thread with categories of threadmarks
 efictopub https://forums.spacebattles.com/threads/my-great-story.555/ --title="My Great Story" --fetcher-opt "categories=threadmarks,omake,sidestory" --fetcher-opt "order=chrono"
+
+# Royal Road
+efictopub https://www.royalroad.com/fiction/555/my-great-story
 
 # Re-render a story from the local efictopub archive
 efictopub /path/to/archived/file.json
