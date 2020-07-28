@@ -27,3 +27,5 @@ SB:
 	Comments unique ID. Use it to prevent duplicates?
 	genericize to work for SV
 wordpress.Fetcher move that link_or_whitespace method into a new subclass of bs4.Element ?
+Royal Road:
+	handle polls
