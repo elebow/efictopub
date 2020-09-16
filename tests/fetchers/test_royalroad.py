@@ -47,7 +47,15 @@ class TestFetchersRoyalroad:
         )
         assert chapters[0].score == 4.6
         assert chapters[0].summary is None
-        assert chapters[0].text == "<p>Chapter One content</p>"
+        assert chapters[0].text == (
+            '<div class="portlet-title">\n'
+            + '<div class="caption">\n'
+            + '<i class="fa fa-sticky-note"></i>\n'
+            + '<span class="caption-subject bold uppercase">A note from Great Author</span>\n'
+            + "</div>\n"
+            + "</div>\n"
+            + '<div class="portlet-body author-note"><p>Author note bottom</p></div><p>Chapter One content</p><p>Author note bottom</p>'
+        )
 
     def test_fetch_story_index(self, requests_mock):
         requests_mock.get(

@@ -42,7 +42,25 @@ class RoyalroadChapter:
 
     @property
     def text(self):
-        return self.dom.select(".chapter-content")[0].encode_contents().decode().strip()
+        return (
+            self.author_note_top
+            + self.dom.select(".chapter-content")[0].encode_contents().decode().strip()
+            + self.author_note_bottom
+        )
+
+    @property
+    def author_note_top(self):
+        elems = self.dom.select(".author-note-portlet")
+        if elems:
+            return elems[0].encode_contents().decode().strip()
+        return ""
+
+    @property
+    def author_note_bottom(self):
+        elems = self.dom.select(".author-note")
+        if elems:
+            return elems[0].encode_contents().decode().strip()
+        return ""
 
     @property
     def title(self):
