@@ -29,3 +29,8 @@ SB:
 wordpress.Fetcher move that link_or_whitespace method into a new subclass of bs4.Element ?
 Royal Road:
 	handle polls
+AO3 "show more comments". See Crimson ch 103.
+postprocessors
+	download images
+	comment pruner
+	normalize HTML?
