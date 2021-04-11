@@ -50,17 +50,35 @@ class RoyalroadChapter:
 
     @property
     def author_note_top(self):
-        elems = self.dom.select(".author-note-portlet")
-        if elems:
-            return elems[0].encode_contents().decode().strip()
+        if self.author_notes[0]:
+            return self.author_notes[0].encode_contents().decode().strip() + "<hr>"
         return ""
 
     @property
     def author_note_bottom(self):
-        elems = self.dom.select(".author-note")
-        if elems:
-            return elems[0].encode_contents().decode().strip()
+        if self.author_notes[1]:
+            return "<hr>" + self.author_notes[1].encode_contents().decode().strip()
         return ""
+
+    @property
+    def author_notes(self):
+        # Author notes are not distinguishable by class. We have to select all of them and divide them by whether they appear before or after .chapter-content
+        elems = self.dom.select(".author-note, .chapter-content")
+
+        if len(elems) == 3:
+            # both author notes are present
+            return elems[0], elems[2]
+
+        if len(elems) == 1:
+            # nither author notes is present
+            return "", ""
+
+        if "chapter-content" in elems[0].attrs["class"]:
+            # only the bottom author note is present
+            return "", elems[1]
+
+        # only the top author note is present
+        return elems[0], ""
 
     @property
     def title(self):
