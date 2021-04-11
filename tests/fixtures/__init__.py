@@ -82,9 +82,9 @@ def praw_submission(mocker, praw_comment):
 @pytest.fixture
 def redditor_with_submissions(mocker):
     mock_praw_submissions = [
-        mocker.MagicMock(title="PRAW Submission 00", id="000000"),
-        mocker.MagicMock(title="PRAW Submission 01", id="000001"),
         mocker.MagicMock(title="PRAW Submission 02", id="000002"),
+        mocker.MagicMock(title="PRAW Submission 01", id="000001"),
+        mocker.MagicMock(title="PRAW Submission 00", id="000000"),
     ]
     mock_redditor = mocker.MagicMock(
         submissions=mocker.MagicMock(
