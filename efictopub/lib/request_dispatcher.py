@@ -5,7 +5,7 @@ import time
 from efictopub import config
 
 
-MIN_DELAY = 1
+MIN_DELAY = 55
 
 
 def get(url):
