@@ -7,47 +7,47 @@ class TestFetchers__init__:
             efictopub.fetchers.fetcher_for_url(
                 "https://www.fanfiction.net/s/555/1/My-Great-Story"
             ).__module__
-            == "ffnet"
+            == "efictopub.fetchers.ffnet"
         )
 
         assert (
             efictopub.fetchers.fetcher_for_url(
                 "https://archiveofourown.org/works/55555555"
             ).__module__
-            == "ao3"
+            == "efictopub.fetchers.ao3"
         )
 
         assert (
             efictopub.fetchers.fetcher_for_url(
                 "https://www.reddit.com/u/redditor"
             ).__module__
-            == "reddit_author"
+            == "efictopub.fetchers.reddit_author"
         )
 
         assert (
             efictopub.fetchers.fetcher_for_url(
                 "https://www.reddit.com/r/subreddit/comments/555/whatever"
             ).__module__
-            == "reddit_next"
+            == "efictopub.fetchers.reddit_next"
         )
 
         assert (
             efictopub.fetchers.fetcher_for_url(
                 "https://www.reddit.com/r/subreddit/wiki/whatever"
             ).__module__
-            == "reddit_wiki_page"
+            == "efictopub.fetchers.reddit_wiki_page"
         )
 
         assert (
             efictopub.fetchers.fetcher_for_url(
                 "https://blog-name.wordpress.com/2011/06/11/1-1/"
             ).__module__
-            == "wordpress"
+            == "efictopub.fetchers.wordpress"
         )
 
         assert (
             efictopub.fetchers.fetcher_for_url(
-                "README.md"  # an exisisting file
+                "README.md"  # an existing file
             ).__module__
-            == "archive"
+            == "efictopub.fetchers.archive"
         )

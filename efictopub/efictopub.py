@@ -14,7 +14,9 @@ class Efictopub:
         self.fetcher = self.get_fetcher(opts)
 
         confuse_opts = confuse.Configuration("efictopub", __name__)
-        fetcher_overrides = confuse_opts["overrides"].get().get(self.fetcher.__module__)
+        fetcher_overrides = (
+            confuse_opts["overrides"].get().get(self.fetcher.__module__.split(".")[-1])
+        )
         if fetcher_overrides:
             # add a second, higher-priority source to the Confuse object
             confuse_opts.set(fetcher_overrides)
