@@ -13,6 +13,12 @@ fi
 
 # -s         do not capture output. This is needed for ipdb.set_trace()
 
+# clear HTTP cache
+rm -rf test_cache
+
 python3 -m pytest -s --color=yes $coverage_arg "$@"
+
+# clear HTTP cache again, to clean up
+rm -rf test_cache
 
 exit $?

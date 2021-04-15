@@ -4,6 +4,8 @@ reddit:
   secret: app-secret
 archive_location: /path/to/archive
 epub_location: $HOME/books/fic/
+http_cache_location: test_cache/efictopub/http_cache
+force_fetch: true
 comments: all
 write_archive: true
 write_epub: true

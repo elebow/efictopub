@@ -4,6 +4,8 @@ reddit:
   secret: app-secret
 archive_location: ${XDG_DATA_HOME}/efictopub/archive
 epub_location: $HOME/books/fic/
+http_cache_location: ${XDG_CACHE_HOME}/efictopub/http_cache
+force_fetch: false
 comments: all
 write_archive: true
 write_epub: true
