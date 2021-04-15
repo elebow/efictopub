@@ -1,6 +1,7 @@
 # Module to store and retrieve app-wide config values
 
 import functools
+import os
 
 from efictopub.exceptions import MissingRequiredFetcherOptError
 
@@ -20,10 +21,12 @@ def load(opts, *, fetcher):
 def get(key):
     global config
     if isinstance(key, str):
-        return config.get(key)
+        value = config.get(key)
     elif isinstance(key, list):
         # chain of nested config items
-        return functools.reduce(dict.__getitem__, key, config)
+        value = functools.reduce(dict.__getitem__, key, config)
+
+    return expand_vars(value)
 
 
 def get_fetcher_opt(key, required=False):
@@ -37,3 +40,27 @@ def get_fetcher_opt(key, required=False):
 
     if required:
         raise MissingRequiredFetcherOptError(key)
+
+
+def expand_vars(value):
+    # Expand any env vars in the string, respecting XDG
+
+    if not isinstance(value, str):
+        return value
+
+    # XDG requires us to substitute values for certain variable names, even if they are not defined
+    # see https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+    old_environ = os.environ.copy()
+    try:
+        os.environ["XDG_DATA_HOME"] = f"{old_environ['HOME']}/.local/share"
+        os.environ["XDG_CONFIG_HOME"] = f"{old_environ['HOME']}/.config"
+        os.environ["XDG_DATA_DIRS"] = "/usr/local/share/:/usr/share/"
+        os.environ["XDG_CONFIG_DIRS"] = "/etc/xdg"
+        os.environ["XDG_CACHE_HOME"] = f"{old_environ['HOME']}/.cache"
+
+        value = os.path.expandvars(value)
+    finally:
+        os.environ.clear()
+        os.environ.update(old_environ)
+
+    return value
