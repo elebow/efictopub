@@ -41,7 +41,7 @@ def write_cache(url, contents):
 
 
 def cache_path_for_url(url):
-    return Path(f"{config.get('http_cache_location')}/#{urllib.parse.quote_plus(url)}")
+    return Path(f"{config.get('http_cache_location')}/{urllib.parse.quote_plus(url)}")
 
 
 def ensure_cache_dir_exists():
