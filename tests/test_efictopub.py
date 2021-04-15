@@ -1,4 +1,3 @@
-import confuse
 import pytest
 
 from efictopub.efictopub import Efictopub
@@ -8,12 +7,6 @@ class TestEfictopub:
     @pytest.fixture(autouse=True)
     def fetch_story(self, mocker):
         mocker.patch("efictopub.efictopub.Efictopub.story")
-
-    @pytest.fixture
-    def load_config_file(self, mocker):
-        conf = confuse.Configuration("efictopub", read=False)
-        conf.set_file("tests/fixtures/config.yaml")
-        mocker.patch("confuse.Configuration", lambda _x, _y: conf)
 
     def test_load_config(self, mocker, load_config_file):
         efictopub = Efictopub(

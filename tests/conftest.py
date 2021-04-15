@@ -1,3 +1,4 @@
+import confuse
 import inspect
 import os
 import pytest
@@ -26,7 +27,12 @@ efictopub.lib.request_dispatcher.MIN_DELAY = 0
 
 # config
 
-config.load({}, fetcher=None)
+
+@pytest.fixture(autouse=True)
+def load_config_file(mocker):
+    conf = confuse.Configuration("efictopub", read=False)
+    conf.set_file("tests/fixtures/config.yaml")
+    mocker.patch("confuse.Configuration", lambda _x, _y: conf)
 
 
 # fixtures and factories
