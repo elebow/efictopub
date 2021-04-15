@@ -78,7 +78,7 @@ class Fetcher(BaseFetcher):
         url = self.threadmarks_reader_url(category_id)
         while True:
             print(f"Fetching posts from page {url}")
-            html = request_dispatcher.get(url).text
+            html = request_dispatcher.get(url)
             page = SpacebattlesPage(bs4.BeautifulSoup(html, "lxml"))
 
             for message in page.messages:
@@ -131,7 +131,7 @@ class Fetcher(BaseFetcher):
         # So, just get them from the threadmarks index page for the default category
         url = self.threadmarks_index_url()
         print(f"Getting threadmarks categories from {url}")
-        html = request_dispatcher.get(url).text
+        html = request_dispatcher.get(url)
         dom = bs4.BeautifulSoup(html, "lxml")
         a_elems = dom.select(".block-tabHeader--threadmarkCategoryTabs a")
         return {

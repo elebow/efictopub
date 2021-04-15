@@ -36,7 +36,7 @@ class Fetcher(BaseFetcher):
         chapter_url = start_url
         while True:
             print(f"Fetching chapter {chapter_url}")
-            entry_html = request_dispatcher.get(chapter_url).text
+            entry_html = request_dispatcher.get(chapter_url)
             entry = WordpressEntry(entry_html)
             print("OK")
 

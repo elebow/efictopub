@@ -33,7 +33,7 @@ class Fetcher(BaseFetcher):
     def generate_rr_chapters(self):
         for chapter_url in self.story_index.chapter_urls:
             print(f"Fetching chapter {chapter_url}")
-            chapter_html = request_dispatcher.get(chapter_url).text
+            chapter_html = request_dispatcher.get(chapter_url)
 
             if config.get("comments") != "none":
                 comments_html = ""  # TODO
@@ -50,7 +50,7 @@ class Fetcher(BaseFetcher):
     def story_index(self):
         index_page_html = request_dispatcher.get(
             f"https://www.royalroad.com/fiction/{self.rr_id}"
-        ).text
+        )
 
         return RoyalroadIndexPage(index_page_html)
 

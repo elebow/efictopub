@@ -38,12 +38,12 @@ class Fetcher(BaseFetcher):
             chapter_url = self.generate_chapter_url(n)
 
             print(f"Fetching chapter {n} ({chapter_url})")
-            chapter_html = request_dispatcher.get(chapter_url).text
+            chapter_html = request_dispatcher.get(chapter_url)
 
             if config.get("comments") != "none":
                 reviews_url = self.generate_chapter_reviews_url(n)
                 print(f"Fetching chapter {n} reviews ({reviews_url})")
-                reviews_html = request_dispatcher.get(reviews_url).text
+                reviews_html = request_dispatcher.get(reviews_url)
             else:
                 reviews_html = ""
 

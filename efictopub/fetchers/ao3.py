@@ -39,7 +39,7 @@ class Fetcher(BaseFetcher):
             chapter_url = chapter_info.url
 
             print(f"Fetching chapter {chapter_url}")
-            chapter_html = request_dispatcher.get(chapter_url).text
+            chapter_html = request_dispatcher.get(chapter_url)
 
             if config.get("comments") != "none":
                 comments_html = ""  # TODO
@@ -57,7 +57,7 @@ class Fetcher(BaseFetcher):
         navigation_page_url = (
             f"https://www.archiveofourown.org/works/{self.ao3_id}/navigate"
         )
-        navigation_page_html = request_dispatcher.get(navigation_page_url).text
+        navigation_page_html = request_dispatcher.get(navigation_page_url)
         ao3_navigation_page = AO3NavigationPage(navigation_page_html)
 
         return ao3_navigation_page.chapters
