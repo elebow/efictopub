@@ -1,5 +1,6 @@
 import pytest
 
+from efictopub.efictopub import Efictopub
 from efictopub import archive
 from efictopub import config
 from efictopub.exceptions import NoArchivedStoryError, AmbiguousArchiveIdError
@@ -7,6 +8,11 @@ from efictopub.exceptions import NoArchivedStoryError, AmbiguousArchiveIdError
 
 class TestArchive:
     ID = "55555-my-great-story-id"
+
+    @pytest.fixture(autouse=True)
+    def init_efictopub(self):
+        # Initialize an Efictopub object just to populate the config
+        Efictopub({"target": "", "fetcher": "archive"})
 
     def test_get(self, mocker):
         mocker.patch("efictopub.archive.id_or_path_to_path", lambda x: "my-great-path")
