@@ -75,8 +75,9 @@ recent entry.
 ##### Fetcher options
 
 * `title` (required) – story title
-* `last_chapter_pattern` – regular expression describing the last chapter of the story.
-  Use this in conjunction with the target URL to fetch a subset of posts from a blog.
+* `last_chapter_pattern` – regular expression describing the last chapter of the
+  story. Use this in conjunction with the target URL to fetch a subset of posts from
+  a blog.
 
 ## Implementing a new fetcher
 
