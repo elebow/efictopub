@@ -7,7 +7,7 @@ import urllib
 from efictopub import config
 
 
-MIN_DELAY = 55
+MIN_DELAY = 155
 
 
 def get(url):
