@@ -38,3 +38,5 @@ postprocessors
 download last page twice (second time forced) to bust cache
 document the force-fetch option, and remove it from my config
 split story into books. take start chapter of each book. external script? One of several in bin/ that import common modules.
+compress local http cache and archive
+flaresolver-assistant integration
