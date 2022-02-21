@@ -57,6 +57,15 @@ Target is a story on Royal Road. The fetcher fetches all chapters.
 Target is a thread on SpaceBattles Forums The fetcher fetches posts in the specified
 threadmark categories—by default, just "threadmarks".
 
+##### Fetcher options
+
+* `title` (required) – story title
+* `categories` – comma-separated list of threadmark categories to include.
+  Defaults to just `threadmarks`. Also accepts the special value `all`.
+* `order` – controls whether chapters are assembled in order of posting date (`chrono`)
+  or category (`sequential`. eg, all threadmarks in posting order, followed by all
+  omake in posting order, and so on).
+
 ### `wordpress`
 
 Target is the first entry of a story on a WordPress blog. The fetcher fetches
@@ -66,11 +75,8 @@ recent entry.
 ##### Fetcher options
 
 * `title` (required) – story title
-* `categories` – comma-separated list of threadmark categories to include.
-  Defaults to just `threadmarks`. Also accepts the special value `all`.
-* `order` – controls whether chapters are assembled in order of posting date (`chrono`)
-  or category (`sequential`. eg, all threadmarks in posting order, followed by all
-  omake in posting order, and so on).
+* `last_chapter_pattern` – regular expression describing the last chapter of the story.
+  Use this in conjunction with the target URL to fetch a subset of posts from a blog.
 
 ## Implementing a new fetcher
 
