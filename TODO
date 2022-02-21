@@ -30,7 +30,11 @@ wordpress.Fetcher move that link_or_whitespace method into a new subclass of bs4
 Royal Road:
 	handle polls
 AO3 "show more comments". See Crimson ch 103.
+multiple comment rules (author or regex match). Handle "click to show more comments" deep chains. Example https://archiveofourown.org/works/11310144/chapters/30565317#workskin
 postprocessors
 	download images
 	comment pruner
 	normalize HTML?
+download last page twice (second time forced) to bust cache
+document the force-fetch option, and remove it from my config
+split story into books. take start chapter of each book. external script? One of several in bin/ that import common modules.
